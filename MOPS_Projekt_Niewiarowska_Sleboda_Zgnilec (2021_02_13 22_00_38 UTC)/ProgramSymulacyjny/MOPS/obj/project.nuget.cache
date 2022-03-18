@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "AAFPx7a7zE0+Kq9noKxdEWXQXZ+ttniGLpMT4uGs6GtLMcMpMtrID1VmeZnydvXotJbC/3S+YqZWVVO/M+JWBg==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\01143844\\Downloads\\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\\ProgramSymulacyjny\\MOPS\\MOPS.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.23\\microsoft.netcore.app.host.win-x64.3.1.23.nupkg.sha512"
+  ],
+  "logs": []
+}

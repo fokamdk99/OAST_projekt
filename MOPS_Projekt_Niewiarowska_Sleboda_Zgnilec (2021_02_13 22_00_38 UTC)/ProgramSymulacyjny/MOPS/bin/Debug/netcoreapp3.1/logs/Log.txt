@@ -1,0 +1,14 @@
+[SERVER PARAMETERS]
+Server Bitrate: 10
+ Server time: 1 
+
+
+[STATISTIC PARAMETERS]
+Lost: 0
+Received: 1000 
+Packages In Simulation: 10
+Average Time in Queue: 0,29000655
+Average Package In Queue: 0,23671268
+ simulation Time: 1075,3181
+Server Load: 0,93277603
+Percent Of Success: 100
