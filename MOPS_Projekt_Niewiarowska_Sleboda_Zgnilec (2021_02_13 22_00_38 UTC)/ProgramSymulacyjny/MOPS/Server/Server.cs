@@ -1,16 +1,13 @@
 ﻿using MOPS.Tools;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace MOPS
+namespace MOPS.Server
 {
-   public class Server
+   public class Server : IServer
     {
-        public bool bussy { get; set; }
-        public int bitRate { get; set; }
-        public float bussyStart { set; get; }
-        public float bussyStop { set; get; }
+        public bool Busy { get; set; }
+        public int BitRate { get; set; }
+        public double BusyStart { set; get; }
+        public double BusyStop { set; get; }
 
 
         public Server()
@@ -20,32 +17,23 @@ namespace MOPS
 
         public Server(int bitRate)
         {
-            this.bussy = false;
-            this.bitRate = bitRate;
+            Busy = false;
+            BitRate = bitRate;
         }
 
 
-        public void setBussy()
+        public void SetBusy()
         {
-            bussy = true;
-            bussyStart = Statistic.Time;
+            Busy = true;
+            BusyStart = Statistic.Time;
               
         }
 
-        public void setAvailable()
+        public void SetAvailable()
         {
-            bussy = false;
-            bussyStop = Statistic.Time;
-            Statistic.calculateServerLoadTime(bussyStart, bussyStop);
+            Busy = false;
+            BusyStop = Statistic.Time;
+            Statistic.calculateServerLoadTime(BusyStart, BusyStop);
         }
-
-
-
-
-
-
-       
-
-
     }
 }

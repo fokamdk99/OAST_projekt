@@ -1,14 +1,14 @@
 ﻿using System;
 
-namespace MOPS.Tools
+namespace MOPS.Tools.Generators
 {
     public class NumberGenerator : INumberGenerator
     {
-        public int Generate(string sourceType)
+        public int Generate(SourceType sourceType)
         {
             Random rnd = new Random();
             int randPoisson = 0; //Poisson variable
-            if (sourceType == "Poisson")
+            if (sourceType == SourceType.Poisson)
             {
                 var lambda = 20;
                 double exp_lambda = Math.Exp (-lambda); //constant for terminating loop
@@ -25,8 +25,7 @@ namespace MOPS.Tools
                     randPoisson++; // increase Poisson variable
  
                 } while (prodUni > exp_lambda);
- 
-                
+
             }
             return randPoisson;
         }

@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using MOPS.Tools;
+﻿using System.Collections.Generic;
+using MOPS.Tools.Generators;
 using NUnit.Framework;
 
-namespace MOPS.Tests.Tools
+namespace MOPS.Tests.Tools.Generators
 {
     public class NumberGeneratorTests
     {
@@ -20,7 +19,7 @@ namespace MOPS.Tests.Tools
             List<int> results = new List<int>();
             for (int i = 0; i < 10; i++)
             {
-                results.Add(numberGenerator.Generate("Poisson"));
+                results.Add(numberGenerator.Generate(SourceType.Poisson));
             }
 
             Assert.Pass();

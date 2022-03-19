@@ -1,32 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MOPS
+﻿namespace MOPS.Packages
 {
-    public class Package
+    public class Package : IPackage
     {
-        public int ID { get; set; }
-        public int sourceID { get; set; }
-        public int size { get; set; }
-        public float comingTime { get; set; }
-        public float addToQueueTime { get; set; }
-        public float getFromQueueTime { get; set; }
-        public float finishTime { get; set; }
+        public int Id { get; set; }
+        public int SourceId { get; set; }
+        public int Size { get; set; }
+        public double ComingTime { get; set; }
+        public double AddToQueueTime { get; set; }
+        public double GetFromQueueTime { get; set; }
+        public double FinishTime { get; set; }
         public Package()
         {
         }
 
-        public Package(int id, int sourceID, int size, float time)
+        public Package(int id, int sourceId, int size, double time)
         {
-            this.ID = id;
-            this.size = size;
-            this.comingTime = time;
-            this.addToQueueTime = 0;
-            this.getFromQueueTime = 0;
-            this.finishTime = 0;
-            this.sourceID = sourceID;
+            Id = id;
+            Size = size;
+            ComingTime = time;
+            AddToQueueTime = 0;
+            GetFromQueueTime = 0;
+            FinishTime = 0;
+            SourceId = sourceId;
         }
-
     }
 }

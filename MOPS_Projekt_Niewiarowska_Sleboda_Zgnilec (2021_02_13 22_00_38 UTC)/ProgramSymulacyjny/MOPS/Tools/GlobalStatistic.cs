@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MOPS.Tools
+﻿namespace MOPS.Tools
 {
     public class GlobalStatistic
     {
@@ -15,34 +11,24 @@ namespace MOPS.Tools
 
         public int packagesInSimulation = 0;
 
-        public float averageTimeinQueue = 0;
+        public double averageTimeinQueue = 0;
 
-        public float averagePackageInQueue = 0;
+        public double averagePackageInQueue = 0;
 
-        public float simulationTime = 0;
+        public double simulationTime = 0;
 
-        public float serverLoad = 0;
-
-        public float programTime = 0;
-        public float percentOfSuccess = 0;
+        public double serverLoad = 0;
 
         public GlobalStatistic()
         {
-            this.NumberOfRecivedPackage = Statistic.NumberOfRecivedPackage;
-            this.NumberOfLostPackage = Statistic.NumberOfLostPackage;
-            this.NumberOfPackageinQueue = Statistic.NumberOfPackageinQueue;
-            this.packagesInSimulation = Statistic.packagesInSimulation;
-            this.averageTimeinQueue = Statistic.averageTimeinQueue;
-            this.averagePackageInQueue = Statistic.averagePackageInQueue;
-            this.simulationTime = Statistic.simulationTime;
-            this.serverLoad = Statistic.serverLoad;
-            this.programTime = Statistic.ProgramTime;
-            this.percentOfSuccess = Statistic.percentOfSuccess;
+            NumberOfRecivedPackage = Statistic.NumberOfRecivedPackage;
+            NumberOfLostPackage = Statistic.NumberOfLostPackage;
+            NumberOfPackageinQueue = Statistic.NumberOfPackageinQueue;
+            packagesInSimulation = Statistic.packagesInSimulation;
+            averageTimeinQueue = Statistic.averageTimeinQueue;
+            averagePackageInQueue = Statistic.averagePackageInQueue;
+            simulationTime = Statistic.simulationTime;
+            serverLoad = Statistic.serverLoad;
         }
-
-
-
-
-
     }
 }

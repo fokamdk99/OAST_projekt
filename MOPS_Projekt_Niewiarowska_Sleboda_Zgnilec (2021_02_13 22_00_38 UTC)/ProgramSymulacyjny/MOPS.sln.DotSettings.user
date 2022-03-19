@@ -1,6 +1,7 @@
 ﻿<wpf:ResourceDictionary xml:space="preserve" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:s="clr-namespace:System;assembly=mscorlib" xmlns:ss="urn:shemas-jetbrains-com:settings-storage-xaml" xmlns:wpf="http://schemas.microsoft.com/winfx/2006/xaml/presentation">
+	<s:String x:Key="/Default/CodeStyle/Naming/CSharpNaming/PredefinedNamingRules/=Property/@EntryIndexedValue">&lt;Policy Inspect="True" Prefix="" Suffix="" Style="AaBb" /&gt;</s:String>
 	<s:String x:Key="/Default/Environment/UnitTesting/UnitTestSessionStore/Sessions/=70478c22_002Dece3_002D47e6_002D8df1_002De2c89aef6576/@EntryIndexedValue">&lt;SessionState ContinuousTestingMode="0" IsActive="True" Name="WhenNumberGeneratorUsed_ShouldGenerateNumbersWithPoissonDistribution" xmlns="urn:schemas-jetbrains-com:jetbrains-ut-session"&gt;&#xD;
   &lt;TestAncestor&gt;&#xD;
-    &lt;TestId&gt;NUnit3x::BF8E3892-B1F8-44F3-A8D8-8189C5249C99::net5.0::MOPS.Tests.Tools.NumberGeneratorTests.WhenNumberGeneratorUsed_ShouldGenerateNumbersWithPoissonDistribution&lt;/TestId&gt;&#xD;
+    &lt;TestId&gt;NUnit3x::BF8E3892-B1F8-44F3-A8D8-8189C5249C99::net5.0::MOPS.Tests.Tools.Generators.EventGeneratorTests.WhenEventGeneratorUsed_ShouldGenerateListOfEventsWithPoissonDistribution&lt;/TestId&gt;&#xD;
   &lt;/TestAncestor&gt;&#xD;
 &lt;/SessionState&gt;</s:String></wpf:ResourceDictionary>

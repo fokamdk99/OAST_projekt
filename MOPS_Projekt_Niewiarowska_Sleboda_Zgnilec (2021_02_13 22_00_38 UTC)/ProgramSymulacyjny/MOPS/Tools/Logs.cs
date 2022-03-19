@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using MOPS.Events;
 
 namespace MOPS.Tools
 {
@@ -45,7 +46,7 @@ namespace MOPS.Tools
             
             for (int i = 0; i < list.Count; i++)
             {
-               tmp = "Source ID: " + list[i].sourceID + " Time: " + list[i].time + "Type: " + list[i].type + "\n";
+               tmp = "Source ID: " + list[i].SourceId + " Time: " + list[i].Time + "Type: " + list[i].Type + "\n";
                log = log + tmp;
                tmp = "";
             }

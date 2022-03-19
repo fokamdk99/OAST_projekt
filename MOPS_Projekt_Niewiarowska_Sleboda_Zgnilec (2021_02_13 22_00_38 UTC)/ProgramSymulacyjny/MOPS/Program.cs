@@ -1,8 +1,10 @@
-﻿
-using MOPS.Tools;
+﻿using MOPS.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using MOPS.Events;
+using MOPS.Packages;
+using MOPS.Tools.Generators;
 
 namespace MOPS
 {
@@ -15,9 +17,7 @@ namespace MOPS
             List<Event> eventsList = new List<Event>();
             List<Package> queue = new List<Package>();
 
-            UserGUI();
-
-            Server server = new Server(Parameters.serverBitRate);
+            Server.Server server = new Server.Server(Parameters.serverBitRate);
 
             Parameters.CalculateServerTime();
             Parameters.CalculateTimeBetweenPackages();
@@ -25,39 +25,39 @@ namespace MOPS
             Logs.SaveServerParameters();
             for (int n = 0; n < 100; n++)
             {
-
-                eventsList = InitializeEventsList(eventsList);
+                var eventGenerator = new EventGenerator();
+                eventsList = eventGenerator.InitializeEventsList();
                 sortList(eventsList);
                 //PrintEventList(eventsList);
 
 
                 Package package = null;
-                float deltaTime = 0;
+                double deltaTime = 0;
                 bool flag = false;
 
                 for (int i = 0; i < eventsList.Count(); i++)
                 {
 
-                    Statistic.Time = eventsList[i].time;
+                    Statistic.Time = eventsList[i].Time;
 
                     if (flag == true)
                     {
-                        deltaTime = eventsList[i].time - eventsList[i - 1].time;
+                        deltaTime = eventsList[i].Time - eventsList[i - 1].Time;
                         Statistic.addAveragePackageInQueue(queue.Count, deltaTime);
                     }
                     flag = true;
 
 
-                    if (eventsList[i].type == "Coming")
+                    if (eventsList[i].Type == EventType.Coming)
                     {
-                        package = eventsList[i].createPackage(i);
+                        package = eventsList[i].CreatePackage(i);
                         Statistic.incrementRecivedPackage();
 
-                        if (server.bussy) // serwer zajety
+                        if (server.Busy) // serwer zajety
                         {
                             if (queue.Count() < Parameters.queueSize)  // jest miejsce w kolejce
                             {
-                                package.addToQueueTime = Statistic.Time;
+                                package.AddToQueueTime = Statistic.Time;
                                 queue.Add(package);
                                 Statistic.incrementPackageInQueue();
 
@@ -72,18 +72,18 @@ namespace MOPS
                         {
                             if (queue.Count == 0) // kolejka pusta
                             {
-                                server.setBussy();
+                                server.SetBusy();
                                 eventsList.Add(CreateFinishEvent(server, package));
                                 sortList(eventsList);
                             }
                             else // Cos jest w kolejce
                             {
                                 queue.Add(package);
-                                server.setBussy();
+                                server.SetBusy();
                                 eventsList.Add(CreateFinishEvent(server, queue[0]));
                                 sortList(eventsList);
-                                queue[0].getFromQueueTime = Statistic.Time;
-                                Statistic.addAverageTimeinQueue(queue[0].getFromQueueTime - queue[0].addToQueueTime);
+                                queue[0].GetFromQueueTime = Statistic.Time;
+                                Statistic.addAverageTimeinQueue(queue[0].GetFromQueueTime - queue[0].AddToQueueTime);
                                 queue.RemoveAt(0);
                             }
 
@@ -96,13 +96,13 @@ namespace MOPS
                         {
                             eventsList.Add(CreateFinishEvent(server, queue[0]));
                             sortList(eventsList);
-                            queue[0].getFromQueueTime = Statistic.Time;
-                            Statistic.addAverageTimeinQueue(queue[0].getFromQueueTime - queue[0].addToQueueTime);
+                            queue[0].GetFromQueueTime = Statistic.Time;
+                            Statistic.addAverageTimeinQueue(queue[0].GetFromQueueTime - queue[0].AddToQueueTime);
                             queue.RemoveAt(0);
                         }
                         else
                         {
-                            server.setAvailable();
+                            server.SetAvailable();
 
                         }
                     }
@@ -111,7 +111,7 @@ namespace MOPS
                 }
                 sortList(eventsList);
 
-                Statistic.simulationTime = eventsList[eventsList.Count - 1].time;
+                Statistic.simulationTime = eventsList[eventsList.Count - 1].Time;
 
                 Parameters.PrintMainParameters();
                 PrintEventList(eventsList);
@@ -132,9 +132,9 @@ namespace MOPS
         }
 
 
-        static Event CreateFinishEvent(Server server, Package package )
+        static Event CreateFinishEvent(Server.Server server, Package package )
         {
-            Event ev = new Event(package.sourceID, "Finish", (float)(Statistic.Time + Parameters.serverTime + 0.001));
+            Event ev = new Event(package.SourceId, EventType.Finish, (float)(Statistic.Time + Parameters.serverTime + 0.001));
             return ev;
         }
 
@@ -143,158 +143,17 @@ namespace MOPS
             Console.WriteLine("[EVENT LIST]");
             for (int i = 0; i < events.Count; i++)
             {
-                Console.WriteLine("Source ID: " + events[i].sourceID + " Time: " + events[i].time + "Type: " + events[i].type);
+                Console.WriteLine("Source ID: " + events[i].SourceId + " Time: " + events[i].Time + "Type: " + events[i].Type);
             }
         }
-
-        static List<Event> InitializeEventsList(List<Event> events)
-        {
-            if (Parameters.SourceType == "CBR")
-            {
-                for (int s = 1; s <= Parameters.numberOfSources; s++)
-                {
-                    float tmp1 = (float)Math.Round(randomNumber(), 2);
-
-                    for (int p = 0; p < Parameters.numberOfPackages; p++)
-                    {
-                        Event e = new Event(s, "Coming", tmp1);
-                        events.Add(e);
-                        tmp1 = tmp1 + Parameters.timeBetweenPackages;
-                    }
-                }
-            }
-            else
-            {
-                float onTime = Parameters.ONtime;
-                float offTime = Parameters.OFFtime;
-
-                float tmpPackageinOn = onTime / Parameters.timeBetweenPackages;
-                int PackageinOn = (int)(tmpPackageinOn);
-                int NumberOfOnState = Parameters.numberOfPackages / PackageinOn;
-                int i = 0;
-
-                for (int s = 1; s <= Parameters.numberOfSources; s++)
-                {
-                    float tmp1 = (float)Math.Round(randomNumber(), 2);
-
-                    for (int p = 0; p < Parameters.numberOfPackages; p++)
-                    {
-                        
-                        Event e = new Event(s, "Coming", tmp1);
-                        events.Add(e);
-                        tmp1 = tmp1 + Parameters.timeBetweenPackages;
-                        i++;
-                        if (i == PackageinOn)
-                        {
-                            tmp1 = tmp1 + offTime;
-                            i = 0;
-                        }
-                        
-                    }
-                i = 0;
-                }
-
-            }
-                return events;
-        }
-
-        static float randomNumber()
-        {
-        Random rnd = new Random();
-            double rndNumber;
-            if (Parameters.SourceType == "ONOFF")
-            {
-                rndNumber = rnd.NextDouble();
-                rndNumber = rndNumber * (Parameters.ONtime+Parameters.OFFtime);
-            }
-            else // cbr
-            {
-                rndNumber = rnd.NextDouble();
-                rndNumber = rndNumber * Parameters.timeBetweenPackages;
-            }
-            return (float)(rndNumber);
-        }
-
 
         static List<Event> sortList(List<Event> list)
         {
-            list.Sort((x, y) => x.time.CompareTo(y.time));
+            list.Sort((x, y) => x.Time.CompareTo(y.Time));
             return list;
         }
 
 
-        static void UserGUI()
-        {
-            String command;
-
-            Console.WriteLine("Server bit rate:");
-            Parameters.serverBitRate = int.Parse(Console.ReadLine());
-            Console.WriteLine("Queue size:");
-            Parameters.queueSize = int.Parse(Console.ReadLine());
-            Console.WriteLine("Number of sources:");
-            Parameters.numberOfSources = int.Parse(Console.ReadLine());
-            Console.WriteLine("Select type of source:");
-            Console.WriteLine("1-> ON/OFF type");
-            Console.WriteLine("2-> CBR type");
-            command = Console.ReadLine();
-            
-            switch (command)
-            {
-                case "1":
-                    Console.WriteLine("peak rate: ");
-                    Parameters.peakRate = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Package size: ");
-                    Parameters.packageSize = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Off time: ");
-                    Parameters.OFFtime = int.Parse(Console.ReadLine());
-                    Console.WriteLine("On time: ");
-                    Parameters.ONtime = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Number of package: ");
-                    Parameters.numberOfPackages = int.Parse(Console.ReadLine());
-                    Statistic.packagesInSimulation = Parameters.numberOfSources * Parameters.numberOfPackages;
-                    Logs.SaveONOFFInputParameters();
-                    Parameters.SourceType = "ONOFF";
-                    break;
-
-                case "2":
-                    Console.WriteLine("peak rate: ");
-                    Parameters.peakRate = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Package size: ");
-                    Parameters.packageSize = int.Parse(Console.ReadLine());
-                    Console.WriteLine("Number of package: ");
-                    Parameters.numberOfPackages = int.Parse(Console.ReadLine());
-                    Statistic.packagesInSimulation = Parameters.numberOfSources * Parameters.numberOfPackages;
-                    Logs.SaveCBRInputParameters();
-                    Parameters.SourceType = "CBR";
-                    break;
-
-                default:
-                    Console.WriteLine("Wrong command");
-                    break;
-
-            }
-
-
-        }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //na wejsciu podac: queue size
     }
 }

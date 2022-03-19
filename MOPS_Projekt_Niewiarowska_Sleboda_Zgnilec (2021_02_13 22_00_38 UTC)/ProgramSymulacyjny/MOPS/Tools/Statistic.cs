@@ -14,30 +14,30 @@ namespace MOPS.Tools
 
         public static int NumberOfPackageinQueue = 0;
 
-        public static float Time = 0;
+        public static double Time = 0;
 
         public static int packagesInSimulation = 0;
 
         public static int packageSize = 0;
 
-        private static List<float> averageTimeinQueueList = new List<float>();
+        private static List<double> averageTimeinQueueList = new List<double>();
 
-        public static float averageTimeinQueue = 0;
+        public static double averageTimeinQueue = 0;
 
-        private static Dictionary<int,float> averagePackageInQueueList = new Dictionary<int,float>();
+        private static Dictionary<int,double> averagePackageInQueueList = new Dictionary<int,double>();
 
-        public static float averagePackageInQueue = 0;
+        public static double averagePackageInQueue = 0;
 
-        public static float simulationTime = 0;
+        public static double simulationTime = 0;
 
-        public static float serverLoad = 0;
+        public static double serverLoad = 0;
 
-        public static float serverLoadTime = 0;
+        public static double serverLoadTime = 0;
 
         public static List<GlobalStatistic> globalList = new List<GlobalStatistic>();
 
-        public static float ProgramTime = 0;
-        public static float percentOfSuccess = 0;
+        public static double ProgramTime = 0;
+        public static double percentOfSuccess = 0;
 
         // -------------------------------------Inceremnt--------------------------------
         public static void incrementRecivedPackage()
@@ -92,7 +92,7 @@ namespace MOPS.Tools
             NumberOfLostPackage =0;
         }
 
-        public static void addAverageTimeinQueue(float element)
+        public static void addAverageTimeinQueue(double element)
         {
             averageTimeinQueueList.Add(element);
         }
@@ -110,12 +110,12 @@ namespace MOPS.Tools
         packageSize = 0;
 
         averageTimeinQueueList = null;
-        averageTimeinQueueList = new List<float>();
+        averageTimeinQueueList = new List<double>();
 
         averageTimeinQueue = 0;
 
         averagePackageInQueueList = null;
-        averagePackageInQueueList = new Dictionary<int, float>();
+        averagePackageInQueueList = new Dictionary<int, double>();
 
         averagePackageInQueue = 0;
 
@@ -126,7 +126,7 @@ namespace MOPS.Tools
         serverLoadTime = 0;
     }
 
-        public static void addAveragePackageInQueue(int s, float time)
+        public static void addAveragePackageInQueue(int s, double time)
         {
             if (averagePackageInQueueList.ContainsKey(s))
             {
@@ -139,10 +139,10 @@ namespace MOPS.Tools
             }
         }
 //--------------------------------------------------------Calculate-------------------------
-        public static float calculateAverageTime()
+        public static double calculateAverageTime()
         {
-            float sum = 0;
-            float result;
+            double sum = 0;
+            double result;
             foreach (var i in averageTimeinQueueList)
             {
                 sum = sum + i;
@@ -152,9 +152,9 @@ namespace MOPS.Tools
             return result;
         }
 
-        public static float calculateAveragePackageInQueue()
+        public static double calculateAveragePackageInQueue()
         {
-            float sum = 0;
+            double sum = 0;
             
 
             foreach (var e in averagePackageInQueueList)
@@ -167,15 +167,15 @@ namespace MOPS.Tools
         }
 
 
-        public static float calculateServerLoad()
+        public static double calculateServerLoad()
         {
             serverLoad = serverLoadTime / Statistic.simulationTime;
             return serverLoad;
         }
 
-        public static void calculateServerLoadTime(float bussyStart, float bussyStop)
+        public static void calculateServerLoadTime(double busyStart, double busyStop)
         {
-            serverLoadTime = serverLoadTime + (bussyStop - bussyStart);
+            serverLoadTime = serverLoadTime + (busyStop - busyStart);
            
         }
 

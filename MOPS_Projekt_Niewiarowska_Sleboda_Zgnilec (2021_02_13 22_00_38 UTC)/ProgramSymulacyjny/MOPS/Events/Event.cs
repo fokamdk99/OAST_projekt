@@ -1,30 +1,28 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using MOPS.Packages;
 
-namespace MOPS
+namespace MOPS.Events
 {
-   public class Event
+   public class Event : IEvent
     {
-        public String type { get; set; }
-        public float time { get; set; }
-        public int sourceID { get; set; } 
+        public EventType Type { get; set; }
+        public double Time { get; set; }
+        public int SourceId { get; set; } 
        
 
         public Event()
         {}
 
-        public Event(int id, String type, float time)
+        public Event(int id, EventType type, double time)
         {
-            this.sourceID = id;
-            this.type = type;
-            this.time = time;
+            SourceId = id;
+            Type = type;
+            Time = time;
             
         }
 
-        public Package createPackage(int id)
+        public Package CreatePackage(int id)
         {
-            Package package = new Package(id, this.sourceID, Parameters.packageSize, time);
+            Package package = new Package(id, this.SourceId, Parameters.packageSize, Time);
 
             return package;
         }
