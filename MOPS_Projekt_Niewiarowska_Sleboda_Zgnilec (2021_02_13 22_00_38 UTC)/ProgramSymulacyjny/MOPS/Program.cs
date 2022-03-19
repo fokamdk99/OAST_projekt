@@ -1,9 +1,9 @@
 ﻿using MOPS.Tools;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using MOPS.Events;
 using MOPS.Packages;
+using MOPS.Queue;
 using MOPS.Tools.Generators;
 
 namespace MOPS
@@ -13,9 +13,7 @@ namespace MOPS
 
         static void Main(string[] args)
         {
-
-            List<Event> eventsList = new List<Event>();
-            List<Package> queue = new List<Package>();
+            CustomQueue customQueue = new CustomQueue(Parameters.queueSize);
 
             Server.Server server = new Server.Server(Parameters.serverBitRate);
 
@@ -26,39 +24,37 @@ namespace MOPS
             for (int n = 0; n < 100; n++)
             {
                 var eventGenerator = new EventGenerator();
-                eventsList = eventGenerator.InitializeEventsList();
-                sortList(eventsList);
-                //PrintEventList(eventsList);
-
+                customQueue.EventsList = eventGenerator.InitializeEventsList(Parameters.numberOfPackages, SourceType.Poisson);
+                customQueue.Sort();
 
                 Package package = null;
                 double deltaTime = 0;
                 bool flag = false;
 
-                for (int i = 0; i < eventsList.Count(); i++)
+                for (int i = 0; i < customQueue.EventsList.Count(); i++)
                 {
 
-                    Statistic.Time = eventsList[i].Time;
+                    Statistic.Time = customQueue.EventsList[i].Time;
 
                     if (flag == true)
                     {
-                        deltaTime = eventsList[i].Time - eventsList[i - 1].Time;
-                        Statistic.addAveragePackageInQueue(queue.Count, deltaTime);
+                        deltaTime = customQueue.EventsList[i].Time - customQueue.EventsList[i - 1].Time;
+                        Statistic.addAveragePackageInQueue(customQueue.Queue.Count, deltaTime);
                     }
                     flag = true;
 
 
-                    if (eventsList[i].Type == EventType.Coming)
+                    if (customQueue.EventsList[i].Type == EventType.Coming)
                     {
-                        package = eventsList[i].CreatePackage(i);
+                        package = customQueue.EventsList[i].CreatePackage(i);
                         Statistic.incrementRecivedPackage();
 
                         if (server.Busy) // serwer zajety
                         {
-                            if (queue.Count() < Parameters.queueSize)  // jest miejsce w kolejce
+                            if (customQueue.Queue.Count() < Parameters.queueSize)  // jest miejsce w kolejce
                             {
                                 package.AddToQueueTime = Statistic.Time;
-                                queue.Add(package);
+                                customQueue.Put(package);
                                 Statistic.incrementPackageInQueue();
 
                             }
@@ -70,21 +66,21 @@ namespace MOPS
                         }
                         else // serwer wolny
                         {
-                            if (queue.Count == 0) // kolejka pusta
+                            if (customQueue.Queue.Count == 0) // kolejka pusta
                             {
                                 server.SetBusy();
-                                eventsList.Add(CreateFinishEvent(server, package));
-                                sortList(eventsList);
+                                customQueue.EventsList.Add(eventGenerator.CreateFinishEvent(package, Statistic.Time, Parameters.serverTime));
+                                customQueue.Sort();
                             }
                             else // Cos jest w kolejce
                             {
-                                queue.Add(package);
+                                customQueue.Put(package);
                                 server.SetBusy();
-                                eventsList.Add(CreateFinishEvent(server, queue[0]));
-                                sortList(eventsList);
-                                queue[0].GetFromQueueTime = Statistic.Time;
-                                Statistic.addAverageTimeinQueue(queue[0].GetFromQueueTime - queue[0].AddToQueueTime);
-                                queue.RemoveAt(0);
+                                customQueue.EventsList.Add(eventGenerator.CreateFinishEvent(customQueue.Queue[0], Statistic.Time, Parameters.serverTime));
+                                customQueue.Sort();
+                                customQueue.Queue[0].GetFromQueueTime = Statistic.Time;
+                                Statistic.addAverageTimeinQueue(customQueue.Queue[0].GetFromQueueTime - customQueue.Queue[0].AddToQueueTime);
+                                customQueue.Queue.RemoveAt(0);
                             }
 
                         }
@@ -92,13 +88,13 @@ namespace MOPS
                     }
                     else
                     {
-                        if (queue.Count != 0)
+                        if (customQueue.Queue.Count != 0)
                         {
-                            eventsList.Add(CreateFinishEvent(server, queue[0]));
-                            sortList(eventsList);
-                            queue[0].GetFromQueueTime = Statistic.Time;
-                            Statistic.addAverageTimeinQueue(queue[0].GetFromQueueTime - queue[0].AddToQueueTime);
-                            queue.RemoveAt(0);
+                            customQueue.EventsList.Add(eventGenerator.CreateFinishEvent(customQueue.Queue[0], Statistic.Time, Parameters.serverTime));
+                            customQueue.Sort();
+                            customQueue.Queue[0].GetFromQueueTime = Statistic.Time;
+                            Statistic.addAverageTimeinQueue(customQueue.Queue[0].GetFromQueueTime - customQueue.Queue[0].AddToQueueTime);
+                            customQueue.Queue.RemoveAt(0);
                         }
                         else
                         {
@@ -109,50 +105,26 @@ namespace MOPS
 
 
                 }
-                sortList(eventsList);
+                customQueue.Sort();
 
-                Statistic.simulationTime = eventsList[eventsList.Count - 1].Time;
+                Statistic.simulationTime = customQueue.EventsList[customQueue.EventsList.Count - 1].Time;
 
                 Parameters.PrintMainParameters();
-                PrintEventList(eventsList);
                 Statistic.printStatistic();
                 Statistic.printAveragePackageInQueue();
                 Statistic.printAverageTimeInQueue();
                 Statistic.printServerLoad();
 
-                Logs.SaveEventList(eventsList);
+                Logs.SaveEventList(customQueue.EventsList);
                 
                 Statistic.globalList.Add(new GlobalStatistic());
                 Statistic.RESETSTATISTIC();
                 
-                eventsList = new List<Event>();
+                customQueue.EventsList = new List<Event>();
             }
             Statistic.calculate();
             Logs.SaveStatistic();
         }
-
-
-        static Event CreateFinishEvent(Server.Server server, Package package )
-        {
-            Event ev = new Event(package.SourceId, EventType.Finish, (float)(Statistic.Time + Parameters.serverTime + 0.001));
-            return ev;
-        }
-
-        static void PrintEventList(List<Event> events)
-        {
-            Console.WriteLine("[EVENT LIST]");
-            for (int i = 0; i < events.Count; i++)
-            {
-                Console.WriteLine("Source ID: " + events[i].SourceId + " Time: " + events[i].Time + "Type: " + events[i].Type);
-            }
-        }
-
-        static List<Event> sortList(List<Event> list)
-        {
-            list.Sort((x, y) => x.Time.CompareTo(y.Time));
-            return list;
-        }
-
 
         //na wejsciu podac: queue size
     }

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using MOPS.Events;
+using MOPS.Packages;
 
 namespace MOPS.Tools.Generators
 {
@@ -23,6 +24,13 @@ namespace MOPS.Tools.Generators
             }
 
             return eventsList;
+        }
+
+        public Event CreateFinishEvent(Package package, double currentTime, double processingTime)
+        {
+            Event @event = new Event(package.SourceId, EventType.Finish, (float)(currentTime + processingTime + 0.001));
+
+            return @event;
         }
     }
 }
