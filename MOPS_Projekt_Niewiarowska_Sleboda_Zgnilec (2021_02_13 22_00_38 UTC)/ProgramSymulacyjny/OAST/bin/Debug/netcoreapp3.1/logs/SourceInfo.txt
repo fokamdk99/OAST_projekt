@@ -1,0 +1,22 @@
+Number od sources: 2
+
+ Queue size: 5 
+
+ [INPUT PARAMETERS]
+ Package size: 10
+ Time between packages: 0
+ Number of packages: 5
+ Peak rate: 5
+
+
+Number od sources: 1
+
+ Queue size: 56 
+
+ [INPUT PARAMETERS]
+ Package size: 45
+ Time between packages: 0
+ Number of packages: 45
+ Peak rate: 4
+
+

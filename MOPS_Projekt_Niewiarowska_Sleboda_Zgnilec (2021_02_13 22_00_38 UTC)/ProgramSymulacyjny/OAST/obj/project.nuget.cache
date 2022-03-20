@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "yAywSW9p/LWg8WEzyUqA+i2P4J+Sz7P1NSykgXd52LI/f1+xr1kLWn21Bzac8sU5wDKeqdUxlqOcHbM52MFtmA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Karolina\\RiderProjects\\OAST_projekt\\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\\ProgramSymulacyjny\\OAST\\OAST.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Karolina\\.nuget\\packages\\microsoft.netcore.app.ref\\3.1.0\\microsoft.netcore.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\Karolina\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\3.1.0\\microsoft.windowsdesktop.app.ref.3.1.0.nupkg.sha512",
+    "C:\\Users\\Karolina\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\3.1.10\\microsoft.aspnetcore.app.ref.3.1.10.nupkg.sha512",
+    "C:\\Users\\Karolina\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.23\\microsoft.netcore.app.host.win-x64.3.1.23.nupkg.sha512"
+  ],
+  "logs": []
+}

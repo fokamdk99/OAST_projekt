@@ -1,0 +1,54 @@
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\bin\Debug\netcoreapp3.1\MOPS.exe
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\bin\Debug\netcoreapp3.1\MOPS.deps.json
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.json
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.dev.json
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\bin\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\bin\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.csprojAssemblyReference.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfoInputs.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfo.cs
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.csproj.CoreCompileInputs.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS\MOPS\MOPS\obj\Debug\netcoreapp3.1\MOPS.genruntimeconfig.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.csprojAssemblyReference.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfoInputs.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfo.cs
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.csproj.CoreCompileInputs.cache
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\bin\Debug\netcoreapp3.1\MOPS.exe
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\bin\Debug\netcoreapp3.1\MOPS.deps.json
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.json
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.dev.json
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\bin\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\bin\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\lukil\OneDrive - Politechnika Warszawska\Semestr 5\MOPS\Projekt\MOPS_Projekt\MOPS\obj\Debug\netcoreapp3.1\MOPS.genruntimeconfig.cache
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.exe
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.deps.json
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.json
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.dev.json
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.csproj.AssemblyReference.cache
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfoInputs.cache
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfo.cs
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.csproj.CoreCompileInputs.cache
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\01143844\Downloads\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.genruntimeconfig.cache
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.exe
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.deps.json
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.json
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.runtimeconfig.dev.json
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\bin\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.csproj.AssemblyReference.cache
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfoInputs.cache
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.AssemblyInfo.cs
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.csproj.CoreCompileInputs.cache
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.dll
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.pdb
+C:\Users\Karolina\RiderProjects\OAST_projekt\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\ProgramSymulacyjny\MOPS\obj\Debug\netcoreapp3.1\MOPS.genruntimeconfig.cache

@@ -1,0 +1,28 @@
+[SERVER PARAMETERS]
+Server Bitrate: 10
+ Server time: 1 
+
+
+[STATISTIC PARAMETERS]
+Lost: 0
+Received: 1000 
+Packages In Simulation: 10
+Average Time in Queue: 0,29000655
+Average Package In Queue: 0,23671268
+ simulation Time: 1075,3181
+Server Load: 0,93277603
+Percent Of Success: 100
+[SERVER PARAMETERS]
+Server Bitrate: 345
+ Server time: 0,13043478 
+
+
+[STATISTIC PARAMETERS]
+Lost: 0
+Received: 4500 
+Packages In Simulation: 45
+Average Time in Queue: NaN
+Average Package In Queue: 0
+ simulation Time: 50047,793
+Server Load: 0,011818545
+Percent Of Success: 100
