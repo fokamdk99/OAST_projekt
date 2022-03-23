@@ -21,14 +21,14 @@
 
         public GlobalStatistic()
         {
-            NumberOfRecivedPackage = Statistic.NumberOfRecivedPackage;
-            NumberOfLostPackage = Statistic.NumberOfLostPackage;
-            NumberOfPackageinQueue = Statistic.NumberOfPackageinQueue;
-            packagesInSimulation = Statistic.packagesInSimulation;
-            averageTimeinQueue = Statistic.averageTimeinQueue;
-            averagePackageInQueue = Statistic.averagePackageInQueue;
-            simulationTime = Statistic.simulationTime;
-            serverLoad = Statistic.serverLoad;
+            NumberOfRecivedPackage = Statistic.NumberOfReceivedPackages;
+            NumberOfLostPackage = Statistic.NumberOfLostPackages;
+            NumberOfPackageinQueue = Statistic.NumberOfPackagesinQueue;
+            packagesInSimulation = Statistic.PackagesInSimulation;
+            averageTimeinQueue = Statistic.AverageTimeinQueue;
+            averagePackageInQueue = Statistic.AveragePackageInQueue;
+            simulationTime = Statistic.SimulationTime;
+            serverLoad = Statistic.ServerLoad;
         }
     }
 }

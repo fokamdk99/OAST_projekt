@@ -1,10 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "AAFPx7a7zE0+Kq9noKxdEWXQXZ+ttniGLpMT4uGs6GtLMcMpMtrID1VmeZnydvXotJbC/3S+YqZWVVO/M+JWBg==",
+  "dgSpecHash": "AkcvYY96QuLQPoOsjxWq/yvp1Nu3HG5NF/7L7mfKtGSAMSVVm74oKPKQiUdBnRw19rXP9hjw+XlPJeIRAhmB0g==",
   "success": true,
-  "projectFilePath": "C:\\Users\\01143844\\Downloads\\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\\ProgramSymulacyjny\\MOPS\\MOPS.csproj",
+  "projectFilePath": "C:\\Users\\01143844\\source\\repos\\studia\\OAST\\github_projekt\\OAST_projekt\\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\\ProgramSymulacyjny\\MOPS\\MOPS.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\3.1.23\\microsoft.netcore.app.host.win-x64.3.1.23.nupkg.sha512"
+    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.2\\microsoft.extensions.dependencyinjection.5.0.2.nupkg.sha512",
+    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
+    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.15\\microsoft.netcore.app.host.win-x64.5.0.15.nupkg.sha512"
   ],
   "logs": []
 }

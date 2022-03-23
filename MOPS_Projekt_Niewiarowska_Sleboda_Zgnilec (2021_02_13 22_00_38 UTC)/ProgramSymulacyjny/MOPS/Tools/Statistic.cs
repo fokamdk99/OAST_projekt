@@ -1,241 +1,189 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace MOPS.Tools
 {
     public static class Statistic
     {
+        public static int NumberOfReceivedPackages = 0;
 
+        public static int NumberOfLostPackages = 0;
 
-        public static int NumberOfRecivedPackage = 0;
-
-        public static int NumberOfLostPackage = 0;
-
-        public static int NumberOfPackageinQueue = 0;
+        public static int NumberOfPackagesinQueue = 0;
 
         public static double Time = 0;
 
-        public static int packagesInSimulation = 0;
+        public static int PackagesInSimulation = 0;
 
-        public static int packageSize = 0;
+        private static List<double> AverageTimeinQueueList = new List<double>();
 
-        private static List<double> averageTimeinQueueList = new List<double>();
+        public static double AverageTimeinQueue = 0;
 
-        public static double averageTimeinQueue = 0;
+        private static Dictionary<int, double> AveragePackageInQueueList = new Dictionary<int, double>();
 
-        private static Dictionary<int,double> averagePackageInQueueList = new Dictionary<int,double>();
+        public static double AveragePackageInQueue = 0;
 
-        public static double averagePackageInQueue = 0;
+        public static double SimulationTime = 0;
 
-        public static double simulationTime = 0;
+        public static double ServerLoad = 0;
 
-        public static double serverLoad = 0;
+        public static double ServerLoadTime = 0;
 
-        public static double serverLoadTime = 0;
-
-        public static List<GlobalStatistic> globalList = new List<GlobalStatistic>();
+        public static List<GlobalStatistic> GlobalList = new List<GlobalStatistic>();
 
         public static double ProgramTime = 0;
-        public static double percentOfSuccess = 0;
+        public static double PercentOfSuccess = 0;
 
         // -------------------------------------Inceremnt--------------------------------
-        public static void incrementRecivedPackage()
+        public static void IncrementNumberOfReceivedPackages()
         {
-            NumberOfRecivedPackage = NumberOfRecivedPackage + 1;
+            NumberOfReceivedPackages = NumberOfReceivedPackages + 1;
         }
 
-        public static void incrementLostPackage()
+        public static void IncrementNumberOfLostPackages()
         {
-            NumberOfLostPackage = NumberOfLostPackage + 1;
+            NumberOfLostPackages = NumberOfLostPackages + 1;
         }
 
-        public static void incrementPackageInQueue()
+        public static void IncrementNumberOfPackagesInQueue()
         {
-            NumberOfPackageinQueue = NumberOfPackageinQueue + 1;
+            NumberOfPackagesinQueue = NumberOfPackagesinQueue + 1;
         }
 
-        public static void incrementTime(float deltaT)
+        public static void AddAverageTimeinQueue(double element)
         {
-            Time = Time + deltaT;
+            AverageTimeinQueueList.Add(element);
         }
 
-        //--------------------------------------------Decrement-------------------------------------
-        public static void decrementRecivedPackage()
+        public static void ResetStatistics()
         {
-            NumberOfRecivedPackage = NumberOfRecivedPackage - 1;
+            NumberOfReceivedPackages = 0;
+
+            NumberOfLostPackages = 0;
+
+            NumberOfPackagesinQueue = 0;
+
+            Time = 0;
+
+            AverageTimeinQueueList = null;
+            AverageTimeinQueueList = new List<double>();
+
+            AverageTimeinQueue = 0;
+
+            AveragePackageInQueueList = null;
+            AveragePackageInQueueList = new Dictionary<int, double>();
+
+            AveragePackageInQueue = 0;
+
+            SimulationTime = 0;
+
+            ServerLoad = 0;
+
+            ServerLoadTime = 0;
         }
 
-        public static void decrementLostPackage()
+        public static void AddAveragePackageInQueue(int s, double time)
         {
-            NumberOfLostPackage = NumberOfLostPackage - 1;
-        }
-
-        public static void decrementPackageInQueue()
-        {
-            NumberOfPackageinQueue = NumberOfPackageinQueue - 1;
-        }
-
-        //----------------------------------------Reset------------------------------------------
-        public static void resetPackageInQueue()
-        {
-            NumberOfPackageinQueue = 0;
-        }
-
-        public static void resetRecivedPackage()
-        {
-            NumberOfRecivedPackage = 0;
-        }
-
-        public static void resetLostPackage()
-        {
-            NumberOfLostPackage =0;
-        }
-
-        public static void addAverageTimeinQueue(double element)
-        {
-            averageTimeinQueueList.Add(element);
-        }
-
-        public static void RESETSTATISTIC()
-        {
-        NumberOfRecivedPackage = 0;
-
-        NumberOfLostPackage = 0;
-
-        NumberOfPackageinQueue = 0;
-
-        Time = 0;
- 
-        packageSize = 0;
-
-        averageTimeinQueueList = null;
-        averageTimeinQueueList = new List<double>();
-
-        averageTimeinQueue = 0;
-
-        averagePackageInQueueList = null;
-        averagePackageInQueueList = new Dictionary<int, double>();
-
-        averagePackageInQueue = 0;
-
-        simulationTime = 0;
-
-        serverLoad = 0;
-
-        serverLoadTime = 0;
-    }
-
-        public static void addAveragePackageInQueue(int s, double time)
-        {
-            if (averagePackageInQueueList.ContainsKey(s))
+            if (AveragePackageInQueueList.ContainsKey(s))
             {
-                var actualTime = averagePackageInQueueList[s];
-                averagePackageInQueueList[s] = (actualTime + time);
+                var actualTime = AveragePackageInQueueList[s];
+                AveragePackageInQueueList[s] = (actualTime + time);
             }
             else
             {
-                averagePackageInQueueList.Add(s, time);
+                AveragePackageInQueueList.Add(s, time);
             }
         }
+
 //--------------------------------------------------------Calculate-------------------------
-        public static double calculateAverageTime()
+        public static double CalculateAverageTime()
         {
             double sum = 0;
             double result;
-            foreach (var i in averageTimeinQueueList)
+            foreach (var i in AverageTimeinQueueList)
             {
                 sum = sum + i;
             }
-            result = sum / NumberOfPackageinQueue;
-            averageTimeinQueue = result;
+
+            result = sum / NumberOfPackagesinQueue;
+            AverageTimeinQueue = result;
             return result;
         }
 
-        public static double calculateAveragePackageInQueue()
+        public static double CalculateAveragePackageInQueue()
         {
             double sum = 0;
-            
 
-            foreach (var e in averagePackageInQueueList)
+
+            foreach (var e in AveragePackageInQueueList)
             {
                 sum = sum + e.Value * e.Key;
             }
-            sum = sum / simulationTime;
-            averagePackageInQueue = sum;
+
+            sum = sum / SimulationTime;
+            AveragePackageInQueue = sum;
             return sum;
         }
 
 
-        public static double calculateServerLoad()
+        public static double CalculateServerLoad()
         {
-            serverLoad = serverLoadTime / Statistic.simulationTime;
-            return serverLoad;
+            ServerLoad = ServerLoadTime / Statistic.SimulationTime;
+            return ServerLoad;
         }
 
-        public static void calculateServerLoadTime(double busyStart, double busyStop)
+        public static void CalculateServerLoadTime(double busyStart, double busyStop)
         {
-            serverLoadTime = serverLoadTime + (busyStop - busyStart);
-           
+            ServerLoadTime = ServerLoadTime + (busyStop - busyStart);
         }
 
         //-------------------------------------Print----------------------------------------
 
-        public static void printStatistic()
+        public static void PrintStatistics()
         {
-            Console.WriteLine($"[STATISTIC]\nNumberOfRecivedPackage: {NumberOfRecivedPackage}\nNumberOfLostPackage: {NumberOfLostPackage}\n\n");
-
+            Console.WriteLine(
+                $"[STATISTIC]\nNumberOfRecivedPackage: {NumberOfReceivedPackages}\nNumberOfLostPackage: {NumberOfLostPackages}\n\n");
         }
 
-        public static void printAverageTimeInQueue()
+        public static void PrintAverageTimeInQueue()
         {
-            Console.WriteLine($"\nAverage Time in Queue: {calculateAverageTime()}\n\n");
-
+            Console.WriteLine($"\nAverage Time in Queue: {CalculateAverageTime()}\n\n");
         }
 
-        public static void printAveragePackageInQueue()
+        public static void PrintAveragePackageInQueue()
         {
-            
-            Console.WriteLine($"[AveragePackageInQueue] {calculateAveragePackageInQueue()}\n\n");
-
+            Console.WriteLine($"[AveragePackageInQueue] {CalculateAveragePackageInQueue()}\n\n");
         }
 
 
-        public static void printServerLoad()
+        public static void PrintServerLoad()
         {
-
-            Console.WriteLine($"[Server Load] {calculateServerLoad()}\n\n");
-
+            Console.WriteLine($"[Server Load] {CalculateServerLoad()}\n\n");
         }
 
         //-----------------------------GlobalList----------------------------
 
-        public static void calculate()
+        public static void Calculate()
         {
-            foreach (var e in globalList)
+            foreach (var e in GlobalList)
             {
-                NumberOfRecivedPackage = e.NumberOfRecivedPackage + NumberOfRecivedPackage;
-                NumberOfLostPackage = e.NumberOfLostPackage + NumberOfLostPackage;
-                NumberOfPackageinQueue = e.NumberOfPackageinQueue + NumberOfPackageinQueue;
-                packagesInSimulation = e.packagesInSimulation + packagesInSimulation;
-                averageTimeinQueue = e.averageTimeinQueue + averageTimeinQueue;
-                averagePackageInQueue = e.averagePackageInQueue + averagePackageInQueue;
-                simulationTime = e.simulationTime + simulationTime;
-                serverLoad = e.serverLoad + serverLoad;
-
+                NumberOfReceivedPackages = e.NumberOfRecivedPackage + NumberOfReceivedPackages;
+                NumberOfLostPackages = e.NumberOfLostPackage + NumberOfLostPackages;
+                NumberOfPackagesinQueue = e.NumberOfPackageinQueue + NumberOfPackagesinQueue;
+                PackagesInSimulation = e.packagesInSimulation + PackagesInSimulation;
+                AverageTimeinQueue = e.averageTimeinQueue + AverageTimeinQueue;
+                AveragePackageInQueue = e.averagePackageInQueue + AveragePackageInQueue;
+                SimulationTime = e.simulationTime + SimulationTime;
+                ServerLoad = e.serverLoad + ServerLoad;
             }
-                NumberOfRecivedPackage =  NumberOfRecivedPackage;
-                NumberOfLostPackage = NumberOfLostPackage;
-                NumberOfPackageinQueue =  NumberOfPackageinQueue / 100;
-                packagesInSimulation =  packagesInSimulation / 100;
-                averageTimeinQueue = averageTimeinQueue / 100;
-                averagePackageInQueue = averagePackageInQueue / 100;
-                simulationTime = simulationTime;
-                serverLoad =  serverLoad / 100;
-                percentOfSuccess = (((float)Statistic.NumberOfRecivedPackage - (float)Statistic.NumberOfLostPackage) / (float)(Statistic.NumberOfRecivedPackage) * 100);
 
-
+            NumberOfPackagesinQueue = NumberOfPackagesinQueue / 100;
+            PackagesInSimulation = PackagesInSimulation / 100;
+            AverageTimeinQueue = AverageTimeinQueue / 100;
+            AveragePackageInQueue = AveragePackageInQueue / 100;
+            ServerLoad = ServerLoad / 100;
+            PercentOfSuccess = (((float) Statistic.NumberOfReceivedPackages - (float) Statistic.NumberOfLostPackages) /
+                (float) (Statistic.NumberOfReceivedPackages) * 100);
         }
-
     }
 }

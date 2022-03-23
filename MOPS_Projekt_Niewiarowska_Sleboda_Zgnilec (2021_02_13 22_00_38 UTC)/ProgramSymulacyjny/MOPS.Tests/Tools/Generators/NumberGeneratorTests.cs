@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using Microsoft.Extensions.DependencyInjection;
 using MOPS.Tools.Generators;
 using NUnit.Framework;
 
@@ -6,20 +8,25 @@ namespace MOPS.Tests.Tools.Generators
 {
     public class NumberGeneratorTests
     {
+        private INumberGenerator? _numberGenerator;
+        
         [SetUp]
         public void Setup()
         {
-            
+            IServiceProvider sericeProvider = new ServiceCollection()
+                .AddSingleton<INumberGenerator, NumberGenerator>()
+                .BuildServiceProvider();
+
+            _numberGenerator = sericeProvider.GetRequiredService<INumberGenerator>();
         }
 
         [Test]
         public void WhenNumberGeneratorUsed_ShouldGenerateNumbersWithPoissonDistribution()
         {
-            var numberGenerator = new NumberGenerator();
             List<int> results = new List<int>();
             for (int i = 0; i < 10; i++)
             {
-                results.Add(numberGenerator.Generate(SourceType.Poisson));
+                results.Add(_numberGenerator!.Generate(SourceType.Poisson, 300501, 3));
             }
 
             Assert.Pass();

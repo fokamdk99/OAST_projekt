@@ -1,12 +1,14 @@
 {
   "version": 2,
-  "dgSpecHash": "7xYYppbZExvQhmIT1Pqr69xPY+4P2AD0UoVqUWLtbKKV1klT3WS5pPeBzIWCPMAIUbYvC+7mgDhL7dP5AOM5pg==",
+  "dgSpecHash": "tyJVS5FEXjGn3XzhTYn5V6YOIAom8R8GuK8Eqer1yED8tLMqbqOgrU9u92D4m8MLHvotYy263Ujx6D2ULLo+rw==",
   "success": true,
-  "projectFilePath": "C:\\Users\\01143844\\Downloads\\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\\ProgramSymulacyjny\\MOPS.Tests\\MOPS.Tests.csproj",
+  "projectFilePath": "C:\\Users\\01143844\\source\\repos\\studia\\OAST\\github_projekt\\OAST_projekt\\MOPS_Projekt_Niewiarowska_Sleboda_Zgnilec (2021_02_13 22_00_38 UTC)\\ProgramSymulacyjny\\MOPS.Tests\\MOPS.Tests.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\01143844\\.nuget\\packages\\coverlet.collector\\3.1.0\\coverlet.collector.3.1.0.nupkg.sha512",
     "C:\\Users\\01143844\\.nuget\\packages\\microsoft.codecoverage\\16.11.0\\microsoft.codecoverage.16.11.0.nupkg.sha512",
     "C:\\Users\\01143844\\.nuget\\packages\\microsoft.csharp\\4.0.1\\microsoft.csharp.4.0.1.nupkg.sha512",
+    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\5.0.2\\microsoft.extensions.dependencyinjection.5.0.2.nupkg.sha512",
+    "C:\\Users\\01143844\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\5.0.0\\microsoft.extensions.dependencyinjection.abstractions.5.0.0.nupkg.sha512",
     "C:\\Users\\01143844\\.nuget\\packages\\microsoft.net.test.sdk\\16.11.0\\microsoft.net.test.sdk.16.11.0.nupkg.sha512",
     "C:\\Users\\01143844\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Users\\01143844\\.nuget\\packages\\microsoft.netcore.targets\\1.0.1\\microsoft.netcore.targets.1.0.1.nupkg.sha512",

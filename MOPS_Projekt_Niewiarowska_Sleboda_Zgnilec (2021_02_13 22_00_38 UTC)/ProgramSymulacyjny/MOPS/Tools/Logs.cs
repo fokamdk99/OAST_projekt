@@ -59,7 +59,7 @@ namespace MOPS.Tools
         {
             String log;
             
-            log = $"[STATISTIC PARAMETERS]\nLost: {Statistic.NumberOfLostPackage}\nReceived: {Statistic.NumberOfRecivedPackage} \nPackages In Simulation: {Statistic.packagesInSimulation}\nAverage Time in Queue: {Statistic.averageTimeinQueue}\nAverage Package In Queue: {Statistic.averagePackageInQueue}\n simulation Time: {Statistic.simulationTime}\nServer Load: {Statistic.serverLoad}\nPercent Of Success: {Statistic.percentOfSuccess}" ;
+            log = $"[STATISTIC PARAMETERS]\nLost: {Statistic.NumberOfLostPackages}\nReceived: {Statistic.NumberOfReceivedPackages} \nPackages In Simulation: {Statistic.PackagesInSimulation}\nAverage Time in Queue: {Statistic.AverageTimeinQueue}\nAverage Package In Queue: {Statistic.AveragePackageInQueue}\n simulation Time: {Statistic.SimulationTime}\nServer Load: {Statistic.ServerLoad}\nPercent Of Success: {Statistic.PercentOfSuccess}" ;
 
 
             WriteToFile("Log",log);
@@ -69,7 +69,7 @@ namespace MOPS.Tools
         {
             String log;
 
-            log = $"[AVERAGE TIME IN QUEUE]\n{Statistic.averageTimeinQueue}\n\n";
+            log = $"[AVERAGE TIME IN QUEUE]\n{Statistic.AverageTimeinQueue}\n\n";
 
 
             WriteToFile("",log);
@@ -79,7 +79,7 @@ namespace MOPS.Tools
         {
             String log;
 
-            log = $"{Statistic.NumberOfLostPackage}";
+            log = $"{Statistic.NumberOfLostPackages}";
 
 
             WriteToFile("Test", log);

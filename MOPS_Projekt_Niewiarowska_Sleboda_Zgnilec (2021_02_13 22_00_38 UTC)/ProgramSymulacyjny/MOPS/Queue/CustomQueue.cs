@@ -2,24 +2,30 @@
 using System.Linq;
 using MOPS.Events;
 using MOPS.Packages;
+using MOPS.Tools.Generators;
 
 namespace MOPS.Queue
 {
     public class CustomQueue : ICustomQueue
     {
+        private readonly IEventGenerator _eventGenerator;
+        
         public List<Event> EventsList { get; set; }
         public List<Package> Queue { get; set; }
-        public int QueueSize { get; set; }
+        private int QueueSize { get; set; }
+        private int NumberOfProcessedEvents { get; set; }
 
-        public CustomQueue()
+        public CustomQueue(IEventGenerator eventGenerator)
         {
+            _eventGenerator = eventGenerator;
             EventsList = new List<Event>();
             Queue = new List<Package>();
         }
 
-        public CustomQueue(int queueSize) : base()
+        public CustomQueue(int queueSize, IEventGenerator eventGenerator) : base()
         {
             QueueSize = queueSize;
+            _eventGenerator = eventGenerator;
         }
         
         public void Put(Package package)
@@ -35,6 +41,33 @@ namespace MOPS.Queue
         public void Sort()
         {
             EventsList.Sort((x, y) => x.Time.CompareTo(y.Time));
+        }
+
+        public void Reset()
+        {
+            Queue = new List<Package>();
+            EventsList = new List<Event>();
+        }
+
+        public void InitializeEventsList(int numberOfEvents, SourceType eventType, int seed, int lambda)
+        {
+            EventsList = _eventGenerator.InitializeEventsList(numberOfEvents, eventType, seed, lambda);
+            Sort();
+        }
+
+        public void SetQueueSize(int queueSize)
+        {
+            QueueSize = queueSize;
+        }
+
+        public void IncrementNumberOfProcessedEvents()
+        {
+            NumberOfProcessedEvents += 1;
+        }
+
+        public int GetNumberOfProcessedEvents()
+        {
+            return NumberOfProcessedEvents;
         }
     }
 }

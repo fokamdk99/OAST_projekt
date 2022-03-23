@@ -2,7 +2,7 @@
 
 namespace MOPS.Server
 {
-   public class Server : IServer
+   public class CustomServer : ICustomServer
     {
         public bool Busy { get; set; }
         public int BitRate { get; set; }
@@ -10,12 +10,12 @@ namespace MOPS.Server
         public double BusyStop { set; get; }
 
 
-        public Server()
+        public CustomServer()
         {
 
         }
 
-        public Server(int bitRate)
+        public CustomServer(int bitRate)
         {
             Busy = false;
             BitRate = bitRate;
@@ -33,7 +33,14 @@ namespace MOPS.Server
         {
             Busy = false;
             BusyStop = Statistic.Time;
-            Statistic.calculateServerLoadTime(BusyStart, BusyStop);
+            Statistic.CalculateServerLoadTime(BusyStart, BusyStop);
+        }
+
+        public void Reset()
+        {
+            Busy = false;
+            BusyStart = 0;
+            BusyStop = 0;
         }
     }
 }
