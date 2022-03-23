@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using Microsoft.Extensions.DependencyInjection;
 using MOPS.Tools.Generators;
 using NUnit.Framework;

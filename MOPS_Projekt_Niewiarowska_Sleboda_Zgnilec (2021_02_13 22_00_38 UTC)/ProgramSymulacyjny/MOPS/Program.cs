@@ -3,6 +3,7 @@ using System.Linq;
 using MOPS.Tools;
 using Microsoft.Extensions.DependencyInjection;
 using MOPS.Events;
+using MOPS.Queue;
 using MOPS.Server;
 using MOPS.Simulator;
 
@@ -15,6 +16,7 @@ namespace MOPS
         {
             var serviceProvider = new ServiceCollection()
                 .AddEventFeature()
+                .AddQueueFeature()
                 .AddServerFeature()
                 .AddToolsFeature()
                 .AddSimulatorFeature()
