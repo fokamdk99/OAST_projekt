@@ -47,6 +47,7 @@ namespace MOPS.Queue
         {
             Queue = new List<Package>();
             EventsList = new List<Event>();
+            NumberOfProcessedEvents = 0;
         }
 
         public void InitializeEventsList(int numberOfEvents, SourceType eventType, int seed, int lambda)

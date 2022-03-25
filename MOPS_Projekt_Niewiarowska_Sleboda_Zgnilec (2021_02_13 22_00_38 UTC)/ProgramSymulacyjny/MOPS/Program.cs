@@ -24,9 +24,11 @@ namespace MOPS
 
             var simulator = serviceProvider.GetRequiredService<ISimulator>();
 
-            if (args.Length != 4)
+            if (args.Length != 5)
             {
-                Console.WriteLine("Invalid number of input parameters!");
+                Console.WriteLine("Invalid number of input parameters!" +
+                                  "Params: queueSize, serverBitRate, numberOfRepetitions, " +
+                                  "lambda, numberOfPackages");
             }
 
             // e.g. 51, 
@@ -34,6 +36,8 @@ namespace MOPS
             Parameters.serverBitRate = Int32.Parse(args.ElementAt(1));
             int numberOfRepetitions = Int32.Parse(args.ElementAt(2));
             int lambda = Int32.Parse(args.ElementAt(3));
+            Parameters.numberOfPackages = Int32.Parse(args.ElementAt(4));
+            Parameters.numberOfSources = 1;
             
             simulator.Run(Parameters.queueSize, Parameters.serverBitRate, numberOfRepetitions, lambda);
         }
