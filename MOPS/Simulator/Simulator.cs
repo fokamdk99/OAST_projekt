@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using MOPS.Events;
+﻿using MOPS.Events;
 using MOPS.Queue;
 using MOPS.Server;
 using MOPS.Tools;
@@ -22,11 +21,10 @@ namespace MOPS.Simulator
             _eventHandler = eventHandler;
         }
 
-        public void Run(int queueSize, int serverBitRate, int numberOfRepetitions, int lambda)
+        public void Run(int queueSize, int numberOfRepetitions, int lambda, int mi)
         {
             _customQueue.SetQueueSize(queueSize);
-
-            _customServer.BitRate = serverBitRate;
+            _customServer.SetMi(mi);
 
             InitializeStatistics();
             
@@ -54,8 +52,7 @@ namespace MOPS.Simulator
                     flag = true;
 
                     _eventHandler.HandleEvent(_customQueue.EventsList[i], i);
-                    _customQueue.IncrementNumberOfProcessedEvents();
-                    
+
                     i += 1;
                     
                 }
@@ -65,8 +62,6 @@ namespace MOPS.Simulator
                 Statistic.SimulationTime = _customQueue.EventsList[_customQueue.EventsList.Count - 1].Time;
 
                 PrintStatistics();
-
-                _customQueue.EventsList = new List<Event>();
             }
 
             Statistic.Calculate();

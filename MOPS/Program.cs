@@ -26,20 +26,22 @@ namespace MOPS
 
             if (args.Length != 5)
             {
-                Console.WriteLine("Invalid number of input parameters!" +
-                                  "Params: queueSize, serverBitRate, numberOfRepetitions, " +
-                                  "lambda, numberOfPackages");
+                Console.WriteLine("Invalid number of input parameters!\n" +
+                                  "Params: queueSize, numberOfRepetitions, " +
+                                  "lambda, mi, numberOfPackages");
+                
+                return;
             }
 
             // e.g. 51, 
             Parameters.queueSize = Int32.Parse(args.ElementAt(0));
-            Parameters.serverBitRate = Int32.Parse(args.ElementAt(1));
-            int numberOfRepetitions = Int32.Parse(args.ElementAt(2));
-            int lambda = Int32.Parse(args.ElementAt(3));
+            int numberOfRepetitions = Int32.Parse(args.ElementAt(1));
+            int lambda = Int32.Parse(args.ElementAt(2));
+            int mi = Int32.Parse(args.ElementAt(3));
             Parameters.numberOfPackages = Int32.Parse(args.ElementAt(4));
             Parameters.numberOfSources = 1;
             
-            simulator.Run(Parameters.queueSize, Parameters.serverBitRate, numberOfRepetitions, lambda);
+            simulator.Run(Parameters.queueSize, numberOfRepetitions, lambda, mi);
         }
     }
 }

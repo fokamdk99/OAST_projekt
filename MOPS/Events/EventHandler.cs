@@ -32,6 +32,8 @@ namespace MOPS.Events
             {
                 HandleFinishEvent();
             }
+            
+            _customQueue.IncrementNumberOfProcessedEvents();
         }
         
         public void HandleComingEvent(Event @event, int eventId)
@@ -60,7 +62,7 @@ namespace MOPS.Events
                 {
                     _customServer.SetBusy();
                     _customQueue.EventsList.Add(
-                        _eventGenerator.CreateFinishEvent(package, Statistic.Time, Parameters.serverTime));
+                        _eventGenerator.CreateFinishEvent(package, Statistic.Time, _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 20000)));
                     _customQueue.Sort();
                 }
                 else // Cos jest w kolejce

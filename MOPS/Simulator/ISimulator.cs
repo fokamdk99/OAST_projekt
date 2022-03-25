@@ -2,6 +2,6 @@
 {
     public interface ISimulator
     {
-        void Run(int queueSize, int serverBitRate, int numberOfRepetitions, int lambda);
+        void Run(int queueSize, int numberOfRepetitions, int lambda, int mi);
     }
 }

@@ -23,7 +23,7 @@ namespace MOPS.Tests.Tools.Generators
         public void WhenEventGeneratorUsed_ShouldGenerateListOfEventsWithPoissonDistribution()
         {
             var eventGenerator = new EventGenerator(_numberGenerator!);
-            var events = eventGenerator.InitializeEventsList(10, SourceType.Poisson, 300, 3);
+            var events = eventGenerator.InitializeEventsList(20, SourceType.Poisson, 300, 8);
 
             Assert.Pass();
         }

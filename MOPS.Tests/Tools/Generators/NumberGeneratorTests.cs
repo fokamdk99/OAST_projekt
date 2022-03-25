@@ -24,9 +24,9 @@ namespace MOPS.Tests.Tools.Generators
         public void WhenNumberGeneratorUsed_ShouldGenerateNumbersWithPoissonDistribution()
         {
             List<int> results = new List<int>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 20; i++)
             {
-                results.Add(_numberGenerator!.Generate(SourceType.Poisson, 300501, 3));
+                results.Add(_numberGenerator!.Generate(SourceType.Poisson, 300501 + i, 8));
             }
 
             Assert.Pass();
