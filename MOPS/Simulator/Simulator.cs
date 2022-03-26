@@ -72,8 +72,6 @@ namespace MOPS.Simulator
         {
             Parameters.CalculateServerTime();
             Parameters.CalculateTimeBetweenPackages();
-            Parameters.PrintAllParameters();
-            Logs.SaveServerParameters();
         }
         public void PrintStatistics()
         {

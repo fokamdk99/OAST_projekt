@@ -30,7 +30,7 @@ namespace MOPS.Events
             }
             else
             {
-                HandleFinishEvent();
+                HandleFinishEvent(eventId);
             }
             
             _customQueue.IncrementNumberOfProcessedEvents();
@@ -58,11 +58,13 @@ namespace MOPS.Events
             }
             else // serwer wolny
             {
+                double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 20000);
                 if (_customQueue.Queue.Count == 0) // kolejka pusta
                 {
                     _customServer.SetBusy();
+                    
                     _customQueue.EventsList.Add(
-                        _eventGenerator.CreateFinishEvent(package, Statistic.Time, _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 20000)));
+                        _eventGenerator.CreateFinishEvent(package, Statistic.Time, processingTime));
                     _customQueue.Sort();
                 }
                 else // Cos jest w kolejce
@@ -70,7 +72,7 @@ namespace MOPS.Events
                     _customQueue.Put(package);
                     _customServer.SetBusy();
                     _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0],
-                        Statistic.Time, Parameters.serverTime));
+                        Statistic.Time, processingTime));
                     _customQueue.Sort();
                     _customQueue.Queue[0].GetFromQueueTime = Statistic.Time;
                     Statistic.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
@@ -80,12 +82,13 @@ namespace MOPS.Events
             }
         }
         
-        public void HandleFinishEvent()
+        public void HandleFinishEvent(int eventId)
         {
             if (_customQueue.Queue.Count != 0)
             {
+                double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 30000);
                 _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0], Statistic.Time,
-                    Parameters.serverTime));
+                    processingTime));
                 _customQueue.Sort();
                 _customQueue.Queue[0].GetFromQueueTime = Statistic.Time;
                 Statistic.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
