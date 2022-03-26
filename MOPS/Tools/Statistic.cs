@@ -30,8 +30,7 @@ namespace MOPS.Tools
         public static double ServerLoadTime = 0;
 
         public static List<GlobalStatistic> GlobalList = new List<GlobalStatistic>();
-
-        public static double ProgramTime = 0;
+        
         public static double PercentOfSuccess = 0;
 
         // -------------------------------------Inceremnt--------------------------------

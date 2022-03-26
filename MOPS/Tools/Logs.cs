@@ -7,38 +7,6 @@ namespace MOPS.Tools
 {
     public class Logs
     {
-
-
-
-        public static void SaveONOFFInputParameters()
-        {
-            String log;
-
-            log = $"Number od sources: {Parameters.numberOfSources}\n\n Queue size: {Parameters.queueSize} \n\n [INPUT PARAMETERS]\n Package size: {Parameters.packageSize}\n OFF time: {Parameters.OFFtime}\n Number of packages: {Parameters.numberOfPackages}\n Peak rate: {Parameters.peakRate}\n\n";
-
-            WriteToFile("SourceInfo",log);
-        }
-
-        public static void SaveCBRInputParameters()
-        {
-            String log;
-
-            log = $"Number od sources: {Parameters.numberOfSources}\n\n Queue size: {Parameters.queueSize} \n\n [INPUT PARAMETERS]\n Package size: {Parameters.packageSize}\n Time between packages: {Parameters.timeBetweenPackages}\n Number of packages: {Parameters.numberOfPackages}\n Peak rate: {Parameters.peakRate}\n\n";
-
-
-            WriteToFile("SourceInfo",log);
-        }
-
-        public static void SaveServerParameters()
-        {
-            String log;
-
-            log = $"[SERVER PARAMETERS]\nServer Bitrate: {Parameters.serverBitRate}\n Server time: {Parameters.serverTime} \n\n";
-
-
-            WriteToFile("Log", log);
-        }
-
         public static void SaveEventList(List<Event> list)
         {
             String log = "";
@@ -65,28 +33,6 @@ namespace MOPS.Tools
             WriteToFile("Log",log);
         }
 
-        public static void SaveAverageTimeinQueue()
-        {
-            String log;
-
-            log = $"[AVERAGE TIME IN QUEUE]\n{Statistic.AverageTimeinQueue}\n\n";
-
-
-            WriteToFile("",log);
-        }
-
-        public static void SaveLog()
-        {
-            String log;
-
-            log = $"{Statistic.NumberOfLostPackages}";
-
-
-            WriteToFile("Test", log);
-        }
-
-
-
         private static void WriteToFile(String p, String log)
         {
             string path = $"./logs/{p}.txt";
@@ -104,9 +50,6 @@ namespace MOPS.Tools
                     sw.WriteLine(log);
                 }
             }
-
         }
-
-
     }
 }
