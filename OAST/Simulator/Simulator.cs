@@ -43,18 +43,9 @@ namespace OAST.Simulator
                 {
                     Statistic.Time = _customQueue.EventsList[i].Time;
 
-                    if (flag == true)
-                    {
-                        deltaTime = _customQueue.EventsList[i].Time - _customQueue.EventsList[i - 1].Time;
-                        Statistic.AddAveragePackageInQueue(_customQueue.Queue.Count, deltaTime);
-                    }
-
-                    flag = true;
-
                     _eventHandler.HandleEvent(_customQueue.EventsList[i], i);
 
                     i += 1;
-                    
                 }
 
                 _customQueue.Sort();
@@ -70,14 +61,12 @@ namespace OAST.Simulator
 
         public void InitializeStatistics()
         {
-            Parameters.CalculateServerTime();
             Parameters.CalculateTimeBetweenPackages();
         }
         public void PrintStatistics()
         {
             Parameters.PrintMainParameters();
             Statistic.PrintStatistics();
-            Statistic.PrintAveragePackageInQueue();
             Statistic.PrintAverageTimeInQueue();
             Statistic.PrintServerLoad();
 

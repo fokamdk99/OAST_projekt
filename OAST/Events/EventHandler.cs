@@ -67,7 +67,7 @@ namespace OAST.Events
                         _eventGenerator.CreateFinishEvent(package, Statistic.Time, processingTime));
                     _customQueue.Sort();
                 }
-                else // Cos jest w kolejce
+                else // wtf czy mozliwa jest w ogole sytuacja w ktorej serwer nie jest zajety ale kolejka nie jest pusta???
                 {
                     _customQueue.Put(package);
                     _customServer.SetBusy();
@@ -84,6 +84,8 @@ namespace OAST.Events
         
         public void HandleFinishEvent(int eventId)
         {
+            // jesli kolejka nie jest pusta, wygeneruj czas obslugi pierwszego zdarzenia typu coming w kolejce, po czym
+            // usun go z kolejki. Zauwaz, ze do kolejki wrzucasz tylko zdarzenia typu coming
             if (_customQueue.Queue.Count != 0)
             {
                 double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 30000);

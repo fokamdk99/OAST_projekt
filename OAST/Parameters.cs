@@ -16,12 +16,6 @@ namespace OAST
         public static float timeBetweenPackages = 0; 
 
         //----------------------------------------Calculate parameters----------------------------------------------
-        public static void CalculateServerTime()
-        {
-            float s = packageSize;
-            float b = serverBitRate;
-            serverTime = s / b;
-        }
 
         public static void CalculateTimeBetweenPackages()
         {
