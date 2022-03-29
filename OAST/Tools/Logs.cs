@@ -2,12 +2,27 @@
 using System.Collections.Generic;
 using System.IO;
 using OAST.Events;
+using OAST.Queue;
+using OAST.Server;
 
 namespace OAST.Tools
 {
-    public class Logs
+    public class Logs : ILogs
     {
-        public static void SaveEventList(List<Event> list)
+        private readonly IStatistic _statistic;
+        private readonly IQueueMeasurements _queueMeasurements;
+        private readonly IServerMeasurements _serverMeasurements;
+
+        public Logs(IStatistic statistic, 
+            IQueueMeasurements queueMeasurements, 
+            IServerMeasurements serverMeasurements)
+        {
+            _statistic = statistic;
+            _queueMeasurements = queueMeasurements;
+            _serverMeasurements = serverMeasurements;
+        }
+
+        public void SaveEventList(List<Event> list)
         {
             String log = "";
             String tmp;
@@ -23,17 +38,16 @@ namespace OAST.Tools
             WriteToFile("EventList",log);
         }
 
-        public static void SaveStatistic()
+        public void SaveStatistic()
         {
             String log;
             
-            log = $"[STATISTIC PARAMETERS]\nLost: {Statistic.NumberOfLostPackages}\nReceived: {Statistic.NumberOfReceivedPackages} \nAverage Time in Queue: {Statistic.AverageTimeinQueue}\nAverage Package In Queue: {Statistic.AverageNumberOfPackagesInQueue}\n simulation Time: {Statistic.SimulationTime}\nServer Load: {Statistic.ServerLoad}\nPercent Of Success: {Statistic.PercentOfSuccess}" ;
-
-
+            log = $"[STATISTIC PARAMETERS]\nLost: {_statistic.NumberOfLostPackages}\nReceived: {_statistic.NumberOfReceivedPackages} \nAverage Time in Queue: {_queueMeasurements.AverageTimeinQueue}\nAverage Package In Queue: {_queueMeasurements.AverageNumberOfPackagesInQueue}\n simulation Time: {_statistic.SimulationTime}\nServer Load: {_serverMeasurements.ServerLoad}\nPercent Of Success: {_statistic.PercentOfSuccess}" ;
+            
             WriteToFile("Log",log);
         }
 
-        private static void WriteToFile(String p, String log)
+        public void WriteToFile(String p, String log)
         {
             string path = $"./logs/{p}.txt";
             if (!File.Exists(path))

@@ -9,6 +9,8 @@ namespace OAST.Tools
         {
             services.AddSingleton<IEventGenerator, EventGenerator>();
             services.AddSingleton<INumberGenerator, NumberGenerator>();
+            services.AddSingleton<IStatistic, Statistic>();
+            services.AddSingleton<ILogs, Logs>();
 
             return services;
         }

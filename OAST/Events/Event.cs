@@ -22,7 +22,7 @@ namespace OAST.Events
 
         public Package CreatePackage(int id)
         {
-            Package package = new Package(id, this.SourceId, Parameters.packageSize, Time);
+            Package package = new Package(id, SourceId, Time);
 
             return package;
         }

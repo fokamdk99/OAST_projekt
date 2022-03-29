@@ -12,14 +12,20 @@ namespace OAST.Events
         private readonly ICustomQueue _customQueue;
         private readonly ICustomServer _customServer;
         private readonly IEventGenerator _eventGenerator;
+        private readonly IQueueMeasurements _queueMeasurements;
+        private readonly IStatistic _statistic;
 
         public EventHandler(ICustomQueue customQueue, 
             ICustomServer customServer, 
-            IEventGenerator eventGenerator)
+            IEventGenerator eventGenerator, 
+            IQueueMeasurements queueMeasurements, 
+            IStatistic statistic)
         {
             _customQueue = customQueue;
             _customServer = customServer;
             _eventGenerator = eventGenerator;
+            _queueMeasurements = queueMeasurements;
+            _statistic = statistic;
         }
 
         public void HandleEvent(Event @event, int eventId)
@@ -41,19 +47,19 @@ namespace OAST.Events
             Package package;
             
             package = @event.CreatePackage(eventId);
-            Statistic.IncrementNumberOfReceivedPackages();
+            _statistic.IncrementNumberOfReceivedPackages();
 
             if (_customServer.Busy) // serwer zajety
             {
                 if (_customQueue.Queue.Count() < Parameters.queueSize) // jest miejsce w kolejce
                 {
-                    package.AddToQueueTime = Statistic.Time;
+                    package.AddToQueueTime = _statistic.Time;
                     _customQueue.Put(package);
-                    Statistic.IncrementNumberOfPackagesInQueue();
+                    _queueMeasurements.IncrementNumberOfPackagesInQueue();
                 }
                 else // nie ma miejsca w kolejce
                 {
-                    Statistic.IncrementNumberOfLostPackages();
+                    _statistic.IncrementNumberOfLostPackages();
                 }
             }
             else // serwer wolny
@@ -64,7 +70,7 @@ namespace OAST.Events
                     _customServer.SetBusy();
                     
                     _customQueue.EventsList.Add(
-                        _eventGenerator.CreateFinishEvent(package, Statistic.Time, processingTime));
+                        _eventGenerator.CreateFinishEvent(package, _statistic.Time, processingTime));
                     _customQueue.Sort();
                 }
                 else // wtf czy mozliwa jest w ogole sytuacja w ktorej serwer nie jest zajety ale kolejka nie jest pusta???
@@ -72,10 +78,10 @@ namespace OAST.Events
                     _customQueue.Put(package);
                     _customServer.SetBusy();
                     _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0],
-                        Statistic.Time, processingTime));
+                        _statistic.Time, processingTime));
                     _customQueue.Sort();
-                    _customQueue.Queue[0].GetFromQueueTime = Statistic.Time;
-                    Statistic.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
+                    _customQueue.Queue[0].GetFromQueueTime = _statistic.Time;
+                    _queueMeasurements.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
                                                     _customQueue.Queue[0].AddToQueueTime);
                     _customQueue.Queue.RemoveAt(0);
                 }
@@ -89,11 +95,11 @@ namespace OAST.Events
             if (_customQueue.Queue.Count != 0)
             {
                 double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 30000);
-                _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0], Statistic.Time,
+                _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0], _statistic.Time,
                     processingTime));
                 _customQueue.Sort();
-                _customQueue.Queue[0].GetFromQueueTime = Statistic.Time;
-                Statistic.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
+                _customQueue.Queue[0].GetFromQueueTime = _statistic.Time;
+                _queueMeasurements.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
                                                 _customQueue.Queue[0].AddToQueueTime);
                 _customQueue.Queue.RemoveAt(0);
             }

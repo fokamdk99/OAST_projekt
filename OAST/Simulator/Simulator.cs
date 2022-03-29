@@ -1,4 +1,5 @@
-﻿using OAST.Events;
+﻿using System.Collections.Generic;
+using OAST.Events;
 using OAST.Queue;
 using OAST.Server;
 using OAST.Tools;
@@ -11,14 +12,28 @@ namespace OAST.Simulator
         private readonly ICustomQueue _customQueue;
         private readonly ICustomServer _customServer;
         private readonly IEventHandler _eventHandler;
+        private readonly IServerMeasurements _serverMeasurements;
+        private readonly IQueueMeasurements _queueMeasurements;
+        private readonly IStatistic _statistic;
+        private readonly ILogs _logs;
+        private List<AggregateMeasurements> _aggregateMeasurements;
 
         public Simulator(ICustomQueue customQueue,
             ICustomServer customServer,
-            IEventHandler eventHandler)
+            IEventHandler eventHandler, 
+            IServerMeasurements serverMeasurements, 
+            IQueueMeasurements queueMeasurements, 
+            IStatistic statistic, 
+            ILogs logs)
         {
             _customQueue = customQueue;
             _customServer = customServer;
             _eventHandler = eventHandler;
+            _serverMeasurements = serverMeasurements;
+            _queueMeasurements = queueMeasurements;
+            _statistic = statistic;
+            _logs = logs;
+            _aggregateMeasurements = new List<AggregateMeasurements>();
         }
 
         public void Run(int queueSize, int numberOfRepetitions, int lambda, int mi)
@@ -26,8 +41,6 @@ namespace OAST.Simulator
             _customQueue.SetQueueSize(queueSize);
             _customServer.SetMi(mi);
 
-            InitializeStatistics();
-            
             for (int n = 0; n < numberOfRepetitions; n++)
             {
                 _customQueue.Reset();
@@ -35,13 +48,10 @@ namespace OAST.Simulator
                 
                 _customServer.Reset();
 
-                double deltaTime = 0;
-                bool flag = false;
-
                 int i = 0;
                 while (_customQueue.GetNumberOfProcessedEvents() != _customQueue.EventsList.Count)
                 {
-                    Statistic.Time = _customQueue.EventsList[i].Time;
+                    _statistic.Time = _customQueue.EventsList[i].Time;
 
                     _eventHandler.HandleEvent(_customQueue.EventsList[i], i);
 
@@ -50,30 +60,57 @@ namespace OAST.Simulator
 
                 _customQueue.Sort();
 
-                Statistic.SimulationTime = _customQueue.EventsList[_customQueue.EventsList.Count - 1].Time;
+                _statistic.SimulationTime = _customQueue.EventsList[_customQueue.EventsList.Count - 1].Time;
 
                 PrintStatistics();
             }
 
-            Statistic.Calculate();
-            Logs.SaveStatistic();
+            Calculate();
+            _logs.SaveStatistic();
         }
-
-        public void InitializeStatistics()
-        {
-            Parameters.CalculateTimeBetweenPackages();
-        }
+        
         public void PrintStatistics()
         {
             Parameters.PrintMainParameters();
-            Statistic.PrintStatistics();
-            Statistic.PrintAverageTimeInQueue();
-            Statistic.PrintServerLoad();
+            _statistic.PrintStatistics();
+            _queueMeasurements.PrintAverageTimeInQueue();
+            _serverMeasurements.PrintServerLoad(_statistic.SimulationTime);
 
-            Logs.SaveEventList(_customQueue.EventsList);
+            _logs.SaveEventList(_customQueue.EventsList);
 
-            Statistic.GlobalList.Add(new GlobalStatistic());
-            Statistic.ResetStatistics();
+            _aggregateMeasurements.Add(new AggregateMeasurements(
+                _statistic.NumberOfReceivedPackages,
+                _statistic.NumberOfLostPackages,
+                _queueMeasurements.NumberOfPackagesInQueue,
+                _queueMeasurements.AverageTimeinQueue,
+                _queueMeasurements.AverageNumberOfPackagesInQueue,
+                _statistic.SimulationTime,
+                _serverMeasurements.ServerLoad));
+            
+            _statistic.ResetStatistics();
+        }
+        
+        public void Calculate()
+        {
+            var globalMeasurements = new AggregateMeasurements();
+            
+            foreach (var e in _aggregateMeasurements)
+            {
+                globalMeasurements.NumberOfReceivedPackages += e.NumberOfReceivedPackages;
+                globalMeasurements.NumberOfLostPackages += e.NumberOfLostPackages;
+                globalMeasurements.NumberOfPackagesInQueue += e.NumberOfPackagesInQueue;
+                globalMeasurements.AverageTimeInQueue += e.AverageTimeInQueue;
+                globalMeasurements.AverageNumberOfPackagesInQueue += e.AverageNumberOfPackagesInQueue;
+                globalMeasurements.SimulationTime += e.SimulationTime;
+                globalMeasurements.ServerLoad += e.ServerLoad;
+            }
+
+            globalMeasurements.NumberOfPackagesInQueue = globalMeasurements.NumberOfPackagesInQueue / 100;
+            globalMeasurements.AverageTimeInQueue = globalMeasurements.AverageTimeInQueue / 100;
+            globalMeasurements.AverageNumberOfPackagesInQueue = globalMeasurements.AverageNumberOfPackagesInQueue / 100;
+            globalMeasurements.ServerLoad = globalMeasurements.ServerLoad / 100;
+            globalMeasurements.PercentOfSuccess = ( globalMeasurements.NumberOfReceivedPackages - globalMeasurements.NumberOfLostPackages) /
+                globalMeasurements.NumberOfReceivedPackages * 100;
         }
     }
 }

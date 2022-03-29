@@ -24,6 +24,10 @@ namespace OAST.Tools.Generators
             for (int i = 1; i < numberOfEvents; i++)
             {
                 int numberOfGeneratedEvents = _numberGenerator.Generate(sourceType, seed + i, lambda); //number of events that will arrive to the system in the span of 1 second
+                if (numberOfGeneratedEvents == 0)
+                {
+                    numberOfGeneratedEvents = lambda;
+                }
 
                 double interval = 1 / (double)numberOfGeneratedEvents;
                 eventsList.Add(new Event(i, EventType.Coming, eventsList.ElementAt(i-1).Time + interval));

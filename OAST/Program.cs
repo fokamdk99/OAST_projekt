@@ -40,7 +40,9 @@ namespace OAST
             int mi = Int32.Parse(args.ElementAt(3));
             Parameters.numberOfPackages = Int32.Parse(args.ElementAt(4));
             Parameters.numberOfSources = 1;
-            
+            Parameters.mi = mi;
+            Parameters.lambda = lambda;
+
             simulator.Run(Parameters.queueSize, numberOfRepetitions, lambda, mi);
         }
     }
