@@ -16,6 +16,7 @@ namespace OAST.Simulator
         private readonly IQueueMeasurements _queueMeasurements;
         private readonly IStatistic _statistic;
         private readonly ILogs _logs;
+        private readonly IEventGenerator _eventGenerator;
         private List<AggregateMeasurements> _aggregateMeasurements;
 
         public Simulator(ICustomQueue customQueue,
@@ -24,7 +25,8 @@ namespace OAST.Simulator
             IServerMeasurements serverMeasurements, 
             IQueueMeasurements queueMeasurements, 
             IStatistic statistic, 
-            ILogs logs)
+            ILogs logs, 
+            IEventGenerator eventGenerator)
         {
             _customQueue = customQueue;
             _customServer = customServer;
@@ -33,6 +35,7 @@ namespace OAST.Simulator
             _queueMeasurements = queueMeasurements;
             _statistic = statistic;
             _logs = logs;
+            _eventGenerator = eventGenerator;
             _aggregateMeasurements = new List<AggregateMeasurements>();
         }
 
@@ -43,10 +46,12 @@ namespace OAST.Simulator
 
             for (int n = 0; n < numberOfRepetitions; n++)
             {
-                _customQueue.Reset();
-                _customQueue.InitializeEventsList(Parameters.numberOfPackages, SourceType.Poisson, n+1000, lambda);
-                
                 _customServer.Reset();
+                _queueMeasurements.Reset();
+                _serverMeasurements.Reset();
+                _customQueue.Reset();
+                
+                _customQueue.InitializeEventsList(Parameters.numberOfPackages, SourceType.Poisson, n+1000, lambda);
 
                 int i = 0;
                 while (_customQueue.GetNumberOfProcessedEvents() != _customQueue.EventsList.Count)
@@ -56,6 +61,14 @@ namespace OAST.Simulator
                     _eventHandler.HandleEvent(_customQueue.EventsList[i], i);
 
                     i += 1;
+
+                    if (_eventGenerator.NumberOfCreatedEvents < _eventGenerator.NumberOfEvents)
+                    {
+                        _customQueue.EventsList.
+                            AddRange(_eventGenerator.CreateEvents(SourceType.Poisson, i+1000, lambda));
+                        
+                        _customQueue.Sort();
+                    }
                 }
 
                 _customQueue.Sort();

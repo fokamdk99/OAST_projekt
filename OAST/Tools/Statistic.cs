@@ -38,7 +38,7 @@ namespace OAST.Tools
         public void PrintStatistics()
         {
             Console.WriteLine(
-                $"[STATISTIC]\nNumberOfRecivedPackage: {NumberOfReceivedPackages}\nNumberOfLostPackage: {NumberOfLostPackages}\n\n");
+                $"[STATISTIC]\nNumberOfReceivedPackages: {NumberOfReceivedPackages}\nNumberOfLostPackages: {NumberOfLostPackages}\n\n");
         }
 
         //-----------------------------GlobalList----------------------------
