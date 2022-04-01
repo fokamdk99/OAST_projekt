@@ -73,18 +73,6 @@ namespace OAST.Events
                         _eventGenerator.CreateFinishEvent(package, _statistic.Time, processingTime));
                     _customQueue.Sort();
                 }
-                else // wtf czy mozliwa jest w ogole sytuacja w ktorej serwer nie jest zajety ale kolejka nie jest pusta???
-                {
-                    _customQueue.Put(package);
-                    _customServer.SetBusy();
-                    _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0],
-                        _statistic.Time, processingTime));
-                    _customQueue.Sort();
-                    _customQueue.Queue[0].GetFromQueueTime = _statistic.Time;
-                    _queueMeasurements.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
-                                                    _customQueue.Queue[0].AddToQueueTime);
-                    _customQueue.Queue.RemoveAt(0);
-                }
             }
         }
         
@@ -92,6 +80,7 @@ namespace OAST.Events
         {
             // jesli kolejka nie jest pusta, wygeneruj czas obslugi pierwszego zdarzenia typu coming w kolejce, po czym
             // usun go z kolejki. Zauwaz, ze do kolejki wrzucasz tylko zdarzenia typu coming
+            _customQueue.SortingIndicator = eventId;
             if (_customQueue.Queue.Count != 0)
             {
                 double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 30000);
@@ -101,7 +90,7 @@ namespace OAST.Events
                 _customQueue.Queue[0].GetFromQueueTime = _statistic.Time;
                 _queueMeasurements.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
                                                 _customQueue.Queue[0].AddToQueueTime);
-                _customQueue.Queue.RemoveAt(0);
+                _customQueue.RemovePackageFromQueue();
             }
             else
             {

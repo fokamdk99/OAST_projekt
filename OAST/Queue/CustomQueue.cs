@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OAST.Events;
 using OAST.Packages;
@@ -12,6 +13,9 @@ namespace OAST.Queue
         
         public List<Event> EventsList { get; set; }
         public List<Package> Queue { get; set; }
+        public int SortingIndicator { get; set; }
+        public int MaxSortLength { get; set; }
+        public int MaxQueueLength { get; set; }
         private int QueueSize { get; set; }
         private int NumberOfProcessedEvents { get; set; }
 
@@ -20,6 +24,9 @@ namespace OAST.Queue
             _eventGenerator = eventGenerator;
             EventsList = new List<Event>();
             Queue = new List<Package>();
+            SortingIndicator = 0;
+            MaxSortLength = 0;
+            MaxQueueLength = 0;
         }
 
         public CustomQueue(int queueSize, IEventGenerator eventGenerator) : base()
@@ -31,6 +38,7 @@ namespace OAST.Queue
         public void Put(Package package)
         {
             Queue.Add(package);
+            MaxQueueLength = Math.Max(MaxQueueLength, Queue.Count);
         }
 
         public Package Get()
@@ -38,9 +46,16 @@ namespace OAST.Queue
             return Queue.ElementAt(0);
         }
 
+        public void RemovePackageFromQueue()
+        {
+            Queue.RemoveAt(0);
+        }
+
         public void Sort()
         {
-            EventsList.Sort((x, y) => x.Time.CompareTo(y.Time));
+            MaxSortLength = Math.Max(MaxSortLength, EventsList.Count - SortingIndicator);
+            EventsList
+                .Sort(SortingIndicator, EventsList.Count-SortingIndicator, new EventsComparer());
         }
 
         public void Reset()
@@ -69,6 +84,13 @@ namespace OAST.Queue
         public int GetNumberOfProcessedEvents()
         {
             return NumberOfProcessedEvents;
+        }
+
+        public void ShowQueueMeasurements()
+        {
+            Console.WriteLine($"SortingIndicator: {SortingIndicator}\n" +
+                              $"MaxSortLength: {MaxSortLength}\n" +
+                              $"MaxQueueLength: {MaxQueueLength}");
         }
     }
 }

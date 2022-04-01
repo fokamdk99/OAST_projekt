@@ -16,5 +16,9 @@ namespace OAST
                 $"Queue size: {queueSize}\nMi: {mi}\nLambda: {lambda}");
 
         }
+        
+        // TODO: jak obliczyć charakterystykę rozkładu prawdopodobieństwa między wyjściami klientów dla obciążenia systemu jak w punkcie I
+        // TODO: utworzyc eventy o rozkładzie jednostajnym ze średnią i wariancją taką samą, jak w części I
+        // TODO: usuwanie wplywu warunkow poczatkowych
     }
 }

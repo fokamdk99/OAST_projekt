@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using OAST.Events;
 using OAST.Queue;
 using OAST.Server;
@@ -54,7 +55,7 @@ namespace OAST.Simulator
                 _customQueue.InitializeEventsList(Parameters.numberOfPackages, SourceType.Poisson, n+1000, lambda);
 
                 int i = 0;
-                while (_customQueue.GetNumberOfProcessedEvents() != _customQueue.EventsList.Count)
+                while (_customQueue.GetNumberOfProcessedEvents() < _customQueue.EventsList.Count)
                 {
                     _statistic.Time = _customQueue.EventsList[i].Time;
 
@@ -77,8 +78,9 @@ namespace OAST.Simulator
 
                 PrintStatistics();
             }
-
+            
             Calculate();
+            _customQueue.ShowQueueMeasurements();
             _logs.SaveStatistic();
         }
         

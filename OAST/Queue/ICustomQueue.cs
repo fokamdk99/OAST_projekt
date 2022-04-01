@@ -9,14 +9,19 @@ namespace OAST.Queue
     {
         List<Event> EventsList { get; set; }
         List<Package> Queue { get; set; }
+        int SortingIndicator { get; set; }
+        int MaxSortLength { get; set; }
+        int MaxQueueLength { get; set; }
 
         void Put(Package package);
         Package Get();
+        void RemovePackageFromQueue();
         void Sort();
         void Reset();
         void InitializeEventsList(int numberOfEvents, SourceType eventType, int seed, int lambda);
         void SetQueueSize(int queueSize);
         void IncrementNumberOfProcessedEvents();
         int GetNumberOfProcessedEvents();
+        void ShowQueueMeasurements();
     }
 }

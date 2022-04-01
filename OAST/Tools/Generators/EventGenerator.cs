@@ -43,7 +43,7 @@ namespace OAST.Tools.Generators
             return eventsList;
         }
 
-        private List<Event> GenerateEvents(SourceType sourceType, int seed, int lambda, int numberOfEvents = 2)
+        private List<Event> GenerateEvents(SourceType sourceType, int seed, int lambda, int numberOfEvents = 1)
         {
             List<Event> eventsList = new List<Event>();
             

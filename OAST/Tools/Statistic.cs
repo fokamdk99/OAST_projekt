@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace OAST.Tools
 {
@@ -7,16 +6,11 @@ namespace OAST.Tools
     {
         public int NumberOfReceivedPackages { get; set; } // wtf czemu ma sluzyc ta zmienna, dlaczego od razu zwiekszamy o jeden gdy przychodzi pakiet
         // zanim w ogole sprawdzimy czy jest miejsce w kolejce
-
         public int NumberOfLostPackages { get; set; }
-
         public double Time { get; set; }
-
         public double SimulationTime { get; set; }
-
         public double PercentOfSuccess { get; set; }
-
-        // -------------------------------------Inceremnt--------------------------------
+        
         public void IncrementNumberOfReceivedPackages()
         {
             NumberOfReceivedPackages += 1;
@@ -40,9 +34,5 @@ namespace OAST.Tools
             Console.WriteLine(
                 $"[STATISTIC]\nNumberOfReceivedPackages: {NumberOfReceivedPackages}\nNumberOfLostPackages: {NumberOfLostPackages}\n\n");
         }
-
-        //-----------------------------GlobalList----------------------------
-
-        
     }
 }
