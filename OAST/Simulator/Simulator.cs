@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using OAST.Events;
 using OAST.Queue;
@@ -82,6 +83,7 @@ namespace OAST.Simulator
             Calculate();
             _customQueue.ShowQueueMeasurements();
             _logs.SaveStatistic();
+            InitialConditions();
         }
         
         public void PrintStatistics()
@@ -126,6 +128,57 @@ namespace OAST.Simulator
             globalMeasurements.ServerLoad = globalMeasurements.ServerLoad / 100;
             globalMeasurements.PercentOfSuccess = ( globalMeasurements.NumberOfReceivedPackages - globalMeasurements.NumberOfLostPackages) /
                 globalMeasurements.NumberOfReceivedPackages * 100;
+        }
+
+        public void InitialConditions()
+        {
+            var finishEvents = _customQueue.EventsList.Where(x => x.Type == EventType.Finish).ToList();
+            var mean = finishEvents.Count;//(finishEvents.Last().Time - finishEvents.First().Time) / finishEvents.Count;
+            List<List<double>> batchesCollection = new List<List<double>>();
+            List<double> variances = new List<double>();
+            List<int> numberOfSegments = new List<int>
+            {
+                //1, 2, 4, 8, 16, 32, 64
+            };
+            numberOfSegments.AddRange(Enumerable.Range(1, 64));
+
+            foreach (var segments in numberOfSegments)
+            {
+                batchesCollection.Add(CreateRange(finishEvents.First().Time - 0.01, finishEvents.Last().Time, segments));
+            }
+
+            foreach (var item in batchesCollection.Select((value, i) => new {i, value}))
+            {
+                double sum = 0;
+                for (int i = 0; i < item.value.Count - 1; i++)
+                {
+                    var partialMean = finishEvents.
+                        Count(x => x.Time > item.value.ElementAt(i) && x.Time <= item.value.ElementAt(i + 1));
+                    sum += Math.Pow(partialMean - mean, 2);
+                }
+
+                var variance = sum / (numberOfSegments.ElementAt(item.i) - 1);
+                variances.Add(variance);
+            }
+
+            _logs.SaveVariances(variances);
+        }
+        
+        public List<double> CreateRange(double start, double stop, int numberOfPoints)
+        {
+            List<double> list = new List<double>();
+
+            // Some edge case handle(step = 0, step = (-)Infinity, etc
+
+            var step = (stop - start) / (numberOfPoints - 1);
+            var range = Enumerable.Range(0, numberOfPoints);
+
+            foreach (var num in range)
+            {
+                list.Add(start + num * step);
+            }
+
+            return list;
         }
     }
 }

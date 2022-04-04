@@ -9,5 +9,6 @@ namespace OAST.Tools
         void SaveEventList(List<Event> list);
         void SaveStatistic();
         void WriteToFile(String p, String log);
+        void SaveVariances(List<double> variances);
     }
 }
