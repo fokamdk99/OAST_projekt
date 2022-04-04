@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using OAST.Events;
 using OAST.Queue;
 using OAST.Server;
@@ -28,14 +29,29 @@ namespace OAST.Tools
             String tmp;
             
             for (int i = 0; i < list.Count; i++)
-            {
-               tmp = "Source ID: " + list[i].SourceId + " Time: " + list[i].Time + "Type: " + list[i].Type + "\n";
+            { 
+                // source Id, time, event type
+               tmp = list[i].SourceId + "," + list[i].Time + "," + (int) list[i].Type + "\n";
                log = log + tmp;
                tmp = "";
             }
             log = log + "\n";
 
             WriteToFile("EventList",log);
+        }
+
+        public void SaveVariances(List<double> variances)
+        {
+            String log = "";
+
+            foreach (var item in variances.Select((value, i) => new {i, value}))
+            {
+                log += item.i;
+                log += ",";
+                log += item.value;
+            }
+            
+            WriteToFile("Variances",log);
         }
 
         public void SaveStatistic()
