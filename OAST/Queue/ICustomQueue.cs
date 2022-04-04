@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using OAST.Events;
-using OAST.Packages;
+using OAST.OASTPackages;
 using OAST.Tools.Generators;
 
 namespace OAST.Queue

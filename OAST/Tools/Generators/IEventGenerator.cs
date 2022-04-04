@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using OAST.Events;
-using OAST.Packages;
+using OAST.OASTPackages;
 
 namespace OAST.Tools.Generators
 {
