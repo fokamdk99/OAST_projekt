@@ -8,5 +8,6 @@ namespace OAST.DemandAllocation.Links
         int NumberOfFibrePairs { get; set; }
         float FibrePairCost { get; set; }
         int NumberOfLambdasInFibre { get; set; }
+        int LinkCapacity { get; set; }
     }
 }

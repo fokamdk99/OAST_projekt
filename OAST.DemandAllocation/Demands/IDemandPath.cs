@@ -6,6 +6,5 @@ namespace OAST.DemandAllocation.Demands
     {
         int DemandPathId { get; set; }
         List<int> LinkIds { get; set; }
-        int Load { get; set; }
     }
 }

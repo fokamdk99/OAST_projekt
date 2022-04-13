@@ -8,6 +8,7 @@ namespace OAST.DemandAllocation.Links
         public int NumberOfFibrePairs { get; set; }
         public float FibrePairCost { get; set; }
         public int NumberOfLambdasInFibre { get; set; }
+        public int LinkCapacity { get; set; }
 
         public Link(int linkId, 
             int startNodeId, 
@@ -22,6 +23,7 @@ namespace OAST.DemandAllocation.Links
             NumberOfFibrePairs = numberOfFibrePairs;
             FibrePairCost = fibrePairCost;
             NumberOfLambdasInFibre = numberOfLambdasInFibre;
+            LinkCapacity = NumberOfFibrePairs * NumberOfLambdasInFibre; // np. Gbps
         }
     }
 }
