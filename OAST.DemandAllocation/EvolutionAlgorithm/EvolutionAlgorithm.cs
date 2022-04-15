@@ -46,7 +46,6 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
 
             while (Iteration < NumberOfIterations)
             {
-                _reproduction.CalculateRanks(Population, _topology.Links);
                 var reproductionSet = _reproduction.SelectReproductionSet(Population);
                 var chromosomesWithCrossovers = _tools.PerformCrossovers(reproductionSet);
                 var chromosomesWithMutations = _tools.PerformMutations(chromosomesWithCrossovers);
