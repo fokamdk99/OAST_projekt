@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using OAST.DemandAllocation.Links;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
 {
@@ -8,5 +7,6 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         int Iteration { get; set; }
         List<Chromosome> Population { get; set; }
         int Mi { get; set; }
+        public int NumberOfIterations { get; set; }
     }
 }

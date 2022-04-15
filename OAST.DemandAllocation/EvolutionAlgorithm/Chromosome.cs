@@ -1,24 +1,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.Demands;
-using OAST.DemandAllocation.Links;
+using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
 {
     public class Chromosome : IChromosome
     {
+        private readonly ITopology _topology;
+        
         public List<List<int>> PathLoads { get; set; }
         public List<int> LinkLoads { get; set; }
         public float SumOfLinkCosts { get; set; }
         public float Rank { get; set; }
         public int MaxLoad { get; set; }
 
-        public Chromosome(List<Demand> demands, List<Link> links)
+        public Chromosome(ITopology topology)
         {
+            _topology = topology;
             PathLoads = new List<List<int>>();
             LinkLoads = new List<int>();
-            LinkLoads.AddRange(Enumerable.Repeat(0, links.Count).ToList());
-            foreach (var demand in demands)
+            LinkLoads.AddRange(Enumerable.Repeat(0, _topology.Links.Count).ToList());
+            foreach (var demand in _topology.Demands)
             {
                 // dodaj gen do chromosomu
                 PathLoads.Add(Enumerable.Repeat(0, demand.NumberOfDemandPaths).ToList());
@@ -28,13 +31,13 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             Rank = 0;
         }
         
-        public int CalculateMaxLoad(List<Link> links)
+        public int CalculateMaxLoad()
         {
             List<int> linkLoads = new List<int>();
             foreach (var linkLoad in LinkLoads
                 .Select((value, linkIndex) => new {value, linkIndex}))
             {
-                linkLoads.Add(linkLoad.value - links.ElementAt(linkLoad.linkIndex).LinkCapacity); // maximum (over all links)
+                linkLoads.Add(linkLoad.value - _topology.Links.ElementAt(linkLoad.linkIndex).LinkCapacity); // maximum (over all links)
             }
 
             var result = linkLoads.Max();
@@ -43,18 +46,18 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             return result;
         }
         
-        public int CalculateLinkLoads(List<Demand> demands, List<Link> links)
+        public int CalculateLinkLoads()
         {
-            int cost = 0;
-            foreach (var link in links.Select((item, i) => new {item, i}))
+            int load = 0;
+            foreach (var link in _topology.Links.Select((item, i) => new {item, i}))
             {
-                var linkCost = CalculateLinkLoad(demands, link.item.LinkId);
-                LinkLoads[link.i] = linkCost;
+                var linkLoad = CalculateLinkLoad(_topology.Demands, link.item.LinkId);
+                LinkLoads[link.i] = linkLoad;
 
-                cost += linkCost;
+                load += linkLoad;
             }
 
-            return cost;
+            return load;
         }
 
         private int CalculateLinkLoad(List<Demand> demands, int linkId)
@@ -77,6 +80,20 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             }
 
             return sum;
+        }
+        
+        public float EvaluateLinkLoads()
+        {
+            float load = 0;
+            foreach (var link in _topology.Links.Select((item, i) => new {item, i}))
+            {
+                var linkLoad = CalculateLinkLoads();
+
+                load += linkLoad;
+            }
+
+            SumOfLinkCosts = load;
+            return load;
         }
     }
 }

@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.Links;
 
-namespace OAST.DemandAllocation.EvolutionAlgorithm
+namespace OAST.DemandAllocation.EvolutionTools
 {
     public interface IReproduction
     {

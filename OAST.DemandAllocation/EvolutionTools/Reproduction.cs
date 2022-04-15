@@ -1,10 +1,9 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.Links;
-using OAST.DemandAllocation.Tools;
 
-namespace OAST.DemandAllocation.EvolutionAlgorithm
+namespace OAST.DemandAllocation.EvolutionTools
 {
     public class Reproduction : IReproduction
     {
@@ -19,7 +18,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         {
             foreach (var chromosome in population)
             {
-                chromosome.CalculateMaxLoad(links);
+                chromosome.CalculateMaxLoad();
             }
             
             population.Sort(new ChromosomeComparer());
@@ -35,9 +34,9 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         
         public List<Chromosome> SelectReproductionSet(List<Chromosome> population)
         {
-            int reproductionSetSize = population.Count / 2; // TODO: zmien pozniej rozmiar setu na lambda
+            int reproductionSetSize = population.Count;
             List<Chromosome> temporaryPopulation = new List<Chromosome>();
-            foreach (var i in Enumerable.Range(0, reproductionSetSize))
+            foreach (var i in Enumerable.Range(0, reproductionSetSize - 1))
             {
                 int player = _tools.GenerateRandomIntNumber(population.Count);
                 int opponent = _tools.GenerateRandomIntNumber(population.Count);

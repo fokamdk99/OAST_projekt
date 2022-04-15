@@ -1,7 +1,5 @@
 using System.Collections.Generic;
-using System.Linq;
-using OAST.DemandAllocation.Demands;
-using OAST.DemandAllocation.Links;
+using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
@@ -9,43 +7,52 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
     public class EvolutionAlgorithm: IEvolutionAlgorithm
     {
         public int Iteration { get; set; }
+        public int NumberOfIterations { get; set; }
         public List<Chromosome> Population { get; set; }
         public int Mi { get; set; }
-        private readonly ITopology _topology;
         
-        public EvolutionAlgorithm(ITopology topology, int mi)
+        private readonly ITopology _topology;
+        private readonly IReproduction _reproduction;
+        private readonly IInheritance _inheritance;
+        private readonly ITools _tools;
+        
+        public EvolutionAlgorithm(ITopology topology, 
+            IReproduction reproduction,
+            ITools tools,
+            IInheritance inheritance,
+            int mi)
         {
             _topology = topology;
             Iteration = 0;
             Population = new List<Chromosome>();
             Mi = mi;
+            _inheritance = inheritance;
+            _tools = tools;
+            _reproduction = reproduction;
             for (int i = 0; i < Mi; i++)
             {
                 // mi razy inicjalizuj tablice
-                Population.Add(new Chromosome(_topology.Demands, _topology.Links));
+                Population.Add(new Chromosome(_topology));
             }
+
+            NumberOfIterations = 100;
         }
-        public void Calculate()
+        public void Run()
         {
             foreach (var chromosome in Population)
             {
-                float sumOfLinkCosts = Evaluate(_topology.Links, _topology.Demands, chromosome);
-                chromosome.SumOfLinkCosts = sumOfLinkCosts;
+                chromosome.EvaluateLinkLoads();
             }
-            
-        }
 
-        public float Evaluate(List<Link> links, List<Demand> demands, IChromosome chromosome)
-        {
-            float cost = 0;
-            foreach (var link in links.Select((item, i) => new {item, i}))
+            while (Iteration < NumberOfIterations)
             {
-                var linkCost = chromosome.CalculateLinkLoads(demands, links);
-
-                cost += linkCost;
+                _reproduction.CalculateRanks(Population, _topology.Links);
+                var reproductionSet = _reproduction.SelectReproductionSet(Population);
+                var chromosomesWithCrossovers = _tools.PerformCrossovers(reproductionSet);
+                var chromosomesWithMutations = _tools.PerformMutations(chromosomesWithCrossovers);
+                Population = _inheritance.SelectInheritanceSet(chromosomesWithMutations, Population);
+                Iteration += 1;
             }
-
-            return cost;
         }
     }
 }

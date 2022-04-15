@@ -1,6 +1,7 @@
 using System.Collections.Generic;
+using OAST.DemandAllocation.EvolutionAlgorithm;
 
-namespace OAST.DemandAllocation.EvolutionAlgorithm
+namespace OAST.DemandAllocation.EvolutionTools
 {
     public class ChromosomeComparer : IComparer<Chromosome>
     {
