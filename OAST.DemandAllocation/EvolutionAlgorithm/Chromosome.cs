@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.Demands;
@@ -24,7 +25,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             foreach (var demand in _topology.Demands)
             {
                 // dodaj gen do chromosomu
-                PathLoads.Add(Enumerable.Repeat(0, demand.NumberOfDemandPaths).ToList());
+                PathLoads.Add(GenerateGene(demand));
             }
 
             SumOfLinkCosts = 0;
@@ -94,6 +95,26 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
 
             SumOfLinkCosts = load;
             return load;
+        }
+
+        public List<int> GenerateGene(Demand demand)
+        {
+            List<int> pathLoads = new List<int>();
+            var bandwidth = demand.DemandVolume;
+            Random rnd = new Random();
+            while (bandwidth != 0)
+            {
+                var pathLoad = rnd.Next(0, bandwidth + 1);
+                pathLoads.Add(pathLoad);
+                bandwidth -= pathLoad;
+            }
+
+            if (pathLoads.Count < demand.NumberOfDemandPaths)
+            {
+                pathLoads.AddRange(Enumerable.Repeat(0, demand.NumberOfDemandPaths - pathLoads.Count));
+            }
+
+            return pathLoads.OrderBy(a => rnd.Next()).ToList();
         }
     }
 }

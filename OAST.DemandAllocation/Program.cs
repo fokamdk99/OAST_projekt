@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
 using OAST.DemandAllocation.Demands;
+using OAST.DemandAllocation.EvolutionAlgorithm;
+using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
 using OAST.DemandAllocation.Links;
 using OAST.DemandAllocation.Topology;
@@ -17,6 +19,8 @@ namespace OAST.DemandAllocation
                 .AddFileReaderFeature()
                 .AddLinksFeature()
                 .AddTopologyFeature()
+                .AddEvolutionToolsFeature()
+                .AddEvolutionAlgorithmFeature()
                 .BuildServiceProvider();
             
             Console.WriteLine("Siemano");
