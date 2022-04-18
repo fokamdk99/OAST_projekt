@@ -12,11 +12,15 @@ namespace OAST.DemandAllocation.EvolutionTools
         public float MutationProbability { get; set; }
         
         private readonly ITopology _topology;
+        private readonly Random _random;
         
 
         public Tools(ITopology topology)
         {
             _topology = topology;
+            _random = new Random(24699);
+            CrossoverProbability = 0.7f;
+            MutationProbability = 0.3f;
         }
 
         public List<Chromosome> PerformCrossovers(List<Chromosome> chromosomes)
@@ -45,10 +49,10 @@ namespace OAST.DemandAllocation.EvolutionTools
             return chromosomes;
         }
 
-        private Chromosome? PerformCrossover(Chromosome x, Chromosome y)
+        public Chromosome? PerformCrossover(Chromosome x, Chromosome y)
         {
             var probability = GenerateRandomFloatNumber();
-            if (CrossoverProbability > probability)
+            if (CrossoverProbability < probability)
             {
                 return null;
             }
@@ -60,6 +64,8 @@ namespace OAST.DemandAllocation.EvolutionTools
                 crossover.PathLoads[demand.i] =
                     parent <= 0.5 ? x.PathLoads.ElementAt(demand.i) : y.PathLoads.ElementAt(demand.i);
             }
+
+            crossover.CalculateLinkLoads();
 
             return crossover;
         }
@@ -93,21 +99,21 @@ namespace OAST.DemandAllocation.EvolutionTools
             gene[sourcePath] = gene.ElementAt(destinationPath);
             gene[destinationPath] = sourcePathValue;
 
+            chromosome.CalculateLinkLoads();
+            
             return chromosome;
         }
         
         public int GenerateRandomIntNumber(int range)
         {
-            Random rnd = new Random(24698);
-            var number = rnd.Next(0, range);
+            var number = _random.Next(0, range);
 
             return number;
         }
 
         public float GenerateRandomFloatNumber()
         {
-            Random rnd = new Random(24698);
-            var number = (float)rnd.NextDouble();
+            var number = (float)_random.NextDouble();
 
             return number;
         }

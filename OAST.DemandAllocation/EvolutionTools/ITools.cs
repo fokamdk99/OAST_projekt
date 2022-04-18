@@ -9,7 +9,9 @@ namespace OAST.DemandAllocation.EvolutionTools
         float MutationProbability { get; set; }
 
         List<Chromosome> PerformCrossovers(List<Chromosome> chromosomes);
+        Chromosome? PerformCrossover(Chromosome x, Chromosome y);
         List<Chromosome> PerformMutations(List<Chromosome> chromosomes);
+        Chromosome? PerformMutation(Chromosome chromosome);
         int GenerateRandomIntNumber(int range);
         float GenerateRandomFloatNumber();
     }

@@ -10,10 +10,9 @@ namespace OAST.DemandAllocation.EvolutionTools
         private readonly ITopology _topology;
         
         public Inheritance(IReproduction reproduction, 
-            ITopology topology,
-            int eta)
+            ITopology topology)
         {
-            Eta = eta;
+            Eta = 2;
             _reproduction = reproduction;
             _topology = topology;
         }
@@ -24,7 +23,7 @@ namespace OAST.DemandAllocation.EvolutionTools
             var bestOffspring = currentPopulation.GetRange(0, Eta);
             temporaryPopulation.AddRange(bestOffspring);
             
-            _reproduction.CalculateRanks(temporaryPopulation, _topology.Links);
+            _reproduction.CalculateRanks(temporaryPopulation);
 
             return temporaryPopulation.GetRange(0, currentPopulation.Count);
         }

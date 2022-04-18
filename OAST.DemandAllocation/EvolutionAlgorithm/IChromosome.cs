@@ -8,12 +8,11 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         List<List<int>> PathLoads { get; set; }
         List<int> LinkLoads { get; set; }
         float SumOfLinkCosts { get; set; }
-        float Rank { get; set; }
+        int Rank { get; set; }
         int MaxLoad { get; set; }
 
         int CalculateMaxLoad();
         public int CalculateLinkLoads();
-        float EvaluateLinkLoads();
         List<int> GenerateGene(Demand demand);
     }
 }

@@ -18,8 +18,4 @@
       <ProjectReference Include="..\OAST.DemandAllocation\OAST.DemandAllocation.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="EvolutionTools" />
-    </ItemGroup>
-
 </Project>

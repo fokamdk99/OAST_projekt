@@ -13,7 +13,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         public List<List<int>> PathLoads { get; set; }
         public List<int> LinkLoads { get; set; }
         public float SumOfLinkCosts { get; set; }
-        public float Rank { get; set; }
+        public int Rank { get; set; }
         public int MaxLoad { get; set; }
 
         public Chromosome(ITopology topology)
@@ -57,7 +57,8 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
 
                 load += linkLoad;
             }
-
+            
+            SumOfLinkCosts = load;
             return load;
         }
 
@@ -82,36 +83,18 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
 
             return sum;
         }
-        
-        public float EvaluateLinkLoads()
-        {
-            float load = 0;
-            foreach (var link in _topology.Links.Select((item, i) => new {item, i}))
-            {
-                var linkLoad = CalculateLinkLoads();
-
-                load += linkLoad;
-            }
-
-            SumOfLinkCosts = load;
-            return load;
-        }
 
         public List<int> GenerateGene(Demand demand)
         {
             List<int> pathLoads = new List<int>();
+            pathLoads.AddRange(Enumerable.Repeat<int>(0, demand.NumberOfDemandPaths));
             var bandwidth = demand.DemandVolume;
             Random rnd = new Random();
             while (bandwidth != 0)
             {
-                var pathLoad = rnd.Next(0, bandwidth + 1);
-                pathLoads.Add(pathLoad);
-                bandwidth -= pathLoad;
-            }
-
-            if (pathLoads.Count < demand.NumberOfDemandPaths)
-            {
-                pathLoads.AddRange(Enumerable.Repeat(0, demand.NumberOfDemandPaths - pathLoads.Count));
+                var pathIndex = rnd.Next(0, pathLoads.Count);
+                pathLoads[pathIndex] += 1;
+                bandwidth -= 1;
             }
 
             return pathLoads.OrderBy(a => rnd.Next()).ToList();

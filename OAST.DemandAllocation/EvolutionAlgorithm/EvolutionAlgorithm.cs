@@ -41,7 +41,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         {
             foreach (var chromosome in Population)
             {
-                chromosome.EvaluateLinkLoads();
+                chromosome.CalculateLinkLoads();
             }
 
             while (Iteration < NumberOfIterations)

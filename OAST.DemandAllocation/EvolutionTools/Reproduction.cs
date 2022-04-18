@@ -18,7 +18,7 @@ namespace OAST.DemandAllocation.EvolutionTools
             _topology = topology;
         }
 
-        public void CalculateRanks(List<Chromosome> population, List<Link> links)
+        public void CalculateRanks(List<Chromosome> population)
         {
             foreach (var chromosome in population)
             {
@@ -38,14 +38,18 @@ namespace OAST.DemandAllocation.EvolutionTools
         
         public List<Chromosome> SelectReproductionSet(List<Chromosome> population)
         {
-            CalculateRanks(population, _topology.Links);
+            CalculateRanks(population);
             
             int reproductionSetSize = population.Count;
             List<Chromosome> temporaryPopulation = new List<Chromosome>();
-            foreach (var i in Enumerable.Range(0, reproductionSetSize - 1))
+            foreach (var i in Enumerable.Range(0, reproductionSetSize))
             {
                 int player = _tools.GenerateRandomIntNumber(population.Count);
-                int opponent = _tools.GenerateRandomIntNumber(population.Count);
+                int opponent;
+                do
+                {
+                    opponent = _tools.GenerateRandomIntNumber(population.Count);
+                } while (opponent == player);
                 temporaryPopulation.Add(population.ElementAt(player).Rank < population.ElementAt(opponent).Rank
                     ? population.ElementAt(player)
                     : population.ElementAt(opponent));
