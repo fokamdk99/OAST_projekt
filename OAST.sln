@@ -7,6 +7,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAST", "OAST\OAST.csproj", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAST.Tests", "OAST.Tests\OAST.Tests.csproj", "{BF8E3892-B1F8-44F3-A8D8-8189C5249C99}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project2", "Project2", "{F69445CA-FB50-40F1-86E2-9D87C9BDE424}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAST.DemandAllocation", "OAST.DemandAllocation\OAST.DemandAllocation.csproj", "{396428B1-E802-4204-9A66-01180565A49C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OAST.DemandAllocation.Tests", "OAST.DemandAllocation.Tests\OAST.DemandAllocation.Tests.csproj", "{36502E29-FBFB-4C24-BE5C-6B6E7117438C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Project1", "Project1", "{9A7A80C9-5054-4CFD-B1EB-EA55D7027AB2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,11 +29,25 @@ Global
 		{BF8E3892-B1F8-44F3-A8D8-8189C5249C99}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BF8E3892-B1F8-44F3-A8D8-8189C5249C99}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BF8E3892-B1F8-44F3-A8D8-8189C5249C99}.Release|Any CPU.Build.0 = Release|Any CPU
+		{396428B1-E802-4204-9A66-01180565A49C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{396428B1-E802-4204-9A66-01180565A49C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{396428B1-E802-4204-9A66-01180565A49C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{396428B1-E802-4204-9A66-01180565A49C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36502E29-FBFB-4C24-BE5C-6B6E7117438C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36502E29-FBFB-4C24-BE5C-6B6E7117438C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36502E29-FBFB-4C24-BE5C-6B6E7117438C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36502E29-FBFB-4C24-BE5C-6B6E7117438C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1D83AA0A-6EFE-4887-B5B8-6F1DB8665385}
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{396428B1-E802-4204-9A66-01180565A49C} = {F69445CA-FB50-40F1-86E2-9D87C9BDE424}
+		{36502E29-FBFB-4C24-BE5C-6B6E7117438C} = {F69445CA-FB50-40F1-86E2-9D87C9BDE424}
+		{6F4430ED-B2D8-4993-8BBC-7AF050387B1E} = {9A7A80C9-5054-4CFD-B1EB-EA55D7027AB2}
+		{BF8E3892-B1F8-44F3-A8D8-8189C5249C99} = {9A7A80C9-5054-4CFD-B1EB-EA55D7027AB2}
 	EndGlobalSection
 EndGlobal
