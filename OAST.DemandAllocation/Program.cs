@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
+using OAST.DemandAllocation.BruteForceAlgorithm;
 using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
@@ -22,9 +24,40 @@ namespace OAST.DemandAllocation
                 .AddEvolutionToolsFeature()
                 .AddEvolutionAlgorithmFeature()
                 .BuildServiceProvider();
-            
-            Console.WriteLine("Siemano");
-            
+
+            if (args.Length != 6 || args.Length != 1)
+            {
+                Console.WriteLine("Valid formats:\n" +
+                                  "<algorithm> [<number items in initial population> <crossover probability> " +
+                                  "<mutation probability> <seed> <stop criteria>]\n" +
+                                  "brute force algorithm - 1\n" +
+                                  "evolution algorithm - 2\n" +
+                                  "stop criteria: time - 1, number of generations - 2, number of mutations - 3, best chromosome - 4");
+                return;
+            }
+
+            if (args.Length == 6)
+            {
+                var parameters = new Parameters
+                {
+                    Mi = Int32.Parse(args.ElementAt(1)),
+                    CrossoverProbability = Int32.Parse(args.ElementAt(2)),
+                    MutationProbability = Int32.Parse(args.ElementAt(3)),
+                    Seed = Int32.Parse(args.ElementAt(4)),
+                    StopCriteria = Int32.Parse(args.ElementAt(5))
+                };
+                
+                var evolutionAlgorithm = serviceProvider.GetRequiredService<IEvolutionAlgorithm>();
+                evolutionAlgorithm.Run();
+            }
+
+            if (args.Length == 1)
+            {
+                var bruteForceAlgorithm = serviceProvider.GetRequiredService<IBruteForceAlgorithm>();
+                bruteForceAlgorithm.Run();
+            }
+
+            //TODO: save results to file; evaluate stop criteria
             // mi razy inicjalizuj tablicę: os x -> demands, os y -> paths
             // x = funkcje alokacji olej, Ostrowski nie wiedzial nawet czym sie rozni od inicjalizacji
             // oblicz f(x), czyli suma po e (koszt jednego modułu * y(e,x)), tudziez koszt wszystkich modulow

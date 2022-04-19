@@ -8,5 +8,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         List<Chromosome> Population { get; set; }
         int Mi { get; set; }
         public int NumberOfIterations { get; set; }
+
+        void Run();
     }
 }
