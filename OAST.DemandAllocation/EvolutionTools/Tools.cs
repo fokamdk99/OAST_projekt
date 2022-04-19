@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.Topology;
 
@@ -57,7 +58,7 @@ namespace OAST.DemandAllocation.EvolutionTools
                 return null;
             }
             
-            Chromosome crossover = new Chromosome(_topology);
+            Chromosome crossover = new Chromosome(_topology, SetPathLoads());
             foreach (var demand in _topology.Demands.Select((value, i) => new {value, i}))
             {
                 var parent = GenerateRandomFloatNumber();
@@ -131,6 +132,34 @@ namespace OAST.DemandAllocation.EvolutionTools
             }
 
             return listNumbers;
+        }
+        
+        public List<List<int>> SetPathLoads()
+        {
+            List<List<int>> pathLoads = new List<List<int>>();
+            foreach (var demand in _topology.Demands)
+            {
+                // dodaj gen do chromosomu
+                pathLoads.Add(GenerateGene(demand));
+            }
+
+            return pathLoads;
+        }
+        
+        public List<int> GenerateGene(Demand demand)
+        {
+            List<int> pathLoads = new List<int>();
+            pathLoads.AddRange(Enumerable.Repeat<int>(0, demand.NumberOfDemandPaths));
+            var bandwidth = demand.DemandVolume;
+            Random rnd = new Random();
+            while (bandwidth != 0)
+            {
+                var pathIndex = rnd.Next(0, pathLoads.Count);
+                pathLoads[pathIndex] += 1;
+                bandwidth -= 1;
+            }
+
+            return pathLoads.OrderBy(a => rnd.Next()).ToList();
         }
     }
 }

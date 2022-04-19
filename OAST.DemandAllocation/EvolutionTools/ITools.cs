@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 
 namespace OAST.DemandAllocation.EvolutionTools
@@ -14,5 +15,7 @@ namespace OAST.DemandAllocation.EvolutionTools
         Chromosome? PerformMutation(Chromosome chromosome);
         int GenerateRandomIntNumber(int range);
         float GenerateRandomFloatNumber();
+        List<int> GenerateGene(Demand demand);
+        List<List<int>> SetPathLoads();
     }
 }

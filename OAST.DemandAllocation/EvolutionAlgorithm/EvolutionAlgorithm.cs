@@ -32,7 +32,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             for (int i = 0; i < Mi; i++)
             {
                 // mi razy inicjalizuj tablice
-                Population.Add(new Chromosome(_topology));
+                Population.Add(new Chromosome(_topology, _tools.SetPathLoads()));
             }
 
             NumberOfIterations = 100;

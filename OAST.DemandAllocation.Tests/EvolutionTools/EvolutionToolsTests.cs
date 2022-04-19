@@ -40,8 +40,8 @@ namespace OAST.DemandAllocation.Tests.EvolutionTools
         [Test]
         public void Crossover_ShouldCreateNewChromosomeConsistingOfPartsOfTwoParents()
         {
-            var parent1 = new Chromosome(_topology);
-            var parent2 = new Chromosome(_topology);
+            var parent1 = new Chromosome(_topology, _tools.SetPathLoads());
+            var parent2 = new Chromosome(_topology, _tools.SetPathLoads());
             var crossover = _tools.PerformCrossover(parent1, parent2);
             Assert.Pass();
         }
@@ -49,7 +49,7 @@ namespace OAST.DemandAllocation.Tests.EvolutionTools
         [Test]
         public void Mutation_ShouldAlterGeneOfAnExistingChromosome()
         {
-            var chromosome = new Chromosome(_topology);
+            var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
             var crossover = _tools.PerformMutation(chromosome);
             Assert.Pass();
         }

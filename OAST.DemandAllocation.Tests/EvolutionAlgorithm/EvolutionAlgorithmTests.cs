@@ -48,7 +48,7 @@ namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
 
             foreach (var value in Enumerable.Range(1, 10))
             {
-                var chromosome = new Chromosome(_topology);
+                var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
                 chromosome.CalculateLinkLoads();
                 population.Add(chromosome);
             }
