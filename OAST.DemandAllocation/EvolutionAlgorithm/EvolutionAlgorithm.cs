@@ -9,8 +9,6 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
 {
     public class EvolutionAlgorithm<T>: IEvolutionAlgorithm<T> where T : class
     {
-        public int Iteration { get; set; }
-        public int NumberOfIterations { get; set; }
         public List<Chromosome> Population { get; set; }
         public int Mi { get; set; }
         public T StopParameters { get; set; }
@@ -26,7 +24,6 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             IInheritance inheritance)
         {
             _topology = topology;
-            Iteration = 0;
             Population = new List<Chromosome>();
             Mi = 10;
             _inheritance = inheritance;
@@ -37,8 +34,6 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 // mi razy inicjalizuj tablice
                 Population.Add(new Chromosome(_topology, _tools.SetPathLoads()));
             }
-
-            NumberOfIterations = 100;
         }
 
         public void SetParams(T parameters)
@@ -60,13 +55,12 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 setupStopCriteria(StopParameters);
             }
             
-            while (!stopCriteria(StopParameters)) // Iteration < NumberOfIterations
+            while (!stopCriteria(StopParameters))
             {
                 var reproductionSet = _reproduction.SelectReproductionSet(Population);
                 var chromosomesWithCrossovers = _tools.PerformCrossovers(reproductionSet);
                 var chromosomesWithMutations = _tools.PerformMutations<T>(chromosomesWithCrossovers, StopParameters);
                 Population = _inheritance.SelectInheritanceSet(chromosomesWithMutations, Population);
-                Iteration += 1;
 
                 HandleStopParameters();
             }
