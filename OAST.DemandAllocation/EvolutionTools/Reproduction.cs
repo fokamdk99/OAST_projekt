@@ -1,21 +1,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.EvolutionAlgorithm;
-using OAST.DemandAllocation.Links;
-using OAST.DemandAllocation.Topology;
+using OAST.DemandAllocation.RandomNumberGenerator;
 
 namespace OAST.DemandAllocation.EvolutionTools
 {
     public class Reproduction : IReproduction
     {
-        private readonly ITools _tools;
-        private readonly ITopology _topology;
+        private readonly IRandomNumberGenerator _randomNumberGenerator;
 
-        public Reproduction(ITools tools, 
-            ITopology topology)
+        public Reproduction(IRandomNumberGenerator randomNumberGenerator)
         {
-            _tools = tools;
-            _topology = topology;
+            _randomNumberGenerator = randomNumberGenerator;
         }
 
         public void CalculateRanks(List<Chromosome> population)
@@ -44,11 +40,11 @@ namespace OAST.DemandAllocation.EvolutionTools
             List<Chromosome> temporaryPopulation = new List<Chromosome>();
             foreach (var i in Enumerable.Range(0, reproductionSetSize))
             {
-                int player = _tools.GenerateRandomIntNumber(population.Count);
+                int player = _randomNumberGenerator.GenerateRandomIntNumber(population.Count);
                 int opponent;
                 do
                 {
-                    opponent = _tools.GenerateRandomIntNumber(population.Count);
+                    opponent = _randomNumberGenerator.GenerateRandomIntNumber(population.Count);
                 } while (opponent == player);
                 temporaryPopulation.Add(population.ElementAt(player).Rank < population.ElementAt(opponent).Rank
                     ? population.ElementAt(player)

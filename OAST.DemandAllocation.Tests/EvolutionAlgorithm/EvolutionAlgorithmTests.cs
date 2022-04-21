@@ -2,11 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
+using OAST.DemandAllocation.Criteria;
 using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
 using OAST.DemandAllocation.Links;
+using OAST.DemandAllocation.RandomNumberGenerator;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
@@ -29,6 +31,7 @@ namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
                 .AddTopologyFeature()
                 .AddEvolutionToolsFeature()
                 .AddEvolutionAlgorithmFeature()
+                .AddRandomNumberGeneratorFeature()
                 .BuildServiceProvider();
 
             _fileReader = serviceProvider.GetRequiredService<IFileReader>();
@@ -48,14 +51,16 @@ namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
 
             foreach (var value in Enumerable.Range(1, 10))
             {
-                var chromosome = new Chromosome(_topology);
+                var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
                 chromosome.CalculateLinkLoads();
                 population.Add(chromosome);
             }
+
+            var mutationsCriteria = new MutationsCriteria(50);
             
             var reproductionSet = _reproduction.SelectReproductionSet(population);
             var chromosomesWithCrossovers = _tools.PerformCrossovers(reproductionSet);
-            var chromosomesWithMutations = _tools.PerformMutations(chromosomesWithCrossovers);
+            var chromosomesWithMutations = _tools.PerformMutations<MutationsCriteria>(chromosomesWithCrossovers, mutationsCriteria);
             population = _inheritance.SelectInheritanceSet(chromosomesWithMutations, population);
             Assert.Pass();
         }

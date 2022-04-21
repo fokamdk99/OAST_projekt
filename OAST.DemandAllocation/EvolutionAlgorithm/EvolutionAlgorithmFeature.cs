@@ -6,7 +6,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
     {
         public static IServiceCollection AddEvolutionAlgorithmFeature(this IServiceCollection services)
         {
-            services.AddSingleton<IEvolutionAlgorithm, EvolutionAlgorithm>();
+            services.AddSingleton(typeof(IEvolutionAlgorithm<>), typeof(EvolutionAlgorithm<>));
 
             return services;
         }

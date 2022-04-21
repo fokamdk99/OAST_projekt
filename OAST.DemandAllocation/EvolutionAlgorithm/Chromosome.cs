@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.Demands;
@@ -16,17 +15,13 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         public int Rank { get; set; }
         public int MaxLoad { get; set; }
 
-        public Chromosome(ITopology topology)
+        public Chromosome(ITopology topology, List<List<int>> pathLoads)
         {
             _topology = topology;
             PathLoads = new List<List<int>>();
             LinkLoads = new List<int>();
             LinkLoads.AddRange(Enumerable.Repeat(0, _topology.Links.Count).ToList());
-            foreach (var demand in _topology.Demands)
-            {
-                // dodaj gen do chromosomu
-                PathLoads.Add(GenerateGene(demand));
-            }
+            PathLoads = pathLoads;
 
             SumOfLinkCosts = 0;
             Rank = 0;
@@ -82,22 +77,6 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             }
 
             return sum;
-        }
-
-        public List<int> GenerateGene(Demand demand)
-        {
-            List<int> pathLoads = new List<int>();
-            pathLoads.AddRange(Enumerable.Repeat<int>(0, demand.NumberOfDemandPaths));
-            var bandwidth = demand.DemandVolume;
-            Random rnd = new Random();
-            while (bandwidth != 0)
-            {
-                var pathIndex = rnd.Next(0, pathLoads.Count);
-                pathLoads[pathIndex] += 1;
-                bandwidth -= 1;
-            }
-
-            return pathLoads.OrderBy(a => rnd.Next()).ToList();
         }
     }
 }

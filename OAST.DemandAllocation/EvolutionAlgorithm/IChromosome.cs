@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using OAST.DemandAllocation.Demands;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
 {
@@ -13,6 +12,5 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
 
         int CalculateMaxLoad();
         public int CalculateLinkLoads();
-        List<int> GenerateGene(Demand demand);
     }
 }

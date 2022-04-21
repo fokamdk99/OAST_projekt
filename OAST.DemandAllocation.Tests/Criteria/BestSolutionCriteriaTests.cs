@@ -9,15 +9,16 @@ using OAST.DemandAllocation.Links;
 using OAST.DemandAllocation.RandomNumberGenerator;
 using OAST.DemandAllocation.Topology;
 
-namespace OAST.DemandAllocation.Tests.EvolutionTools
+namespace OAST.DemandAllocation.Tests.Criteria
 {
-    public class EvolutionToolsTests
+    public class BestSolutionCriteriaTests
     {
         private IFileReader _fileReader;
         private ITopology _topology;
         private IReproduction _reproduction;
         private ITools _tools;
-        
+        private IEvolutionAlgorithm<BestSolutionCriteria> _evolutionAlgorithm;
+
         [SetUp]
         public void Setup()
         {
@@ -35,27 +36,21 @@ namespace OAST.DemandAllocation.Tests.EvolutionTools
             _topology = serviceProvider.GetRequiredService<ITopology>();
             _reproduction = serviceProvider.GetRequiredService<IReproduction>();
             _tools = serviceProvider.GetRequiredService<ITools>();
-            
+
             _fileReader.FileName = "./files/net4.txt";
             _fileReader.ReadFile();
+            
+            _evolutionAlgorithm = serviceProvider.GetRequiredService<IEvolutionAlgorithm<BestSolutionCriteria>>();
         }
 
         [Test]
-        public void Crossover_ShouldCreateNewChromosomeConsistingOfPartsOfTwoParents()
+        public void TestBestSolutionCriteria()
         {
-            var parent1 = new Chromosome(_topology, _tools.SetPathLoads());
-            var parent2 = new Chromosome(_topology, _tools.SetPathLoads());
-            var crossover = _tools.PerformCrossover(parent1, parent2);
-            Assert.Pass();
-        }
-        
-        [Test]
-        public void Mutation_ShouldAlterGeneOfAnExistingChromosome()
-        {
-            var mutationsCriteria = new MutationsCriteria(50);
-            var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
-            var crossover = _tools.PerformMutation(chromosome, mutationsCriteria);
-            Assert.Pass();
+            var bestSolutionCriteria = new BestSolutionCriteria(3);
+            _evolutionAlgorithm.SetParams(bestSolutionCriteria);
+            
+            _evolutionAlgorithm.Run(CriteriaTestTools.GetTestParameters(), EvaluateBestSolutionCriteria.Evaluate, null, null);
+            Assert.AreEqual(bestSolutionCriteria.NumberOfGenerationsWithoutBetterSolution, 3);
         }
     }
 }
