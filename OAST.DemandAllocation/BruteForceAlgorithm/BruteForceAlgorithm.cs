@@ -1,10 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using OAST.DemandAllocation.BruteForceTools;
 using OAST.DemandAllocation.EvolutionAlgorithm;
-using OAST.DemandAllocation.EvolutionTools;
-using OAST.DemandAllocation.Topology;
+using OAST.DemandAllocation.Output;
 
 namespace OAST.DemandAllocation.BruteForceAlgorithm
 {
@@ -12,25 +10,19 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
     {
         public List<Chromosome> Population { get; set; }
         
-        private readonly ITopology _topology;
-        private readonly IReproduction _reproduction;
-        private readonly IInheritance _inheritance;
         private readonly IBfTools _tools;
+        private readonly IOutputSaver _outputSaver;
      
-        public BruteForceAlgorithm(ITopology topology, 
-            IReproduction reproduction, 
-            IInheritance inheritance, 
-            IBfTools tools)
+        public BruteForceAlgorithm(IBfTools tools, 
+            IOutputSaver outputSaver)
         {
-            _topology = topology;
-            _reproduction = reproduction;
-            _inheritance = inheritance;
             _tools = tools;
+            _outputSaver = outputSaver;
             Population = new List<Chromosome>();
             
         }
         
-        public void Run()
+        public void Run(string outputFileName)
         {
             int best = Int32.MaxValue;
             Chromosome bestChromosome = null;
@@ -46,16 +38,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
                 }
             }
             
-            Console.WriteLine("best chromosome:\n");
-            foreach (var pathLoad in bestChromosome.PathLoads)
-            {
-                foreach (var load in pathLoad)
-                {
-                    Console.Write($"{load} ");
-                }
-                
-                Console.WriteLine("\n");
-            }
+            _outputSaver.SaveResults(bestChromosome!, outputFileName);
         }
     }
 }

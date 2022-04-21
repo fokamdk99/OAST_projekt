@@ -73,7 +73,8 @@ namespace OAST.DemandAllocation
             if (args.Length == 1)
             {
                 var bruteForceAlgorithm = serviceProvider.GetRequiredService<IBruteForceAlgorithm>();
-                bruteForceAlgorithm.Run();
+                string fileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
+                bruteForceAlgorithm.Run(fileName);
                 return;
             }
             

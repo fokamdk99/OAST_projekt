@@ -62,15 +62,21 @@ namespace OAST.DemandAllocation.FileReader
         {
             NumberOfDemands = ConvertValue<int>(fileContent.ElementAt(NumberOfLinks + 3), NumberOfLinks + 3);
             int currentLine = NumberOfLinks + 5;
+
+            int demandId = 1;
             
             while(currentLine < fileContent.Count)
             {
                 var demandData = SplitString(fileContent.ElementAt(currentLine));
                 var numberOfDemandPaths = ConvertValue<int>(fileContent.ElementAt(currentLine + 1), currentLine + 1);
-                var demand = new Demand(ConvertValue<int>(demandData.ElementAt(0), currentLine), 
+                var demand = new Demand(demandId, 
+                    ConvertValue<int>(demandData.ElementAt(0), currentLine), 
                     ConvertValue<int>(demandData.ElementAt(1), currentLine),
                     ConvertValue<int>(demandData.ElementAt(2), currentLine),
                     numberOfDemandPaths);
+
+                demandId += 1;
+                
                 for (int j = currentLine + 2; j < currentLine + 2 + numberOfDemandPaths; j++)
                 {
                     var demandPathData = SplitString(fileContent.ElementAt(j));
