@@ -11,11 +11,10 @@ namespace OAST.DemandAllocation.EvolutionTools
 
         List<Chromosome> PerformCrossovers(List<Chromosome> chromosomes);
         Chromosome? PerformCrossover(Chromosome x, Chromosome y);
-        List<Chromosome> PerformMutations(List<Chromosome> chromosomes);
-        Chromosome? PerformMutation(Chromosome chromosome);
-        int GenerateRandomIntNumber(int range);
-        float GenerateRandomFloatNumber();
+        List<Chromosome> PerformMutations<T>(List<Chromosome> chromosomes, T stopCriteria);
+        Chromosome? PerformMutation<T>(Chromosome chromosome, T stopCriteria);
         List<int> GenerateGene(Demand demand);
         List<List<int>> SetPathLoads();
+        void SetParameters(float crossoverProbability, float mutationProbability, int seed);
     }
 }

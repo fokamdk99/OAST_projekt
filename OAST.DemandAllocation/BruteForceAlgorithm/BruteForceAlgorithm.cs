@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using OAST.DemandAllocation.BruteForceTools;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
@@ -43,6 +44,17 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
                     best = result;
                     bestChromosome = chromosome;
                 }
+            }
+            
+            Console.WriteLine("best chromosome:\n");
+            foreach (var pathLoad in bestChromosome.PathLoads)
+            {
+                foreach (var load in pathLoad)
+                {
+                    Console.Write($"{load} ");
+                }
+                
+                Console.WriteLine("\n");
             }
         }
     }

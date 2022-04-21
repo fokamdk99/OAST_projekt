@@ -6,7 +6,7 @@ namespace OAST.DemandAllocation
         public float CrossoverProbability { get; set; }
         public float MutationProbability { get; set; }
         public int Seed { get; set; }
-        public int StopCriteria {get; set;}
+        public StopCriteriaType StopCriteria {get; set;}
     }
     
     // licznosc populacji startowej
@@ -16,7 +16,7 @@ namespace OAST.DemandAllocation
     // zapis trajektorii procesu optymalizacji - sekwencja wartosci najlepszych chromosomow w kolejnych generacjach
     // ziarno dla generatora liczb losowych
 
-    public enum StopCriteria
+    public enum StopCriteriaType
     {
         Time = 1,
         NumberOfGenerations = 2,

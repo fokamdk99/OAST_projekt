@@ -7,6 +7,7 @@ using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
 using OAST.DemandAllocation.Links;
+using OAST.DemandAllocation.RandomNumberGenerator;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
@@ -28,6 +29,7 @@ namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
                 .AddTopologyFeature()
                 .AddEvolutionToolsFeature()
                 .AddEvolutionAlgorithmFeature()
+                .AddRandomNumberGeneratorFeature()
                 .BuildServiceProvider();
 
             _fileReader = serviceProvider.GetRequiredService<IFileReader>();
@@ -55,6 +57,21 @@ namespace OAST.DemandAllocation.Tests.EvolutionAlgorithm
             Assert.That(chromosome.LinkLoads.ElementAt(2) == 10); // 3 + 2 + 0 + (1 + 0) + 2 + 2
             Assert.That(chromosome.LinkLoads.ElementAt(3) == 7);
             Assert.That(chromosome.LinkLoads.ElementAt(4) == 5);
+        }
+        
+        [Test]
+        public void LinkLoads_ShouldBeProperlyCalculated1()
+        {
+            var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
+            chromosome.PathLoads[0] = new List<int> { 3,0,0 };
+            chromosome.PathLoads[1] = new List<int> { 4,0,0 };
+            chromosome.PathLoads[2] = new List<int> { 3,2 };
+            chromosome.PathLoads[3] = new List<int> { 2,0,0 };
+            chromosome.PathLoads[4] = new List<int> { 3,0,0 };
+            chromosome.PathLoads[5] = new List<int> { 4,0,0 };
+            chromosome.CalculateLinkLoads();
+            chromosome.CalculateMaxLoad();
+            Assert.Pass();
         }
 
         [Test]
