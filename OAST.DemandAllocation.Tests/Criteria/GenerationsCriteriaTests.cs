@@ -23,13 +23,7 @@ namespace OAST.DemandAllocation.Tests.Criteria
         public void Setup()
         {
             var serviceProvider = new ServiceCollection()
-                .AddDemandsFeature()
-                .AddFileReaderFeature()
-                .AddLinksFeature()
-                .AddTopologyFeature()
-                .AddEvolutionToolsFeature()
-                .AddEvolutionAlgorithmFeature()
-                .AddRandomNumberGeneratorFeature()
+                .AddDemandAllocationFeature(true)
                 .BuildServiceProvider();
 
             _fileReader = serviceProvider.GetRequiredService<IFileReader>();

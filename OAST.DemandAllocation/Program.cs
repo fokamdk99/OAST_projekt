@@ -12,8 +12,14 @@ namespace OAST.DemandAllocation
     {
         static void Main(string[] args)
         {
+            if (args.Length < 2)
+            {
+                Console.WriteLine("Program requires at least two parameters");
+                return;
+            }
+            
             var serviceProvider = new ServiceCollection()
-                .AddDemandAllocationFeature()
+                .AddDemandAllocationFeature(bool.Parse(args.ElementAt(1)))
                 .BuildServiceProvider();
 
             Console.WriteLine($"number of parameters: {args.Length}");
@@ -22,15 +28,16 @@ namespace OAST.DemandAllocation
             fileReader.FileName = "./files/net4.txt";
             fileReader.ReadFile();
 
-            if (args.Length == 6)
+            if (args.Length == 7)
             {
                 var parameters = new Parameters
                 {
-                    Mi = Int32.Parse(args.ElementAt(1)),
-                    CrossoverProbability = float.Parse(args.ElementAt(2)),
-                    MutationProbability = float.Parse(args.ElementAt(3)),
-                    Seed = Int32.Parse(args.ElementAt(4)),
-                    StopCriteria = (StopCriteriaType) Int32.Parse(args.ElementAt(5))
+                    IsDap = bool.Parse(args.ElementAt(1)),
+                    Mi = Int32.Parse(args.ElementAt(2)),
+                    CrossoverProbability = float.Parse(args.ElementAt(3)),
+                    MutationProbability = float.Parse(args.ElementAt(4)),
+                    Seed = Int32.Parse(args.ElementAt(5)),
+                    StopCriteria = (StopCriteriaType) Int32.Parse(args.ElementAt(6))
                 };
 
                 switch (parameters.StopCriteria)
@@ -70,7 +77,7 @@ namespace OAST.DemandAllocation
                 }
             }
 
-            if (args.Length == 1)
+            if (args.Length == 2)
             {
                 var bruteForceAlgorithm = serviceProvider.GetRequiredService<IBruteForceAlgorithm>();
                 string fileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
@@ -78,10 +85,12 @@ namespace OAST.DemandAllocation
                 return;
             }
             
-            if (args.Length != 6 || args.Length != 1)
+            if (args.Length != 7 || args.Length != 2)
             {
                 Console.WriteLine("Valid formats:\n" +
-                                  "<algorithm> [<number items in initial population> <crossover probability> " +
+                                  "<algorithm>\n" + 
+                                  "<problem to solve> if dap - write 'true', if ddap - write 'false'\n" +
+                                  "[<number items in initial population> <crossover probability> " +
                                   "<mutation probability> <seed> <stop criteria>]\n" +
                                   "brute force algorithm - 1\n" +
                                   "evolution algorithm - 2\n" +

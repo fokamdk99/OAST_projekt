@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.BruteForceTools
@@ -11,10 +12,13 @@ namespace OAST.DemandAllocation.BruteForceTools
         private List<List<int>> Solutions { get; set; }
 
         private readonly ITopology _topology;
+        private readonly IFitnessFunction _fitnessFunction;
 
-        public BfTools(ITopology topology)
+        public BfTools(ITopology topology, 
+            IFitnessFunction fitnessFunction)
         {
             _topology = topology;
+            _fitnessFunction = fitnessFunction;
             Solutions = new List<List<int>>();
         }
 
@@ -73,7 +77,7 @@ namespace OAST.DemandAllocation.BruteForceTools
             var result = GetPermutations(indicesPermutations);
             foreach (var indicesSet in result)
             {
-                var chromosome = new Chromosome(_topology, SetPathLoads(permutations, indicesSet));
+                var chromosome = new Chromosome(_topology, _fitnessFunction, SetPathLoads(permutations, indicesSet));
                 population.Add(chromosome);
             }
 

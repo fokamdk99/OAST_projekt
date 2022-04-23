@@ -3,11 +3,9 @@ using System.Linq;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using OAST.DemandAllocation.BruteForceTools;
-using OAST.DemandAllocation.Demands;
-using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
-using OAST.DemandAllocation.Links;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.Tests.BruteForceTools
@@ -18,30 +16,30 @@ namespace OAST.DemandAllocation.Tests.BruteForceTools
         private ITopology _topology;
         private IReproduction _reproduction;
         private IBfTools _tools;
+        private IFitnessFunction _fitnessFunction;
         
         [SetUp]
         public void Setup()
         {
             var serviceProvider = new ServiceCollection()
-                .AddDemandsFeature()
-                .AddFileReaderFeature()
-                .AddLinksFeature()
-                .AddTopologyFeature()
-                .AddBfToolsFeature()
+                .AddDemandAllocationFeature(true)
                 .BuildServiceProvider();
 
             _fileReader = serviceProvider.GetRequiredService<IFileReader>();
-            _topology = serviceProvider.GetRequiredService<ITopology>();
-            _tools = serviceProvider.GetRequiredService<IBfTools>();
             
             _fileReader.FileName = "./files/net4.txt";
             _fileReader.ReadFile();
+
+            _topology = serviceProvider.GetRequiredService<ITopology>();
+            _tools = serviceProvider.GetRequiredService<IBfTools>();
+            _fitnessFunction = serviceProvider.GetRequiredService<IFitnessFunction>();
+
         }
         
         [Test]
         public void TestRecursion()
         {
-            var bruteTools = new BfTools(_topology);
+            var bruteTools = new BfTools(_topology, _fitnessFunction);
             List<int> vector = new List<int> {0, 0, 0, 0}; 
             bruteTools.Recursion(vector, 0, 5, 0);
             Assert.Pass();

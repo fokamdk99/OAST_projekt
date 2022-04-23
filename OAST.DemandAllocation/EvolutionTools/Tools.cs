@@ -4,6 +4,7 @@ using System.Linq;
 using OAST.DemandAllocation.Criteria;
 using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.RandomNumberGenerator;
 using OAST.DemandAllocation.Topology;
 
@@ -15,15 +16,18 @@ namespace OAST.DemandAllocation.EvolutionTools
         public float MutationProbability { get; set; }
 
         private readonly ITopology _topology;
+        private readonly IFitnessFunction _fitnessFunction;
         private readonly IRandomNumberGenerator _randomNumberGenerator;
         
         
 
         public Tools(ITopology topology, 
-            IRandomNumberGenerator randomNumberGenerator)
+            IRandomNumberGenerator randomNumberGenerator, 
+            IFitnessFunction fitnessFunction)
         {
             _topology = topology;
             _randomNumberGenerator = randomNumberGenerator;
+            _fitnessFunction = fitnessFunction;
             CrossoverProbability = 0.7f;
             MutationProbability = 0.3f;
         }
@@ -68,7 +72,7 @@ namespace OAST.DemandAllocation.EvolutionTools
                 return null;
             }
             
-            Chromosome crossover = new Chromosome(_topology, SetPathLoads());
+            Chromosome crossover = new Chromosome(_topology, _fitnessFunction, SetPathLoads());
             foreach (var demand in _topology.Demands.Select((value, i) => new {value, i}))
             {
                 var parent = _randomNumberGenerator.GenerateRandomFloatNumber();

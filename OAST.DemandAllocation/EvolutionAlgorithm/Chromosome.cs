@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.Demands;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
@@ -8,6 +9,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
     public class Chromosome : IChromosome
     {
         private readonly ITopology _topology;
+        private readonly IFitnessFunction _fitnessFunction;
         
         public List<List<int>> PathLoads { get; set; }
         public List<int> LinkLoads { get; set; }
@@ -15,31 +17,23 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         public int Rank { get; set; }
         public int MaxLoad { get; set; }
 
-        public Chromosome(ITopology topology, List<List<int>> pathLoads)
+        public Chromosome(ITopology topology, IFitnessFunction fitnessFunction, List<List<int>> pathLoads)
         {
             _topology = topology;
+            _fitnessFunction = fitnessFunction;
             PathLoads = new List<List<int>>();
             LinkLoads = new List<int>();
             LinkLoads.AddRange(Enumerable.Repeat(0, _topology.Links.Count).ToList());
             PathLoads = pathLoads;
+            _fitnessFunction = fitnessFunction;
 
             SumOfLinkCosts = 0;
             Rank = 0;
         }
-        
+
         public int CalculateMaxLoad()
         {
-            List<int> linkLoads = new List<int>();
-            foreach (var linkLoad in LinkLoads
-                .Select((value, linkIndex) => new {value, linkIndex}))
-            {
-                linkLoads.Add(linkLoad.value - _topology.Links.ElementAt(linkLoad.linkIndex).LinkCapacity); // maximum (over all links)
-            }
-
-            var result = linkLoads.Max();
-            MaxLoad = result;
-
-            return result;
+            return _fitnessFunction.CalculateMaxLoad(this);
         }
         
         public int CalculateLinkLoads()

@@ -5,6 +5,7 @@ using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Links;
 using OAST.DemandAllocation.Output;
 using OAST.DemandAllocation.RandomNumberGenerator;
@@ -14,7 +15,7 @@ namespace OAST.DemandAllocation
 {
     public static class DemandAllocationFeature
     {
-        public static IServiceCollection AddDemandAllocationFeature(this IServiceCollection services)
+        public static IServiceCollection AddDemandAllocationFeature(this IServiceCollection services, bool isDap)
         {
 
             services
@@ -24,6 +25,7 @@ namespace OAST.DemandAllocation
                 .AddEvolutionAlgorithmFeature()
                 .AddEvolutionToolsFeature()
                 .AddFileReaderFeature()
+                .AddFitnessFeature(isDap)
                 .AddLinksFeature()
                 .AddOutputFeature()
                 .AddRandomNumberGeneratorFeature()

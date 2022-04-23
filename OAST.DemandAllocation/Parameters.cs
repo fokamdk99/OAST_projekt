@@ -2,6 +2,7 @@ namespace OAST.DemandAllocation
 {
     public class Parameters
     {
+        public bool IsDap { get; set; }
         public int Mi { get; set; } // licznosc populacji startowej
         public float CrossoverProbability { get; set; }
         public float MutationProbability { get; set; }

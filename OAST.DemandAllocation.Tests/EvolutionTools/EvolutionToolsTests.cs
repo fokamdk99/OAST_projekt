@@ -1,12 +1,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using OAST.DemandAllocation.Criteria;
-using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
-using OAST.DemandAllocation.Links;
-using OAST.DemandAllocation.RandomNumberGenerator;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.Tests.EvolutionTools
@@ -17,18 +15,13 @@ namespace OAST.DemandAllocation.Tests.EvolutionTools
         private ITopology _topology;
         private IReproduction _reproduction;
         private ITools _tools;
+        private IFitnessFunction _fitnessFunction;
         
         [SetUp]
         public void Setup()
         {
             var serviceProvider = new ServiceCollection()
-                .AddDemandsFeature()
-                .AddFileReaderFeature()
-                .AddLinksFeature()
-                .AddTopologyFeature()
-                .AddEvolutionToolsFeature()
-                .AddEvolutionAlgorithmFeature()
-                .AddRandomNumberGeneratorFeature()
+                .AddDemandAllocationFeature(true)
                 .BuildServiceProvider();
 
             _fileReader = serviceProvider.GetRequiredService<IFileReader>();
@@ -43,8 +36,8 @@ namespace OAST.DemandAllocation.Tests.EvolutionTools
         [Test]
         public void Crossover_ShouldCreateNewChromosomeConsistingOfPartsOfTwoParents()
         {
-            var parent1 = new Chromosome(_topology, _tools.SetPathLoads());
-            var parent2 = new Chromosome(_topology, _tools.SetPathLoads());
+            var parent1 = new Chromosome(_topology, _fitnessFunction, _tools.SetPathLoads());
+            var parent2 = new Chromosome(_topology, _fitnessFunction, _tools.SetPathLoads());
             var crossover = _tools.PerformCrossover(parent1, parent2);
             Assert.Pass();
         }
@@ -53,7 +46,7 @@ namespace OAST.DemandAllocation.Tests.EvolutionTools
         public void Mutation_ShouldAlterGeneOfAnExistingChromosome()
         {
             var mutationsCriteria = new MutationsCriteria(50);
-            var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
+            var chromosome = new Chromosome(_topology, _fitnessFunction, _tools.SetPathLoads());
             var crossover = _tools.PerformMutation(chromosome, mutationsCriteria);
             Assert.Pass();
         }

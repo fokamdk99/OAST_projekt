@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using OAST.DemandAllocation.Criteria;
 using OAST.DemandAllocation.EvolutionTools;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
@@ -17,22 +18,25 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         private readonly IReproduction _reproduction;
         private readonly IInheritance _inheritance;
         private readonly ITools _tools;
+        private readonly IFitnessFunction _fitnessFunction;
         
         public EvolutionAlgorithm(ITopology topology, 
             IReproduction reproduction,
             ITools tools,
-            IInheritance inheritance)
+            IInheritance inheritance, 
+            IFitnessFunction fitnessFunction)
         {
             _topology = topology;
             Population = new List<Chromosome>();
             Mi = 10;
             _inheritance = inheritance;
+            _fitnessFunction = fitnessFunction;
             _tools = tools;
             _reproduction = reproduction;
             for (int i = 0; i < Mi; i++)
             {
                 // mi razy inicjalizuj tablice
-                Population.Add(new Chromosome(_topology, _tools.SetPathLoads()));
+                Population.Add(new Chromosome(_topology, _fitnessFunction, _tools.SetPathLoads()));
             }
         }
 

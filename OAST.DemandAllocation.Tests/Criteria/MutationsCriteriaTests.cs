@@ -5,11 +5,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using NUnit.Framework;
 using OAST.DemandAllocation.Criteria;
-using OAST.DemandAllocation.Demands;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
-using OAST.DemandAllocation.Links;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.RandomNumberGenerator;
 using OAST.DemandAllocation.Topology;
 
@@ -21,6 +20,7 @@ namespace OAST.DemandAllocation.Tests.Criteria
         private ITools? _tools;
         private ITopology? _topology;
         private IEvolutionAlgorithm<MutationsCriteria> _evolutionAlgorithm;
+        private IFitnessFunction? _fitnessFunction;
 
         private IServiceCollection? _serviceCollection;
         
@@ -28,24 +28,19 @@ namespace OAST.DemandAllocation.Tests.Criteria
         public void Setup()
         {
             _serviceCollection = new ServiceCollection()
-                .AddDemandsFeature()
-                .AddFileReaderFeature()
-                .AddLinksFeature()
-                .AddTopologyFeature()
-                .AddEvolutionToolsFeature()
-                .AddRandomNumberGeneratorFeature()
-                .AddEvolutionAlgorithmFeature();
+                .AddDemandAllocationFeature(true);
 
             _serviceProvider = _serviceCollection.BuildServiceProvider();
 
             var fileReader = _serviceProvider.GetRequiredService<IFileReader>();
-            _tools = _serviceProvider.GetRequiredService<ITools>();
-            _topology = _serviceProvider.GetRequiredService<ITopology>();
-
+            
             fileReader.FileName = "./files/net4.txt";
             fileReader.ReadFile();
             
+            _tools = _serviceProvider.GetRequiredService<ITools>();
+            _topology = _serviceProvider.GetRequiredService<ITopology>();
             _evolutionAlgorithm = _serviceProvider.GetRequiredService<IEvolutionAlgorithm<MutationsCriteria>>();
+            _fitnessFunction = _serviceProvider.GetRequiredService<IFitnessFunction>();
         }
 
         [Test]
@@ -61,7 +56,7 @@ namespace OAST.DemandAllocation.Tests.Criteria
 
             foreach (var value in Enumerable.Range(1, 5))
             {
-                var chromosome = new Chromosome(_topology!, _tools!.SetPathLoads());
+                var chromosome = new Chromosome(_topology!, _fitnessFunction!, _tools!.SetPathLoads());
                 chromosome.CalculateLinkLoads();
                 population.Add(chromosome);
             }

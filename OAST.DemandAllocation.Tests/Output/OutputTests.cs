@@ -5,6 +5,7 @@ using NUnit.Framework;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
+using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.Output;
 using OAST.DemandAllocation.Topology;
 
@@ -16,12 +17,13 @@ namespace OAST.DemandAllocation.Tests.Output
         private IFileReader _fileReader;
         private ITopology _topology;
         private ITools _tools;
+        private IFitnessFunction _fitnessFunction;
         
         [SetUp]
         public void Setup()
         {
             var serviceProvider = new ServiceCollection()
-                .AddDemandAllocationFeature()
+                .AddDemandAllocationFeature(true)
                 .BuildServiceProvider();
 
             _fileReader = serviceProvider.GetRequiredService<IFileReader>();
@@ -31,12 +33,13 @@ namespace OAST.DemandAllocation.Tests.Output
             _outputSaver = serviceProvider.GetRequiredService<IOutputSaver>();
             _topology = serviceProvider.GetRequiredService<ITopology>();
             _tools = serviceProvider.GetRequiredService<ITools>();
+            _fitnessFunction = serviceProvider.GetRequiredService<IFitnessFunction>();
         }
 
         [Test]
         public void WhenBestSolutionFound_ShouldSaveDataToFile()
         {
-            var chromosome = new Chromosome(_topology, _tools.SetPathLoads());
+            var chromosome = new Chromosome(_topology, _fitnessFunction, _tools.SetPathLoads());
             chromosome.PathLoads[0] = new List<int> { 0,3,0 };
             chromosome.PathLoads[1] = new List<int> { 2,2,0 };
             chromosome.PathLoads[2] = new List<int> { 3,2 };
