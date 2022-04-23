@@ -6,6 +6,7 @@ using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.FileReader;
 using OAST.DemandAllocation.Fitness;
+using OAST.DemandAllocation.History;
 using OAST.DemandAllocation.Links;
 using OAST.DemandAllocation.Output;
 using OAST.DemandAllocation.RandomNumberGenerator;
@@ -26,6 +27,7 @@ namespace OAST.DemandAllocation
                 .AddEvolutionToolsFeature()
                 .AddFileReaderFeature()
                 .AddFitnessFeature(isDap)
+                .AddHistoryFeature()
                 .AddLinksFeature()
                 .AddOutputFeature()
                 .AddRandomNumberGeneratorFeature()

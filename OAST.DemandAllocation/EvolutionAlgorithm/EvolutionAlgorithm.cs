@@ -4,6 +4,7 @@ using System.Linq;
 using OAST.DemandAllocation.Criteria;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.Fitness;
+using OAST.DemandAllocation.History;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
@@ -14,29 +15,28 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         public int Mi { get; set; }
         public T StopParameters { get; set; }
         
-        private readonly ITopology _topology;
         private readonly IReproduction _reproduction;
         private readonly IInheritance _inheritance;
         private readonly ITools _tools;
-        private readonly IFitnessFunction _fitnessFunction;
+        private readonly IHistory _history;
         
         public EvolutionAlgorithm(ITopology topology, 
             IReproduction reproduction,
             ITools tools,
             IInheritance inheritance, 
-            IFitnessFunction fitnessFunction)
+            IFitnessFunction fitnessFunction, 
+            IHistory history)
         {
-            _topology = topology;
             Population = new List<Chromosome>();
             Mi = 10;
             _inheritance = inheritance;
-            _fitnessFunction = fitnessFunction;
+            _history = history;
             _tools = tools;
             _reproduction = reproduction;
             for (int i = 0; i < Mi; i++)
             {
                 // mi razy inicjalizuj tablice
-                Population.Add(new Chromosome(_topology, _fitnessFunction, _tools.SetPathLoads()));
+                Population.Add(new Chromosome(topology, fitnessFunction, _tools.SetPathLoads()));
             }
         }
 
@@ -65,6 +65,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 var chromosomesWithCrossovers = _tools.PerformCrossovers(reproductionSet);
                 var chromosomesWithMutations = _tools.PerformMutations<T>(chromosomesWithCrossovers, StopParameters);
                 Population = _inheritance.SelectInheritanceSet(chromosomesWithMutations, Population);
+                _history.AddChromosome(Population.ElementAt(0));
 
                 HandleStopParameters();
             }
@@ -96,7 +97,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             if (typeof(T) == typeof(BestSolutionCriteria))
             {
                 var bestSolutionCriteria = StopParameters as BestSolutionCriteria;
-                var generationBestSolution = Population.Max(x => x.MaxLoad); //TODO: czy na pewno? pierwszy chromosom z populacji nie jest najlepszy? chyba tak
+                var generationBestSolution = Population.ElementAt(0).MaxLoad;
                 if (generationBestSolution < bestSolutionCriteria!.CurrentBestSolution)
                 {
                     bestSolutionCriteria!.CurrentBestSolution = generationBestSolution;

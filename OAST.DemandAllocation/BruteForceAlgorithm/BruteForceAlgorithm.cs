@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using OAST.DemandAllocation.BruteForceTools;
 using OAST.DemandAllocation.EvolutionAlgorithm;
+using OAST.DemandAllocation.History;
 using OAST.DemandAllocation.Output;
 
 namespace OAST.DemandAllocation.BruteForceAlgorithm
@@ -12,12 +13,15 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
         
         private readonly IBfTools _tools;
         private readonly IOutputSaver _outputSaver;
+        private readonly IHistory _history;
      
         public BruteForceAlgorithm(IBfTools tools, 
-            IOutputSaver outputSaver)
+            IOutputSaver outputSaver, 
+            IHistory history)
         {
             _tools = tools;
             _outputSaver = outputSaver;
+            _history = history;
             Population = new List<Chromosome>();
             
         }
@@ -35,6 +39,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
                 {
                     best = result;
                     bestChromosome = chromosome;
+                    _history.AddChromosome(bestChromosome);
                 }
             }
             
