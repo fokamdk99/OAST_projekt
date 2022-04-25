@@ -14,10 +14,19 @@ namespace OAST.DemandAllocation.Output
             _topology = topology;
         }
 
-        public void SaveResults(Chromosome chromosome, string outputFileName)
+        public void SaveResults(Chromosome chromosome, string outputFileName, Parameters? parameters)
         {
             string output = "";
-            
+
+            if (parameters == null)
+            {
+                output += "Brute force algorithm\n\n";
+            }
+            else
+            {
+                output += parameters.DescribeParameters();
+            }
+
             var numberOfLinks = chromosome.LinkLoads.Count;
             output += $"{numberOfLinks}\n\n";
 

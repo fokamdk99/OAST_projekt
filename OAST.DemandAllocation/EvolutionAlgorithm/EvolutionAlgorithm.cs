@@ -5,6 +5,7 @@ using OAST.DemandAllocation.Criteria;
 using OAST.DemandAllocation.EvolutionTools;
 using OAST.DemandAllocation.Fitness;
 using OAST.DemandAllocation.History;
+using OAST.DemandAllocation.Output;
 using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionAlgorithm
@@ -14,23 +15,27 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         public List<Chromosome> Population { get; set; }
         public int Mi { get; set; }
         public T StopParameters { get; set; }
+        public string OutputFileName { get; set; }
         
         private readonly IReproduction _reproduction;
         private readonly IInheritance _inheritance;
         private readonly ITools _tools;
         private readonly IHistory _history;
+        private readonly IOutputSaver _outputSaver;
         
         public EvolutionAlgorithm(ITopology topology, 
             IReproduction reproduction,
             ITools tools,
             IInheritance inheritance, 
             IFitnessFunction fitnessFunction, 
-            IHistory history)
+            IHistory history, 
+            IOutputSaver outputSaver)
         {
             Population = new List<Chromosome>();
             Mi = 10;
             _inheritance = inheritance;
             _history = history;
+            _outputSaver = outputSaver;
             _tools = tools;
             _reproduction = reproduction;
             for (int i = 0; i < Mi; i++)
@@ -38,6 +43,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 // mi razy inicjalizuj tablice
                 Population.Add(new Chromosome(topology, fitnessFunction, _tools.SetPathLoads()));
             }
+            OutputFileName = OutputFileName = $"./outputs/evolution_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
         }
 
         public void SetParams(T parameters)
@@ -48,6 +54,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         {
             Mi = parameters.Mi;
             _tools.SetParameters(parameters.CrossoverProbability, parameters.MutationProbability, parameters.Seed);
+            _reproduction.SetParameters(parameters.Seed);
             
             foreach (var chromosome in Population)
             {
@@ -75,7 +82,7 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 disposeStopCriteria(StopParameters);
             }
             
-            Console.WriteLine("elo");
+            _outputSaver.SaveResults(Population.ElementAt(0), OutputFileName, parameters);
         }
         
         public void HandleStopParameters()

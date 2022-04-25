@@ -14,12 +14,12 @@ namespace OAST.DemandAllocation.EvolutionTools
     {
         public float CrossoverProbability { get; set; }
         public float MutationProbability { get; set; }
+        public int Seed { get; set; }
 
         private readonly ITopology _topology;
         private readonly IFitnessFunction _fitnessFunction;
         private readonly IRandomNumberGenerator _randomNumberGenerator;
-        
-        
+        private  Random _random;
 
         public Tools(ITopology topology, 
             IRandomNumberGenerator randomNumberGenerator, 
@@ -30,18 +30,22 @@ namespace OAST.DemandAllocation.EvolutionTools
             _fitnessFunction = fitnessFunction;
             CrossoverProbability = 0.7f;
             MutationProbability = 0.3f;
+            Seed = 24699;
+            _random = new Random(Seed);
         }
 
         public void SetParameters(float crossoverProbability, float mutationProbability, int seed)
         {
             CrossoverProbability = crossoverProbability;
             MutationProbability = mutationProbability;
+            Seed = seed;
+            _random = new Random(Seed);
         }
 
         public List<Chromosome> PerformCrossovers(List<Chromosome> chromosomes)
         {
             List<Tuple<Chromosome, Chromosome>> chromosomePairs = new List<Tuple<Chromosome, Chromosome>>();
-            var chromosomeIndices = GenerateWithoutDuplicates(chromosomes.Count);
+            var chromosomeIndices = _randomNumberGenerator.GenerateWithoutDuplicates(chromosomes.Count);
             for (int i = 0; i < chromosomeIndices.Count / 2; i++)
             {
                 Tuple<Chromosome, Chromosome> chromosomePair = 
@@ -128,24 +132,7 @@ namespace OAST.DemandAllocation.EvolutionTools
             
             return chromosome;
         }
-        
-        
 
-        private List<int> GenerateWithoutDuplicates(int range)
-        {
-            List<int> possible = Enumerable.Range(0, range).ToList();
-            List<int> listNumbers = new List<int>();
-            for (int i = 0; i < range; i++)
-            {
-                Random rnd = new Random();
-                int index = rnd.Next(0, possible.Count);
-                listNumbers.Add(possible[index]);
-                possible.RemoveAt(index);
-            }
-
-            return listNumbers;
-        }
-        
         public List<List<int>> SetPathLoads()
         {
             List<List<int>> pathLoads = new List<List<int>>();
@@ -163,15 +150,14 @@ namespace OAST.DemandAllocation.EvolutionTools
             List<int> pathLoads = new List<int>();
             pathLoads.AddRange(Enumerable.Repeat<int>(0, demand.NumberOfDemandPaths));
             var bandwidth = demand.DemandVolume;
-            Random rnd = new Random();
             while (bandwidth != 0)
             {
-                var pathIndex = rnd.Next(0, pathLoads.Count);
+                var pathIndex = _random.Next(0, pathLoads.Count);
                 pathLoads[pathIndex] += 1;
                 bandwidth -= 1;
             }
 
-            return pathLoads.OrderBy(a => rnd.Next()).ToList();
+            return pathLoads.OrderBy(a => _random.Next()).ToList();
         }
     }
 }

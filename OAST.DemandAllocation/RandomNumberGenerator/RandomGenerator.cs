@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace OAST.DemandAllocation.RandomNumberGenerator
 {
@@ -31,6 +33,20 @@ namespace OAST.DemandAllocation.RandomNumberGenerator
         {
             Seed = seed;
             _random = new Random(Seed);
+        }
+        
+        public List<int> GenerateWithoutDuplicates(int range)
+        {
+            List<int> possible = Enumerable.Range(0, range).ToList();
+            List<int> listNumbers = new List<int>();
+            for (int i = 0; i < range; i++)
+            {
+                int index = _random.Next(0, possible.Count);
+                listNumbers.Add(possible[index]);
+                possible.RemoveAt(index);
+            }
+
+            return listNumbers;
         }
     }
 }

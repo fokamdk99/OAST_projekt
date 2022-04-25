@@ -10,11 +10,12 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
     public class BruteForceAlgorithm : IBruteForceAlgorithm
     {
         public List<Chromosome> Population { get; set; }
+        public string OutputFileName { get; set; }
         
         private readonly IBfTools _tools;
         private readonly IOutputSaver _outputSaver;
         private readonly IHistory _history;
-     
+        
         public BruteForceAlgorithm(IBfTools tools, 
             IOutputSaver outputSaver, 
             IHistory history)
@@ -23,10 +24,10 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
             _outputSaver = outputSaver;
             _history = history;
             Population = new List<Chromosome>();
-            
+            OutputFileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
         }
         
-        public void Run(string outputFileName)
+        public void Run()
         {
             int best = Int32.MaxValue;
             Chromosome bestChromosome = null;
@@ -43,7 +44,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
                 }
             }
             
-            _outputSaver.SaveResults(bestChromosome!, outputFileName);
+            _outputSaver.SaveResults(bestChromosome!, OutputFileName, null);
         }
     }
 }

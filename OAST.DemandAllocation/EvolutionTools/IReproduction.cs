@@ -7,5 +7,6 @@ namespace OAST.DemandAllocation.EvolutionTools
     {
         List<Chromosome> SelectReproductionSet(List<Chromosome> population);
         void CalculateRanks(List<Chromosome> population);
+        void SetParameters(int seed);
     }
 }

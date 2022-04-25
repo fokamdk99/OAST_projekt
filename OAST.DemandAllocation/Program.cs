@@ -12,9 +12,18 @@ namespace OAST.DemandAllocation
     {
         static void Main(string[] args)
         {
+            string message = "Valid formats:\n" +
+                             "<algorithm>\n" +
+                             "<problem to solve> if dap - write 'true', if ddap - write 'false'\n" +
+                             "[<number of items in initial population> <crossover probability> " +
+                             "<mutation probability> <seed> <stop criteria> <stop value>]\n" +
+                             "brute force algorithm - 1\n" +
+                             "evolution algorithm - 2\n" +
+                             "stop criteria: time - 1, number of generations - 2, number of mutations - 3, best chromosome - 4";
+            
             if (args.Length < 2)
             {
-                Console.WriteLine("Program requires at least two parameters");
+                Console.WriteLine(message);
                 return;
             }
             
@@ -25,10 +34,10 @@ namespace OAST.DemandAllocation
             Console.WriteLine($"number of parameters: {args.Length}");
             
             var fileReader = serviceProvider.GetRequiredService<IFileReader>();
-            fileReader.FileName = "./files/net4.txt";
+            fileReader.FileName = "./files/net12_1.txt";
             fileReader.ReadFile();
 
-            if (args.Length == 7)
+            if (args.Length == 8)
             {
                 var parameters = new Parameters
                 {
@@ -37,7 +46,8 @@ namespace OAST.DemandAllocation
                     CrossoverProbability = float.Parse(args.ElementAt(3)),
                     MutationProbability = float.Parse(args.ElementAt(4)),
                     Seed = Int32.Parse(args.ElementAt(5)),
-                    StopCriteria = (StopCriteriaType) Int32.Parse(args.ElementAt(6))
+                    StopCriteria = (StopCriteriaType) Int32.Parse(args.ElementAt(6)),
+                    StopValue = Int32.Parse(args.ElementAt(7))
                 };
 
                 switch (parameters.StopCriteria)
@@ -46,28 +56,28 @@ namespace OAST.DemandAllocation
                     case StopCriteriaType.Time:
                         var timeAlgorithm = serviceProvider.GetRequiredService<IEvolutionAlgorithm<TimeCriteria>>();
 
-                        var timeCriteria = new TimeCriteria(20);
+                        var timeCriteria = new TimeCriteria(parameters.StopValue);
                         timeAlgorithm.SetParams(timeCriteria);
                         timeAlgorithm.Run(parameters, EvaluateTimeCriteria.Evaluate, EvaluateTimeCriteria.StartTimer, EvaluateTimeCriteria.StopTimer);
                         return;
                     case StopCriteriaType.NumberOfGenerations:
                         var generationsAlgorithm = serviceProvider.GetRequiredService<IEvolutionAlgorithm<GenerationsCriteria>>();
                         
-                        var generationsCriteria = new GenerationsCriteria(100);
+                        var generationsCriteria = new GenerationsCriteria(parameters.StopValue);
                         generationsAlgorithm.SetParams(generationsCriteria);
                         generationsAlgorithm.Run(parameters, EvaluateGenerationsCriteria.Evaluate, null, null);
                         return;
                     case StopCriteriaType.NumberOfMutations:
                         var evolutionAlgorithm = serviceProvider.GetRequiredService<IEvolutionAlgorithm<MutationsCriteria>>();
 
-                        var mutationsCriteria = new MutationsCriteria(50);
+                        var mutationsCriteria = new MutationsCriteria(parameters.StopValue);
                         evolutionAlgorithm.SetParams(mutationsCriteria);
                         evolutionAlgorithm.Run(parameters, EvaluateMutationsCriteria.Evaluate, null, null);
                         return;
                     case StopCriteriaType.BestSolution:
                         var bestSolutionAlgorithm = serviceProvider.GetRequiredService<IEvolutionAlgorithm<BestSolutionCriteria>>();
 
-                        var bestSolutionCriteria = new BestSolutionCriteria(10);
+                        var bestSolutionCriteria = new BestSolutionCriteria(parameters.StopValue);
                         bestSolutionAlgorithm.SetParams(bestSolutionCriteria);
                         bestSolutionAlgorithm.Run(parameters, EvaluateBestSolutionCriteria.Evaluate, null, null);
                         return;
@@ -80,21 +90,13 @@ namespace OAST.DemandAllocation
             if (args.Length == 2)
             {
                 var bruteForceAlgorithm = serviceProvider.GetRequiredService<IBruteForceAlgorithm>();
-                string fileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
-                bruteForceAlgorithm.Run(fileName);
+                bruteForceAlgorithm.Run();
                 return;
             }
             
-            if (args.Length != 7 || args.Length != 2)
+            if (args.Length != 8 || args.Length != 2)
             {
-                Console.WriteLine("Valid formats:\n" +
-                                  "<algorithm>\n" + 
-                                  "<problem to solve> if dap - write 'true', if ddap - write 'false'\n" +
-                                  "[<number items in initial population> <crossover probability> " +
-                                  "<mutation probability> <seed> <stop criteria>]\n" +
-                                  "brute force algorithm - 1\n" +
-                                  "evolution algorithm - 2\n" +
-                                  "stop criteria: time - 1, number of generations - 2, number of mutations - 3, best chromosome - 4");
+                Console.WriteLine(message);
             }
         }
     }

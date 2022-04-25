@@ -8,6 +8,22 @@ namespace OAST.DemandAllocation
         public float MutationProbability { get; set; }
         public int Seed { get; set; }
         public StopCriteriaType StopCriteria {get; set;}
+        public int StopValue { get; set; }
+
+        public string DescribeParameters()
+        {
+            string output = "";
+
+            output += $"IsDap: {IsDap.ToString()}\n" +
+                      $"Mi: {Mi}\n" +
+                      $"Crossover probability: {CrossoverProbability}\n" +
+                      $"Mutation probability: {MutationProbability}\n" +
+                      $"Seed: {Seed}\n" +
+                      $"Stop criteria type: {StopCriteria.ToString()}\n" +
+                      $"Stop value: {StopValue}\n\n" ;
+            
+            return output;
+        }
     }
     
     // licznosc populacji startowej

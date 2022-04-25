@@ -56,7 +56,7 @@ namespace OAST.DemandAllocation.BruteForceTools
         {
             return listOfLists.Skip(1)
                 .Aggregate(listOfLists.First()
-                        .Select(c => new List<int>() { c }),
+                        .Select(c => new List<int>() { c }), // initial value dla czteroelementowych genow: lista{first[0]}, lista{first[1]}, lista{first[2]}, lista{first[3]} 
                     (previous, next) => previous
                         .SelectMany(p => next.Select(d => new List<int>(p) { d }))).ToList();
         }

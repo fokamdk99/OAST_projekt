@@ -14,6 +14,11 @@ namespace OAST.DemandAllocation.EvolutionTools
             _randomNumberGenerator = randomNumberGenerator;
         }
 
+        public void SetParameters(int seed)
+        {
+            _randomNumberGenerator.SetParameters(seed);
+        }
+
         public void CalculateRanks(List<Chromosome> population)
         {
             foreach (var chromosome in population)
