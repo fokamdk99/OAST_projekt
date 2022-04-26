@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace OAST.DemandAllocation.Criteria
@@ -15,6 +16,7 @@ namespace OAST.DemandAllocation.Criteria
             Threshold = threshold;
             BestSolutions = new List<int>();
             GenerationsWithoutBetterSolution = new List<int>();
+            CurrentBestSolution = Int32.MaxValue;
         }
     }
 

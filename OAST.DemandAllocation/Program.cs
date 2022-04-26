@@ -41,6 +41,7 @@ namespace OAST.DemandAllocation
             {
                 var parameters = new Parameters
                 {
+                    AlgorithmType = AlgorithmType.Evolution,
                     IsDap = bool.Parse(args.ElementAt(1)),
                     Mi = Int32.Parse(args.ElementAt(2)),
                     CrossoverProbability = float.Parse(args.ElementAt(3)),
@@ -89,8 +90,13 @@ namespace OAST.DemandAllocation
 
             if (args.Length == 2)
             {
+                var bruteForceParameters = new Parameters
+                {
+                    AlgorithmType = AlgorithmType.BruteForce,
+                    IsDap = bool.Parse(args.ElementAt(1))
+                };
                 var bruteForceAlgorithm = serviceProvider.GetRequiredService<IBruteForceAlgorithm>();
-                bruteForceAlgorithm.Run();
+                bruteForceAlgorithm.Run(bruteForceParameters);
                 return;
             }
             

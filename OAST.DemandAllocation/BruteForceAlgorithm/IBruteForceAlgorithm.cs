@@ -2,6 +2,6 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
 {
     public interface IBruteForceAlgorithm
     {
-        void Run();
+        void Run(Parameters parameters);
     }
 }

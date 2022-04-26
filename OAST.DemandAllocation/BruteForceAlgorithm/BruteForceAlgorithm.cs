@@ -32,7 +32,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
             Timer = new Stopwatch();
         }
         
-        public void Run()
+        public void Run(Parameters parameters)
         {
             Timer.Start();
             
@@ -55,7 +55,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
             }
             
             Timer.Stop();
-            _outputSaver.SaveResults(bestChromosome!, OutputFileName, null, NumberOfIterations, Timer.Elapsed);
+            _outputSaver.SaveResults(bestChromosome!, OutputFileName, parameters, NumberOfIterations, Timer.Elapsed);
         }
     }
 }

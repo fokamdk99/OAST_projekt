@@ -5,6 +5,6 @@ namespace OAST.DemandAllocation.Output
 {
     public interface IOutputSaver
     {
-        void SaveResults(Chromosome chromosome, string outputFileName, Parameters? parameters, int numberOfIterations, TimeSpan elapsedTime);
+        void SaveResults(Chromosome chromosome, string outputFileName, Parameters parameters, int numberOfIterations, TimeSpan elapsedTime);
     }
 }

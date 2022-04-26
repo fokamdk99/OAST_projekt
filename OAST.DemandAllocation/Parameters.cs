@@ -7,25 +7,33 @@ namespace OAST.DemandAllocation
         public float CrossoverProbability { get; set; }
         public float MutationProbability { get; set; }
         public int Seed { get; set; }
-        public StopCriteriaType StopCriteria {get; set;}
+        public StopCriteriaType StopCriteria { get; set; }
         public int StopValue { get; set; }
+        public AlgorithmType AlgorithmType { get; set; }
 
         public string DescribeParameters()
         {
             string output = "";
 
-            output += $"IsDap: {IsDap.ToString()}\n" +
-                      $"Mi: {Mi}\n" +
+            output += $"AlgorithmType: {AlgorithmType.ToString()}\n" +
+                      $"IsDap: {IsDap.ToString()}\n";
+
+            if (AlgorithmType == AlgorithmType.BruteForce)
+            {
+                return output;
+            }
+
+            output += $"Mi: {Mi}\n" +
                       $"Crossover probability: {CrossoverProbability}\n" +
                       $"Mutation probability: {MutationProbability}\n" +
                       $"Seed: {Seed}\n" +
                       $"Stop criteria type: {StopCriteria.ToString()}\n" +
-                      $"Stop value: {StopValue}\n\n" ;
-            
+                      $"Stop value: {StopValue}\n\n";
+
             return output;
         }
     }
-    
+
     // licznosc populacji startowej
     // prawdopodobienstwo krzyzowania i mutacji
     // wybor kryterium stopu:
@@ -39,5 +47,11 @@ namespace OAST.DemandAllocation
         NumberOfGenerations = 2,
         NumberOfMutations = 3,
         BestSolution = 4
+    }
+
+    public enum AlgorithmType
+    {
+        BruteForce = 1,
+        Evolution = 2
     }
 }

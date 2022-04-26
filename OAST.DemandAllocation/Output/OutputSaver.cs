@@ -17,23 +17,17 @@ namespace OAST.DemandAllocation.Output
 
         public void SaveResults(Chromosome chromosome, 
             string outputFileName, 
-            Parameters? parameters, 
+            Parameters parameters, 
             int numberOfIterations, 
             TimeSpan elapsedTime)
         {
             string output = "";
 
-            if (parameters == null)
-            {
-                output += "Brute force algorithm\n\n";
-            }
-            else
-            {
-                output += parameters.DescribeParameters();
-            }
+            output += parameters.DescribeParameters();
 
             output += $"Number of iterations: {numberOfIterations}\n";
-            output += $"Elapsed time: {elapsedTime.ToString()}";
+            output += $"Elapsed time: {elapsedTime.ToString()}\n";
+            output += $"Fitness function value: {chromosome.MaxLoad}\n\n";
 
             var numberOfLinks = chromosome.LinkLoads.Count;
             output += $"{numberOfLinks}\n\n";
