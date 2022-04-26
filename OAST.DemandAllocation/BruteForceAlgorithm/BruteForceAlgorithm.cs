@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using OAST.DemandAllocation.BruteForceTools;
 using OAST.DemandAllocation.EvolutionAlgorithm;
 using OAST.DemandAllocation.History;
@@ -11,6 +12,8 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
     {
         public List<Chromosome> Population { get; set; }
         public string OutputFileName { get; set; }
+        public int NumberOfIterations { get; set; }
+        public Stopwatch Timer { get; set; }
         
         private readonly IBfTools _tools;
         private readonly IOutputSaver _outputSaver;
@@ -25,13 +28,18 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
             _history = history;
             Population = new List<Chromosome>();
             OutputFileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
+            NumberOfIterations = 0;
+            Timer = new Stopwatch();
         }
         
         public void Run()
         {
+            Timer.Start();
+            
             int best = Int32.MaxValue;
             Chromosome bestChromosome = null;
             var population = _tools.GenerateAllPossibleChromosomes();
+            
             foreach (var chromosome in population)
             {
                 chromosome.CalculateLinkLoads();
@@ -42,9 +50,12 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
                     bestChromosome = chromosome;
                     _history.AddChromosome(bestChromosome);
                 }
+
+                NumberOfIterations += 1;
             }
             
-            _outputSaver.SaveResults(bestChromosome!, OutputFileName, null);
+            Timer.Stop();
+            _outputSaver.SaveResults(bestChromosome!, OutputFileName, null, NumberOfIterations, Timer.Elapsed);
         }
     }
 }

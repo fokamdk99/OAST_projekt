@@ -1,3 +1,4 @@
+using System;
 using System.IO;
 using System.Linq;
 using OAST.DemandAllocation.EvolutionAlgorithm;
@@ -14,7 +15,11 @@ namespace OAST.DemandAllocation.Output
             _topology = topology;
         }
 
-        public void SaveResults(Chromosome chromosome, string outputFileName, Parameters? parameters)
+        public void SaveResults(Chromosome chromosome, 
+            string outputFileName, 
+            Parameters? parameters, 
+            int numberOfIterations, 
+            TimeSpan elapsedTime)
         {
             string output = "";
 
@@ -26,6 +31,9 @@ namespace OAST.DemandAllocation.Output
             {
                 output += parameters.DescribeParameters();
             }
+
+            output += $"Number of iterations: {numberOfIterations}\n";
+            output += $"Elapsed time: {elapsedTime.ToString()}";
 
             var numberOfLinks = chromosome.LinkLoads.Count;
             output += $"{numberOfLinks}\n\n";

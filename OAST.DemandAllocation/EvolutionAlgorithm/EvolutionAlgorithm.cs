@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using OAST.DemandAllocation.Criteria;
 using OAST.DemandAllocation.EvolutionTools;
@@ -16,6 +17,8 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         public int Mi { get; set; }
         public T StopParameters { get; set; }
         public string OutputFileName { get; set; }
+        public int NumberOfIterations { get; set; }
+        public Stopwatch Timer { get; set; }
         
         private readonly IReproduction _reproduction;
         private readonly IInheritance _inheritance;
@@ -44,6 +47,8 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 Population.Add(new Chromosome(topology, fitnessFunction, _tools.SetPathLoads()));
             }
             OutputFileName = OutputFileName = $"./outputs/evolution_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
+            NumberOfIterations = 0;
+            Timer = new Stopwatch();
         }
 
         public void SetParams(T parameters)
@@ -52,6 +57,8 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
         }
         public void Run(Parameters parameters, Func<T, bool> stopCriteria, Action<T>? setupStopCriteria, Action<T>? disposeStopCriteria)
         {
+            Timer.Start();
+            
             Mi = parameters.Mi;
             _tools.SetParameters(parameters.CrossoverProbability, parameters.MutationProbability, parameters.Seed);
             _reproduction.SetParameters(parameters.Seed);
@@ -74,15 +81,18 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 Population = _inheritance.SelectInheritanceSet(chromosomesWithMutations, Population);
                 _history.AddChromosome(Population.ElementAt(0));
 
+                NumberOfIterations += 1;
                 HandleStopParameters();
             }
+            
+            Timer.Stop();
 
             if (disposeStopCriteria != null)
             {
                 disposeStopCriteria(StopParameters);
             }
             
-            _outputSaver.SaveResults(Population.ElementAt(0), OutputFileName, parameters);
+            _outputSaver.SaveResults(Population.ElementAt(0), OutputFileName, parameters, NumberOfIterations, Timer.Elapsed);
         }
         
         public void HandleStopParameters()

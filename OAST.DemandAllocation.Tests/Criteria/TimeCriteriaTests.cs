@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using OAST.DemandAllocation.Criteria;
@@ -38,14 +39,13 @@ namespace OAST.DemandAllocation.Tests.Criteria
         }
 
         [Test]
-        [Ignore("broken stop condition")]
         public void TestTimeCriteria()
         {
             var generationsCriteria = new TimeCriteria(6);
             _evolutionAlgorithm.SetParams(generationsCriteria);
             
-            _evolutionAlgorithm.Run(CriteriaTestTools.GetTestParameters(), EvaluateTimeCriteria.Evaluate, null, null);
-            Assert.GreaterOrEqual(generationsCriteria.ElapsedTime, 6);
+            _evolutionAlgorithm.Run(CriteriaTestTools.GetTestParameters(), EvaluateTimeCriteria.Evaluate, EvaluateTimeCriteria.StartTimer, EvaluateTimeCriteria.StopTimer);
+            Assert.GreaterOrEqual(generationsCriteria.ElapsedTime, TimeSpan.FromSeconds(6));
         }
     }
 }

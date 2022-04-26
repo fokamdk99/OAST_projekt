@@ -48,8 +48,8 @@ namespace OAST.DemandAllocation.Tests.Output
             chromosome.PathLoads[5] = new List<int> { 1,2,1 };
             chromosome.CalculateLinkLoads();
 
-            string fileName = $"../../../files/outputs/OAST2_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
-            _outputSaver.SaveResults(chromosome, fileName, null);
+            string fileName = $"../../../files/outputs/test_OAST2_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
+            _outputSaver.SaveResults(chromosome, fileName, null, 123, TimeSpan.FromSeconds(246));
         }
     }
 }
