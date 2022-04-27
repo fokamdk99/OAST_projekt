@@ -27,7 +27,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
             _outputSaver = outputSaver;
             _history = history;
             Population = new List<Chromosome>();
-            OutputFileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
+            OutputFileName = $"./outputs/bruteforce_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}";
             NumberOfIterations = 0;
             Timer = new Stopwatch();
         }
@@ -37,7 +37,7 @@ namespace OAST.DemandAllocation.BruteForceAlgorithm
             Timer.Start();
             
             int best = Int32.MaxValue;
-            Chromosome bestChromosome = null;
+            Chromosome bestChromosome = null!;
             var population = _tools.GenerateAllPossibleChromosomes();
             
             foreach (var chromosome in population)

@@ -39,8 +39,6 @@ namespace OAST.DemandAllocation.EvolutionTools
         
         public List<Chromosome> SelectReproductionSet(List<Chromosome> population)
         {
-            CalculateRanks(population);
-            
             int reproductionSetSize = population.Count;
             List<Chromosome> temporaryPopulation = new List<Chromosome>();
             foreach (var i in Enumerable.Range(0, reproductionSetSize))

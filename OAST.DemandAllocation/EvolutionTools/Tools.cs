@@ -44,28 +44,24 @@ namespace OAST.DemandAllocation.EvolutionTools
 
         public List<Chromosome> PerformCrossovers(List<Chromosome> chromosomes)
         {
-            List<Tuple<Chromosome, Chromosome>> chromosomePairs = new List<Tuple<Chromosome, Chromosome>>();
-            var chromosomeIndices = _randomNumberGenerator.GenerateWithoutDuplicates(chromosomes.Count);
-            for (int i = 0; i < chromosomeIndices.Count / 2; i++)
+            List<Chromosome> crossovers = new List<Chromosome>();
+            while (crossovers.Count < chromosomes.Count)
             {
-                Tuple<Chromosome, Chromosome> chromosomePair = 
-                    new Tuple<Chromosome, Chromosome>(
-                        chromosomes.ElementAt(chromosomeIndices.ElementAt(i)), 
-                        chromosomes.ElementAt(chromosomeIndices.ElementAt(i+1)));
+                int mother = _randomNumberGenerator.GenerateRandomIntNumber(chromosomes.Count);
+                int father;
+                do
+                {
+                    father = _randomNumberGenerator.GenerateRandomIntNumber(chromosomes.Count);
+                } while (mother == father);
                 
-                chromosomePairs.Add(chromosomePair);
-            }
-
-            foreach (var pair in chromosomePairs)
-            {
-                var crossover = PerformCrossover(pair.Item1, pair.Item2);
+                var crossover = PerformCrossover(chromosomes.ElementAt(mother), chromosomes.ElementAt(father));
                 if (crossover != null)
                 {
-                    chromosomes.Add(crossover);
+                    crossovers.Add(crossover);
                 }
             }
 
-            return chromosomes;
+            return crossovers;
         }
 
         public Chromosome? PerformCrossover(Chromosome x, Chromosome y)

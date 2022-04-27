@@ -46,9 +46,10 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
                 // mi razy inicjalizuj tablice
                 Population.Add(new Chromosome(topology, fitnessFunction, _tools.SetPathLoads()));
             }
-            OutputFileName = OutputFileName = $"./outputs/evolution_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}.txt";
+            OutputFileName = OutputFileName = $"./outputs/evolution_output_{DateTime.UtcNow.ToString("yyyyMMddTHHmmss")}";
             NumberOfIterations = 0;
             Timer = new Stopwatch();
+            StopParameters = null!;
         }
 
         public void SetParams(T parameters)
@@ -72,6 +73,8 @@ namespace OAST.DemandAllocation.EvolutionAlgorithm
             {
                 setupStopCriteria(StopParameters);
             }
+            
+            _reproduction.CalculateRanks(Population);
             
             while (!stopCriteria(StopParameters))
             {

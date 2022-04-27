@@ -22,6 +22,7 @@ namespace OAST.DemandAllocation.Output
             TimeSpan elapsedTime)
         {
             string output = "";
+            string csvOutput = "";
 
             output += parameters.DescribeParameters();
 
@@ -55,19 +56,22 @@ namespace OAST.DemandAllocation.Output
                 var pathLoads = chromosome.PathLoads.ElementAt(i);
                 
                 output += $"{demand.DemandId} {pathLoads.Count}\n";
+                csvOutput += $"{demand.DemandId},{pathLoads.Count},";
 
                 int pathId = 1;
                 
                 foreach (var pathLoad in pathLoads)
                 {
-                    output += $"{pathId} {pathLoad} ";
+                    output += $"{pathId} {pathLoad}\n";
+                    csvOutput += $"{pathLoad},";
                     pathId += 1;
                 }
 
                 output += "\n\n\n";
-                
-                File.WriteAllText(outputFileName, output); // "../../../OAST2_output.txt"
+                csvOutput += "\n";
             }
+            File.WriteAllText(outputFileName + ".txt", output);
+            File.WriteAllText(outputFileName + ".csv", csvOutput);
         }
     }
 }

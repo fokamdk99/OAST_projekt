@@ -1,31 +1,31 @@
 using System.Collections.Generic;
 using OAST.DemandAllocation.EvolutionAlgorithm;
-using OAST.DemandAllocation.Topology;
 
 namespace OAST.DemandAllocation.EvolutionTools
 {
     public class Inheritance : IInheritance
     {
         private readonly IReproduction _reproduction;
-        private readonly ITopology _topology;
-        
-        public Inheritance(IReproduction reproduction, 
-            ITopology topology)
+
+        public Inheritance(IReproduction reproduction)
         {
             Eta = 2;
             _reproduction = reproduction;
-            _topology = topology;
         }
         
         public int Eta { get; set; }
         public List<Chromosome> SelectInheritanceSet(List<Chromosome> temporaryPopulation, List<Chromosome> currentPopulation)
         {
-            var bestOffspring = currentPopulation.GetRange(0, Eta);
-            temporaryPopulation.AddRange(bestOffspring);
-            
-            _reproduction.CalculateRanks(temporaryPopulation);
+            List<Chromosome> inheritanceSet = new List<Chromosome>();
 
-            return temporaryPopulation.GetRange(0, currentPopulation.Count);
+            _reproduction.CalculateRanks(temporaryPopulation);
+            var bestOffspring = currentPopulation.GetRange(0, Eta);
+            inheritanceSet.AddRange(bestOffspring);
+            inheritanceSet.AddRange(temporaryPopulation.GetRange(0, currentPopulation.Count-Eta));
+            
+            _reproduction.CalculateRanks(inheritanceSet);
+
+            return inheritanceSet;
         }
     }
 }
