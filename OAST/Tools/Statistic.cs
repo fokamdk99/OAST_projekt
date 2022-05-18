@@ -32,7 +32,7 @@ namespace OAST.Tools
         public void PrintStatistics()
         {
             Console.WriteLine(
-                $"[STATISTIC]\nNumberOfReceivedPackages: {NumberOfReceivedPackages}\nNumberOfLostPackages: {NumberOfLostPackages}\n\n");
+                $"[STATISTIC]\nNumberOfReceivedPackages: {NumberOfReceivedPackages}\nNumberOfLostPackages: {NumberOfLostPackages}\n");
         }
     }
 }

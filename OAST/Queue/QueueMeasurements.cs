@@ -37,7 +37,7 @@ namespace OAST.Queue
         
         public void PrintAverageTimeInQueue()
         {
-            Console.WriteLine($"\nAverage Time in Queue: {CalculateAverageTime()}\n\n");
+            Console.WriteLine($"[QUEUE] \n Number of messages that were in queue: {NumberOfPackagesInQueue}\n Average Time in Queue: {CalculateAverageTime()}\n");
         }
     }
 }

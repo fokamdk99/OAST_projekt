@@ -13,19 +13,21 @@ namespace OAST.Events
         private readonly ICustomServer _customServer;
         private readonly IEventGenerator _eventGenerator;
         private readonly IQueueMeasurements _queueMeasurements;
+        private readonly IServerMeasurements _serverMeasurements;
         private readonly IStatistic _statistic;
 
         public EventHandler(ICustomQueue customQueue, 
             ICustomServer customServer, 
             IEventGenerator eventGenerator, 
             IQueueMeasurements queueMeasurements, 
-            IStatistic statistic)
+            IStatistic statistic, IServerMeasurements serverMeasurements)
         {
             _customQueue = customQueue;
             _customServer = customServer;
             _eventGenerator = eventGenerator;
             _queueMeasurements = queueMeasurements;
             _statistic = statistic;
+            _serverMeasurements = serverMeasurements;
         }
 
         public void HandleEvent(Event @event, int eventId)
@@ -96,6 +98,7 @@ namespace OAST.Events
             {
                 _customServer.SetAvailable();
             }
+            _serverMeasurements.IncrementProcessedPackages();
         }
     }
 }

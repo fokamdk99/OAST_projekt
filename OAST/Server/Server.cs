@@ -13,8 +13,6 @@ namespace OAST.Server
         public double BusyStart { set; get; }
         public double BusyStop { set; get; }
         public int Mi { get; set; }
-
-
         public CustomServer(INumberGenerator numberGenerator, 
             IServerMeasurements serverMeasurements, 
             IStatistic statistic)

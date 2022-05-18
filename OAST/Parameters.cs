@@ -12,8 +12,8 @@ namespace OAST
 
         public static void PrintMainParameters()
         {
-            Console.WriteLine($"\n\n[PARAMETERS]\nNumber of sources: {numberOfSources}\n number of packages: {numberOfPackages}\n" +
-                $"Queue size: {queueSize}\nMi: {mi}\nLambda: {lambda}");
+            Console.WriteLine($"\n[PARAMETERS]\nNumber of sources: {numberOfSources}\n Number of packages: {numberOfPackages}\n" +
+                $"Queue size: {queueSize}\nMi: {mi}\nLambda: {lambda}\n");
 
         }
         
