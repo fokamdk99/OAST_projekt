@@ -98,8 +98,8 @@ namespace OAST.Simulator
             _aggregateMeasurements.Add(new AggregateMeasurements(
                 _statistic.NumberOfReceivedPackages,
                 _statistic.NumberOfLostPackages,
-                _queueMeasurements.NumberOfPackagesInQueue,
-                _queueMeasurements.AverageTimeinQueue,
+                _queueMeasurements.NumberOfPackagesThatWereQueue,
+                _queueMeasurements.TimeinQueue,
                 _queueMeasurements.AverageNumberOfPackagesInQueue,
                 _statistic.SimulationTime,
                 _serverMeasurements.ServerLoad));

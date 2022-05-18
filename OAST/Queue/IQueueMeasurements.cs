@@ -2,14 +2,16 @@
 {
     public interface IQueueMeasurements
     {
-        double AverageTimeinQueue { get; set; }
+        double TimeinQueue { get; set; }
         double AverageNumberOfPackagesInQueue { get; set; }
-        int NumberOfPackagesInQueue { get; set; }
+        int NumberOfPackagesThatWereQueue { get; set; }
+        int NumberOfPackagesThatWereNotQueue { get; set; }
 
         void Reset();
-        void AddAverageTimeinQueue(double time);
+        void AddTimeInQueue(double time);
         double CalculateAverageTime();
-        void IncrementNumberOfPackagesInQueue();
+        void IncrementNumberOfPackagesThatWereInQueue();
         void PrintAverageTimeInQueue();
+        void IncrementNumberOfPackagesThatWereNotInQueue();
     }
 }

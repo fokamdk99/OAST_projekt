@@ -58,7 +58,7 @@ namespace OAST.Tools
         {
             String log;
             
-            log = $"[STATISTIC PARAMETERS]\nLost: {_statistic.NumberOfLostPackages}\nReceived: {_statistic.NumberOfReceivedPackages} \nAverage Time in Queue: {_queueMeasurements.AverageTimeinQueue}\nAverage Package In Queue: {_queueMeasurements.AverageNumberOfPackagesInQueue}\n simulation Time: {_statistic.SimulationTime}\nServer Load: {_serverMeasurements.ServerLoad}\nPercent Of Success: {_statistic.PercentOfSuccess}" ;
+            log = $"[STATISTIC PARAMETERS]\nLost: {_statistic.NumberOfLostPackages}\nReceived: {_statistic.NumberOfReceivedPackages} \nAverage Time in Queue: {_queueMeasurements.TimeinQueue}\nAverage Package In Queue: {_queueMeasurements.AverageNumberOfPackagesInQueue}\n simulation Time: {_statistic.SimulationTime}\nServer Load: {_serverMeasurements.ServerLoad}\nPercent Of Success: {_statistic.PercentOfSuccess}" ;
             
             WriteToFile("Log",log);
         }

@@ -17,7 +17,7 @@ namespace OAST.Queue
         public int MaxSortLength { get; set; }
         public int MaxQueueLength { get; set; }
         private int QueueSize { get; set; }
-        private int NumberOfProcessedEvents { get; set; }
+        private int NumberOfProcessedEvents { get; set; } // to chyba do wywalenia 
 
         public CustomQueue(IEventGenerator eventGenerator)
         {
@@ -90,7 +90,8 @@ namespace OAST.Queue
         {
             Console.WriteLine($"SortingIndicator: {SortingIndicator}\n" +
                               $"MaxSortLength: {MaxSortLength}\n" +
-                              $"MaxQueueLength: {MaxQueueLength}");
+                              $"MaxQueueLength: {MaxQueueLength}\n" +
+                              $"All events : {NumberOfProcessedEvents} = numberOfPackages x 2");
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using OAST.OASTPackages;
 using OAST.Queue;
 using OAST.Server;
@@ -16,6 +17,8 @@ namespace OAST.Events
         private readonly IServerMeasurements _serverMeasurements;
         private readonly IStatistic _statistic;
 
+        int coming = 0 ;
+        int finish = 0;
         public EventHandler(ICustomQueue customQueue, 
             ICustomServer customServer, 
             IEventGenerator eventGenerator, 
@@ -32,9 +35,11 @@ namespace OAST.Events
 
         public void HandleEvent(Event @event, int eventId)
         {
+            
             if (@event.Type == EventType.Coming)
             {
                 HandleComingEvent(@event, eventId);
+                coming += 1;
             }
             else
             {
@@ -57,24 +62,26 @@ namespace OAST.Events
                 {
                     package.AddToQueueTime = _statistic.Time;
                     _customQueue.Put(package);
-                    _queueMeasurements.IncrementNumberOfPackagesInQueue();
+                    _queueMeasurements.IncrementNumberOfPackagesThatWereInQueue();
+                    
                 }
                 else // nie ma miejsca w kolejce
-                {
+                {     
                     _statistic.IncrementNumberOfLostPackages();
                 }
             }
             else // serwer wolny
             {
-                double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 20000);
                 if (_customQueue.Queue.Count == 0) // kolejka pusta
                 {
+                    double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 20000);
                     _customServer.SetBusy();
-                    
+                    _queueMeasurements.IncrementNumberOfPackagesThatWereNotInQueue();
                     _customQueue.EventsList.Add(
                         _eventGenerator.CreateFinishEvent(package, _statistic.Time, processingTime));
                     _customQueue.Sort();
                 }
+
             }
         }
         
@@ -90,9 +97,10 @@ namespace OAST.Events
                     processingTime));
                 _customQueue.Sort();
                 _customQueue.Queue[0].GetFromQueueTime = _statistic.Time;
-                _queueMeasurements.AddAverageTimeinQueue(_customQueue.Queue[0].GetFromQueueTime -
+                _queueMeasurements.AddTimeInQueue(_customQueue.Queue[0].GetFromQueueTime -
                                                 _customQueue.Queue[0].AddToQueueTime);
                 _customQueue.RemovePackageFromQueue();
+                
             }
             else
             {
