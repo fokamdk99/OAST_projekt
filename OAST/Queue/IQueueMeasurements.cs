@@ -2,7 +2,7 @@
 {
     public interface IQueueMeasurements
     {
-        double TimeinQueue { get; set; }
+        double TimeInQueue { get; set; }
         double AverageNumberOfPackagesInQueue { get; set; }
         int NumberOfPackagesThatWereQueue { get; set; }
         int NumberOfPackagesThatWereNotQueue { get; set; }

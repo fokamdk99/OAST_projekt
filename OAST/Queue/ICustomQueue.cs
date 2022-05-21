@@ -23,5 +23,6 @@ namespace OAST.Queue
         void IncrementNumberOfProcessedEvents();
         int GetNumberOfProcessedEvents();
         void ShowQueueMeasurements();
+        
     }
 }

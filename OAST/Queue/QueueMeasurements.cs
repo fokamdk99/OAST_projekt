@@ -1,16 +1,18 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace OAST.Queue
 {
     public class QueueMeasurements : IQueueMeasurements
     {
-        public double TimeinQueue { get; set; }
+        public double TimeInQueue { get; set; }
         public double AverageNumberOfPackagesInQueue { get; set; }
-        public int NumberOfPackagesThatWereQueue { get; set; } // wtf to jakis licznik zwiekszajacy sie przez caly czas trwania symulacji?
+        public int NumberOfPackagesThatWereQueue { get; set; }
         public  int NumberOfPackagesThatWereNotQueue { get; set; }
+        
         public void Reset()
         {
-            TimeinQueue = 0;
+            TimeInQueue = 0;
             AverageNumberOfPackagesInQueue = 0;
             NumberOfPackagesThatWereQueue = 0;
             NumberOfPackagesThatWereNotQueue = 0;
@@ -18,12 +20,12 @@ namespace OAST.Queue
 
         public void AddTimeInQueue(double time)
         {
-            TimeinQueue += time;
+            TimeInQueue = TimeInQueue + time;
         }
 
         public double CalculateAverageTime()
         {
-            return   TimeinQueue / NumberOfPackagesThatWereQueue;
+            return   TimeInQueue / NumberOfPackagesThatWereQueue;
         }
 
         public void IncrementNumberOfPackagesThatWereInQueue()
@@ -33,7 +35,7 @@ namespace OAST.Queue
         
         public void PrintAverageTimeInQueue()
         {
-            Console.WriteLine($"[QUEUE] \n Number of messages that were in queue: {NumberOfPackagesThatWereQueue}\n Number of messages that weren't in queue: {NumberOfPackagesThatWereNotQueue}\n Average Time in Queue: {CalculateAverageTime()}\n");
+            Console.WriteLine($"[QUEUE] {TimeInQueue} \n Number of messages that were in queue: {NumberOfPackagesThatWereQueue}\n Number of messages that weren't in queue: {NumberOfPackagesThatWereNotQueue}\n Average Time in Queue: {CalculateAverageTime()}\n");
         }
 
         public void IncrementNumberOfPackagesThatWereNotInQueue()

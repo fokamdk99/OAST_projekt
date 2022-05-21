@@ -4,33 +4,44 @@
     {
         public int NumberOfReceivedPackages { get; set; }
         public int NumberOfLostPackages { get; set; }
+        
         public int NumberOfPackagesInQueue { get; set; }
+        
+        public int NumberOfProcessedPackages { get; set; }
         public double AverageTimeInQueue { get; set; }
-        public double AverageNumberOfPackagesInQueue { get; set; }
         public double SimulationTime { get; set; }
         public double ServerLoad { get; set; }
         public double PercentOfSuccess { get; set; }
-
-        public AggregateMeasurements()
+        public int NumberOfPackagesThatWereInQueue { get; set; }
+        public double AverageNumberOfPackagesInQueue { get; set; }
+        public int NumberOfPackagesThatWereNotInQueue { get; set; }
+        public double ProcessingTime { get; set; }
+        public double AverageProcessingTime { get; set; }
+         public AggregateMeasurements()
         {
             
         }
 
-        public AggregateMeasurements(int numberOfReceivedPackages,
+        public AggregateMeasurements(
+            int numberOfReceivedPackages,
             int numberOfLostPackages,
-            int numberOfPackagesInQueue,
+            int numberOfProcessedPackages,
+            int numberOfPackagesThatWereInQueue,
+            int numberOfPackagesThatWereNotInQueue,
             double averageTimeInQueue,
-            double averageNumberOfPackagesInQueue,
-            double simulationTime,
-            double serverLoad)
+            double processingTime,
+            double averageProcessingTime,
+            double simulationTime)
         {
             NumberOfReceivedPackages = numberOfReceivedPackages;
             NumberOfLostPackages = numberOfLostPackages;
-            NumberOfPackagesInQueue = numberOfPackagesInQueue;
+            NumberOfProcessedPackages = numberOfProcessedPackages;
+            NumberOfPackagesThatWereInQueue = numberOfPackagesThatWereInQueue;
+            NumberOfPackagesThatWereNotInQueue = numberOfPackagesThatWereNotInQueue;
             AverageTimeInQueue = averageTimeInQueue;
-            AverageNumberOfPackagesInQueue = averageNumberOfPackagesInQueue;
+            ProcessingTime = processingTime;
+            AverageProcessingTime = averageProcessingTime;
             SimulationTime = simulationTime;
-            ServerLoad = serverLoad;
         }
     }
 }

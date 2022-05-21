@@ -16,9 +16,6 @@ namespace OAST.Events
         private readonly IQueueMeasurements _queueMeasurements;
         private readonly IServerMeasurements _serverMeasurements;
         private readonly IStatistic _statistic;
-
-        int coming = 0 ;
-        int finish = 0;
         public EventHandler(ICustomQueue customQueue, 
             ICustomServer customServer, 
             IEventGenerator eventGenerator, 
@@ -39,7 +36,6 @@ namespace OAST.Events
             if (@event.Type == EventType.Coming)
             {
                 HandleComingEvent(@event, eventId);
-                coming += 1;
             }
             else
             {
@@ -75,10 +71,11 @@ namespace OAST.Events
                 if (_customQueue.Queue.Count == 0) // kolejka pusta
                 {
                     double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 20000);
-                    _customServer.SetBusy();
+                    _serverMeasurements.AddProcessingTime(processingTime);
                     _queueMeasurements.IncrementNumberOfPackagesThatWereNotInQueue();
                     _customQueue.EventsList.Add(
                         _eventGenerator.CreateFinishEvent(package, _statistic.Time, processingTime));
+                    _customServer.SetBusy();
                     _customQueue.Sort();
                 }
 
@@ -93,6 +90,7 @@ namespace OAST.Events
             if (_customQueue.Queue.Count != 0)
             {
                 double processingTime = _customServer.GenerateProcessingTime(SourceType.Poisson, eventId + 30000);
+                _serverMeasurements.AddProcessingTime(processingTime);
                 _customQueue.EventsList.Add(_eventGenerator.CreateFinishEvent(_customQueue.Queue[0], _statistic.Time,
                     processingTime));
                 _customQueue.Sort();
@@ -100,7 +98,6 @@ namespace OAST.Events
                 _queueMeasurements.AddTimeInQueue(_customQueue.Queue[0].GetFromQueueTime -
                                                 _customQueue.Queue[0].AddToQueueTime);
                 _customQueue.RemovePackageFromQueue();
-                
             }
             else
             {

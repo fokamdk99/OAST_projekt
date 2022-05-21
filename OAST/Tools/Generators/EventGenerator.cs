@@ -26,9 +26,9 @@ namespace OAST.Tools.Generators
             
             List<Event> eventsList = new List<Event>();
 
-            if (numberOfEvents > 10)
+            if (numberOfEvents > 200)
             {
-                numberOfEvents = 10;
+                numberOfEvents = 200;
             }
 
             eventsList = GenerateEvents(sourceType, seed, lambda, numberOfEvents);
@@ -79,7 +79,7 @@ namespace OAST.Tools.Generators
 
         public Event CreateFinishEvent(Package package, double currentTime, double processingTime)
         {
-            Event @event = new Event(package.SourceId, EventType.Finish, (float)(currentTime + processingTime));
+            Event @event = new Event(package.SourceId, EventType.Finish, currentTime + processingTime);
 
             return @event;
         }

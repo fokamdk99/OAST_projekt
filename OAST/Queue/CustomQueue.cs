@@ -63,6 +63,7 @@ namespace OAST.Queue
             Queue = new List<Package>();
             EventsList = new List<Event>();
             NumberOfProcessedEvents = 0;
+            SortingIndicator = 0;
         }
 
         public void InitializeEventsList(int numberOfEvents, SourceType eventType, int seed, int lambda)

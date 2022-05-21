@@ -13,5 +13,7 @@ namespace OAST.Server
         void SetMi(int mi);
         void Reset();
         double GenerateProcessingTime(SourceType sourceType, int seed);
+   
+        
     }
 }
