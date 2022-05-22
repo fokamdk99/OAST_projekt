@@ -51,13 +51,7 @@ namespace OAST.Server
 
         public double GenerateProcessingTime(SourceType sourceType, int seed)
         {
-            int numberOfGeneratedEvents = _numberGenerator.Generate(sourceType, seed, Mi); //number of events that will arrive to the system in the span of 1 second
-            if (numberOfGeneratedEvents == 0)
-            {
-                numberOfGeneratedEvents = Mi;
-            }
-
-            return (1/(double)numberOfGeneratedEvents);
+            return  _numberGenerator.Generate(sourceType, seed, Mi); //number of events that will arrive to the system in the span of 1 second
         }
     }
 }

@@ -23,13 +23,23 @@ namespace OAST.Tests.Tools.Generators
         [Test]
         public void WhenNumberGeneratorUsed_ShouldGenerateNumbersWithPoissonDistribution()
         {
-            List<int> results = new List<int>();
-            for (int i = 0; i < 20; i++)
+            List<double> results = new List<double>();
+            
+            for (int i = 0; i < 250; i++)
             {
-                results.Add(_numberGenerator!.Generate(SourceType.Poisson, 300501 + i, 8));
+                results.Add(_numberGenerator!.Generate(SourceType.Poisson, 300502 + i, 3));
             }
 
-            Assert.Pass();
+            double sum = 0;
+            foreach (var number  in results)
+            {
+                sum += number;
+            }
+
+            double x = sum / 250; 
+            Console.WriteLine(x);
+            Assert.Less(x, 0.34);
+            Assert.Greater(x, 0.31);
         }
     }
 }

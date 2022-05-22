@@ -2,6 +2,6 @@
 {
     public interface INumberGenerator
     {
-        int Generate(SourceType sourceType, int seed, int lambda);
+        double Generate(SourceType sourceType, int seed, int lambda);
     }
 }

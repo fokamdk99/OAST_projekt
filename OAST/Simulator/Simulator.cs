@@ -46,7 +46,6 @@ namespace OAST.Simulator
             _customQueue.SetQueueSize(queueSize);
             _customServer.SetMi(mi);
             
-            
             for (int n = 0; n < numberOfRepetitions; n++)
             {   
                 Console.WriteLine("Simulation number:" + n);
@@ -57,31 +56,52 @@ namespace OAST.Simulator
                 
                 _customQueue.InitializeEventsList(Parameters.numberOfPackages, SourceType.Poisson, n+1000, lambda);
 
+                int startInterval = 400;
+                int numberOfInterval = 10;
                 int i = 0;
                 while (_customQueue.GetNumberOfProcessedEvents() < _customQueue.EventsList.Count)
                 {
-                  
                     _statistic.Time = _customQueue.EventsList[i].Time;
 
                     _eventHandler.HandleEvent(_customQueue.EventsList[i], i);
-                        
-                    i += 1;
-
-                    if (_eventGenerator.NumberOfCreatedEvents < _eventGenerator.NumberOfEvents)
+                    
+                    if (i % startInterval == 0)
                     {
-                        _customQueue.EventsList.
-                            AddRange(_eventGenerator.CreateEvents(SourceType.Poisson, i+1000, lambda));
-                        _customQueue.Sort();
-                    }
+                        if (i >= 1200)
+                        {
+                            if (i != 1200)
+                            {
+                                PrintStatistics();
+                            }
+
+                            _statistic.NumberOfReceivedPackages = 0;
+                            _statistic.NumberOfLostPackages = 0;
+                            _serverMeasurements.ProcessedPackages = 0;
+                            _queueMeasurements.NumberOfPackagesThatWereQueue = 0;
+                            _queueMeasurements.NumberOfPackagesThatWereNotQueue = 0;
+                            _queueMeasurements.TimeInQueue = 0;
+                            _serverMeasurements.ProcessingTime = 0;
+                        }
+
+                    }  
+                    
+                    i += 1;
+                    
+                    // if (_eventGenerator.NumberOfCreatedEvents < _eventGenerator.NumberOfEvents)
+                    // {
+                    //     _customQueue.EventsList.
+                    //         AddRange(_eventGenerator.CreateEvents(SourceType.Poisson, i+1000, lambda));
+                    //     _customQueue.Sort();
+                    // }
                 }
 
                 _customQueue.Sort();
 
                 _statistic.SimulationTime = _customQueue.EventsList[_customQueue.EventsList.Count - 1].Time;
                 
-                PrintStatistics();
+                
             }
-            
+            PrintStatistics();
             Calculate();
             _customQueue.ShowQueueMeasurements();
             _logs.SaveStatistic();
@@ -108,12 +128,13 @@ namespace OAST.Simulator
                 _serverMeasurements.CalculateAverageServerProcessingTime(),
                 _statistic.SimulationTime));
             
-            _statistic.ResetStatistics();
-        }
+            //_statistic.ResetStatistics();
+        } 
         
         public void Calculate()
         {
-            var numberOfRepetitions = 10000;
+            _statistic.ResetStatistics();
+            int numberOfRepetitions = 1;
             var globalMeasurements = new AggregateMeasurements();
             
             foreach (var e in _aggregateMeasurements)

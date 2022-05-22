@@ -25,13 +25,13 @@ namespace OAST.Tests.Server
         [Test]
         public void WhenProcessingTimeGeneratorUsed_ShouldGenerateNumberWithPoissonDistribution()
         {
-            _customServer!.SetMi(10);
+            _customServer!.SetMi(3);
             List<double> results = new List<double>();
             for (int i = 0; i < 20; i++)
             {
                 results.Add(_customServer!.GenerateProcessingTime(SourceType.Poisson, 300501 + i));
             }
-
+            
             Assert.Pass();
         }
     }

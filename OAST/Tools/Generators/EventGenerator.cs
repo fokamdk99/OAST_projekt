@@ -26,10 +26,10 @@ namespace OAST.Tools.Generators
             
             List<Event> eventsList = new List<Event>();
 
-            if (numberOfEvents > 200)
-            {
-                numberOfEvents = 200;
-            }
+            // if (numberOfEvents > 5)
+            // {
+            //     numberOfEvents = 10;
+            // }
 
             eventsList = GenerateEvents(sourceType, seed, lambda, numberOfEvents);
             
@@ -65,16 +65,7 @@ namespace OAST.Tools.Generators
 
         private double CalculateInterval(SourceType sourceType, int seed, int lambda, int i)
         {
-            int numberOfGeneratedEvents =
-                _numberGenerator.Generate(sourceType, seed + i,
-                    lambda); //number of events that will arrive to the system in the span of 1 second
-            if (numberOfGeneratedEvents == 0)
-            {
-                numberOfGeneratedEvents = lambda;
-            }
-
-            double interval = 1 / (double) numberOfGeneratedEvents;
-            return interval;
+            return _numberGenerator.Generate(sourceType, seed + i, lambda); 
         }
 
         public Event CreateFinishEvent(Package package, double currentTime, double processingTime)
