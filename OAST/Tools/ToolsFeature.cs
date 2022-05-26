@@ -7,9 +7,8 @@ namespace OAST.Tools
     {
         public static IServiceCollection AddToolsFeature(this IServiceCollection services)
         {
-            services.AddSingleton<IEventGenerator, EventGenerator>();
             services.AddSingleton<INumberGenerator, NumberGenerator>();
-            services.AddSingleton<IStatistic, Statistic>();
+            services.AddSingleton<IStatisticAggregator, StatisticAggregator>();
             services.AddSingleton<ILogs, Logs>();
 
             return services;

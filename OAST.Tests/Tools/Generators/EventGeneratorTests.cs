@@ -18,14 +18,5 @@ namespace OAST.Tests.Tools.Generators
 
             _numberGenerator = sericeProvider.GetRequiredService<INumberGenerator>();
         }
-
-        [Test]
-        public void WhenEventGeneratorUsed_ShouldGenerateListOfEventsWithPoissonDistribution()
-        {
-            var eventGenerator = new EventGenerator(_numberGenerator!);
-            var events = eventGenerator.InitializeEventsList(1000, SourceType.Poisson, 300, 8);
-
-            Assert.Pass();
-        }
     }
 }

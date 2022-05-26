@@ -79,5 +79,20 @@ namespace OAST.DemandAllocation.Tests.Criteria
             _evolutionAlgorithm.Run(CriteriaTestTools.GetTestParameters(), EvaluateMutationsCriteria.Evaluate, null, null);
             Assert.AreEqual(mutationsCriteria.CurrentMutation, 8);
         }
+
+        [Test]
+        public void TestAggregateFunction()
+        {
+            List<int> numbers = new List<int> { 2, 4, 5, 9 };
+
+            List<int> diffs = new List<int>();
+            var tmp = numbers.Aggregate((prev, next) =>
+            {
+                diffs.Add(next - prev);
+                return next;
+            });
+            
+            Assert.Pass();
+        }
     }
 }

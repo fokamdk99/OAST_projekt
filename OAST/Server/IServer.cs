@@ -1,4 +1,6 @@
-﻿using OAST.Tools.Generators;
+﻿using System.Collections.Generic;
+using OAST.Events;
+using OAST.Tools.Generators;
 
 namespace OAST.Server
 {
@@ -8,10 +10,9 @@ namespace OAST.Server
         double BusyStart { set; get; }
         double BusyStop { set; get; }
         int Mi { get; set; }
-        void SetBusy();
-        void SetAvailable();
+        List<int> Queue { get; set; }
         void SetMi(int mi);
         void Reset();
-        double GenerateProcessingTime(SourceType sourceType, int seed);
+        int Get();
     }
 }

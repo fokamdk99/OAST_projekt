@@ -4,6 +4,6 @@
     {
         EventType Type { get; set; }
         double Time { get; set; }
-        int SourceId { get; set; } 
+        int EventId { get; set; } 
     }
 }

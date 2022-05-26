@@ -19,17 +19,5 @@ namespace OAST.Tests.Tools.Generators
 
             _numberGenerator = sericeProvider.GetRequiredService<INumberGenerator>();
         }
-
-        [Test]
-        public void WhenNumberGeneratorUsed_ShouldGenerateNumbersWithPoissonDistribution()
-        {
-            List<int> results = new List<int>();
-            for (int i = 0; i < 20; i++)
-            {
-                results.Add(_numberGenerator!.Generate(SourceType.Poisson, 300501 + i, 8));
-            }
-
-            Assert.Pass();
-        }
     }
 }

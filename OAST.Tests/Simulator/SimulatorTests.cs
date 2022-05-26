@@ -27,12 +27,5 @@ namespace OAST.Tests.Simulator
 
             _simulator = sericeProvider.GetRequiredService<ISimulator>();
         }
-
-        [Test]
-        public void WhenRangeCreatorUsed_ShouldGenerateLinspace()
-        {
-            var batches = _simulator!.CreateRange(1, 8, 3);
-            Assert.Pass();
-        }
     }
 }

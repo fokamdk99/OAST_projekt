@@ -31,7 +31,7 @@ namespace OAST.Tools
             for (int i = 0; i < list.Count; i++)
             { 
                 // source Id, time, event type
-               tmp = list[i].SourceId + "," + list[i].Time + "," + (int) list[i].Type + "\n";
+               tmp = list[i].EventId + "," + list[i].Time + "," + (int) list[i].Type + "\n";
                log = log + tmp;
                tmp = "";
             }
@@ -52,15 +52,6 @@ namespace OAST.Tools
             }
             
             WriteToFile("Variances",log);
-        }
-
-        public void SaveStatistic()
-        {
-            String log;
-            
-            log = $"[STATISTIC PARAMETERS]\nLost: {_statistic.NumberOfLostPackages}\nReceived: {_statistic.NumberOfReceivedPackages} \nAverage Time in Queue: {_queueMeasurements.AverageTimeinQueue}\nAverage Package In Queue: {_queueMeasurements.AverageNumberOfPackagesInQueue}\n simulation Time: {_statistic.SimulationTime}\nServer Load: {_serverMeasurements.ServerLoad}\nPercent Of Success: {_statistic.PercentOfSuccess}" ;
-            
-            WriteToFile("Log",log);
         }
 
         public void WriteToFile(String p, String log)

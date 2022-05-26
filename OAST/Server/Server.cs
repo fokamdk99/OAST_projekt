@@ -1,4 +1,6 @@
-﻿using OAST.Tools;
+﻿using System.Collections.Generic;
+using System.Linq;
+using OAST.Tools;
 using OAST.Tools.Generators;
 
 namespace OAST.Server
@@ -13,6 +15,7 @@ namespace OAST.Server
         public double BusyStart { set; get; }
         public double BusyStop { set; get; }
         public int Mi { get; set; }
+        public List<int> Queue { get; set; }
 
 
         public CustomServer(INumberGenerator numberGenerator, 
@@ -23,20 +26,14 @@ namespace OAST.Server
             _serverMeasurements = serverMeasurements;
             _statistic = statistic;
             Busy = false;
+            Queue = new List<int>();
         }
 
-        public void SetBusy()
+        public int Get()
         {
-            Busy = true;
-            BusyStart = _statistic.Time;
-              
-        }
-
-        public void SetAvailable()
-        {
-            Busy = false;
-            BusyStop = _statistic.Time;
-            _serverMeasurements.CalculateServerLoadTime(BusyStart, BusyStop);
+            var result = Queue.ElementAt(0);
+            Queue.RemoveAt(0);
+            return result;
         }
 
         public void Reset()
@@ -49,17 +46,6 @@ namespace OAST.Server
         public void SetMi(int mi)
         {
             Mi = mi;
-        }
-
-        public double GenerateProcessingTime(SourceType sourceType, int seed)
-        {
-            int numberOfGeneratedEvents = _numberGenerator.Generate(sourceType, seed, Mi); //number of events that will arrive to the system in the span of 1 second
-            if (numberOfGeneratedEvents == 0)
-            {
-                numberOfGeneratedEvents = Mi;
-            }
-
-            return (1/(double)numberOfGeneratedEvents);
         }
     }
 }

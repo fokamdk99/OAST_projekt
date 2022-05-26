@@ -20,9 +20,11 @@ namespace OAST
                 .AddServerFeature()
                 .AddToolsFeature()
                 .AddSimulatorFeature()
+                .AddSingleton<IParameters, Parameters>()
                 .BuildServiceProvider();
 
             var simulator = serviceProvider.GetRequiredService<ISimulator>();
+            var parameters = serviceProvider.GetRequiredService<IParameters>();
 
             if (args.Length != 5)
             {
@@ -33,17 +35,14 @@ namespace OAST
                 return;
             }
 
-            // e.g. 51, 
-            Parameters.queueSize = Int32.Parse(args.ElementAt(0));
-            int numberOfRepetitions = Int32.Parse(args.ElementAt(1));
-            int lambda = Int32.Parse(args.ElementAt(2));
-            int mi = Int32.Parse(args.ElementAt(3));
-            Parameters.numberOfPackages = Int32.Parse(args.ElementAt(4));
-            Parameters.numberOfSources = 1;
-            Parameters.mi = mi;
-            Parameters.lambda = lambda;
+            parameters.QueueSize = Int32.Parse(args.ElementAt(0));
+            parameters.NumberOfSimulations = Int32.Parse(args.ElementAt(1));
+            parameters.Lambda = Int32.Parse(args.ElementAt(2));
+            parameters.Mi = Int32.Parse(args.ElementAt(3));
+            parameters.SimulationTime = Int32.Parse(args.ElementAt(4));
+            parameters.BlockSize = Int32.Parse(args.ElementAt(5));
 
-            simulator.Run(Parameters.queueSize, numberOfRepetitions, lambda, mi);
+            simulator.Run();
         }
     }
 }

@@ -2,18 +2,36 @@
 
 namespace OAST
 {
-    public static class Parameters
+    public interface IParameters
     {
-        public static int numberOfSources = 0;
-        public static int numberOfPackages = 0; 
-        public static int queueSize = 0;
-        public static int mi = 0;
-        public static int lambda = 0;
+        public int Lambda { get; set; }
+        public int Mi { get; set; }
+        public int QueueSize { get; set; }
+        public int SimulationTime { get; set; }
+        public int BlockSize { get; set; }
+        public int NumberOfSimulations { get; set; }
+        public double CutOffWaitingTimeDiff { get; set; }
+    }
+    
+    public class Parameters : IParameters
+    {
+        public int Lambda { get; set; } = 0;
+        public int Mi { get; set; } = 0;
+        public int QueueSize { get; set; } = 0;
+        public int SimulationTime { get; set; } = 0;
+        public int BlockSize { get; set; } = 0;
+        public int NumberOfSimulations { get; set; } = 0;
+        public double CutOffWaitingTimeDiff { get; set; } = 0;
 
-        public static void PrintMainParameters()
+        public Parameters()
         {
-            Console.WriteLine($"\n\n[PARAMETERS]\nNumber of sources: {numberOfSources}\n number of packages: {numberOfPackages}\n" +
-                $"Queue size: {queueSize}\nMi: {mi}\nLambda: {lambda}");
+            
+        }
+
+        public void PrintMainParameters()
+        {
+            Console.WriteLine($"\n\n[PARAMETERS]\n number of packages: {SimulationTime}\n" +
+                $"Queue size: {QueueSize}\nMi: {Mi}\nLambda: {Lambda}");
 
         }
         
