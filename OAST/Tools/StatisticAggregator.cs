@@ -6,11 +6,14 @@ namespace OAST.Tools
     public class StatisticAggregator : IStatisticAggregator
     {
         private readonly IParameters _parameters;
+        private readonly ILogs _logs;
         public List<IStatistic> Statistics { get; set; }
 
-        public StatisticAggregator(IParameters parameters)
+        public StatisticAggregator(IParameters parameters, 
+            ILogs logs)
         {
             _parameters = parameters;
+            _logs = logs;
             Statistics = new List<IStatistic>();
         }
 
@@ -22,8 +25,9 @@ namespace OAST.Tools
             var blockedPartAll = GetBlockedPartAll();
             var waitingTimeAvg =  GetWaitingTimeAvg(waitingTimeAll);
             var blockedPartAvg = GetBlockedPartAvg(blockedPartAll);
+            var waitingTimeGlobalAvg = GetWaitingTimeGlobalAvg(waitingTimeAvg);
             var waitingTimeVarAll = GetWaitingTimeVarAll(waitingTimeAvg);
-            SomeShittyStuff(waitingTimeAvg, waitingTimeVarAll, blockedPartAvg);
+            SavePlots(waitingTimeAvg, waitingTimeVarAll, blockedPartAvg, departuresInterval);
         }
 
         public void AddStatistic(IStatistic statistic)
@@ -114,15 +118,6 @@ namespace OAST.Tools
                 .Zip(batchedVar.ElementAt(depth + 1), (a, b) => a + b).ToList();
             
             return GetAvgFromBatchedVar(batchedVar, zippedList, depth+1);
-            /*
-            List<double> avgFromBatches = new List<double>();
-            foreach (var batch in batchedVar)
-            {
-                avgFromBatches.Add(batch.Sum(x => x)/batch.Count);
-            }
-
-            return avgFromBatches;
-            */
         }
 
         public double GetWaitingTimeGlobalAvg(List<double> waitingTimeAvg)
@@ -141,9 +136,10 @@ namespace OAST.Tools
             return waitingTimeVarAll;
         }
 
-        public void SomeShittyStuff(List<double> waitingTimeAvg, 
+        public void SavePlots(List<double> waitingTimeAvg, 
             List<List<double>> waitingTimeVarAll,
-            List<double> blockedPartAvg)
+            List<double> blockedPartAvg,
+            List<List<double?>> departuresInterval)
         {
             double temp = 0;
             List<double> time = new List<double>();
@@ -187,6 +183,14 @@ namespace OAST.Tools
 
             var blockedPartAvgPlot = blockedPartAvg.GetRange(0, time.Count);
             blockedPartAvg = blockedPartAvg.GetRange(index, blockedPartAvg.Count - index);
+
+            var departureIntervals = departuresInterval.SelectMany(x => x).ToList();
+            var nonEmptyDepartureIntervals = departureIntervals.Select(x => x).OfType<double>().ToList();
+
+            _logs.SaveAvgWaitingTimePlot(oldTime, waitingTimeAveragePlot);
+            _logs.SaveWaitingTimeVariancePlot(oldTime, waitingTimeVarPlot);
+            _logs.SaveAvgBlockedPartPlot(oldTime, blockedPartAvgPlot);
+            _logs.SaveDepartureTimeHistogram(nonEmptyDepartureIntervals);
         }
     }
 }

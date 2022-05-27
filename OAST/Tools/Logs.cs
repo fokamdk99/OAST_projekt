@@ -2,52 +2,140 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using OAST.Events;
-using OAST.Queue;
-using OAST.Server;
 
 namespace OAST.Tools
 {
     public class Logs : ILogs
     {
-        private readonly IStatistic _statistic;
-
-        public Logs(IStatistic statistic)
+        public Logs()
         {
-            _statistic = statistic;
         }
 
-        public void SaveEventList(List<Event> list)
+        public void SaveAvgWaitingTimePlot(List<double> oldTime, List<double> results)
         {
-            String log = "";
-            String tmp;
-            
-            for (int i = 0; i < list.Count; i++)
-            { 
-                // source Id, time, event type
-               tmp = list[i].EventId + "," + list[i].Time + "," + (int) list[i].Type + "\n";
-               log = log + tmp;
-               tmp = "";
-            }
-            log = log + "\n";
-
-            WriteToFile("EventList",log);
-        }
-
-        public void SaveVariances(List<double> variances)
-        {
-            String log = "";
-
-            foreach (var item in variances.Select((value, i) => new {i, value}))
+            var plot = new AvgWaitingTimePlot
             {
-                log += item.i;
-                log += ",";
-                log += item.value;
+                OldTime = oldTime,
+                WaitingAverageTime = results
+            };
+
+            string output = "";
+            output += "time,";
+            foreach (var time in plot.OldTime)
+            {
+                output += $"{time},";
             }
+
+            output += "\nresults,";
+
+            foreach (var result in plot.WaitingAverageTime)
+            {
+                output += $"{result},";
+            }
+
+            output += "\n";
             
-            WriteToFile("Variances",log);
+            WriteToFile("AvgWaitingTimePlot", output);
+        }
+        
+        public void SaveWaitingTimeVariancePlot(List<double> oldTime, List<double> results)
+        {
+            var plot = new WaitingTimeVariancePlot()
+            {
+                OldTime = oldTime,
+                WaitingTimeVar = results
+            };
+            
+            string output = "";
+            output += "time,";
+            foreach (var time in plot.OldTime)
+            {
+                output += $"{time},";
+            }
+
+            output += "\nresults,";
+
+            foreach (var result in plot.WaitingTimeVar)
+            {
+                output += $"{result},";
+            }
+
+            output += "\n";
+            
+            WriteToFile("WaitingTimeVariancePlot", output);
+        }
+        
+        public void SaveAvgBlockedPartPlot(List<double> oldTime, List<double> results)
+        {
+            var plot = new AvgBlockedPartPlot()
+            {
+                OldTime = oldTime,
+                BlockedPartAvg = results
+            };
+            
+            string output = "";
+            output += "time,";
+            foreach (var time in plot.OldTime)
+            {
+                output += $"{time},";
+            }
+
+            output += "\nresults,";
+
+            foreach (var result in plot.BlockedPartAvg)
+            {
+                output += $"{result},";
+            }
+
+            output += "\n";
+            
+            WriteToFile("AvgBlockedPartPlot", output);
+        }
+        
+        public void SaveDepartureTimeHistogram(List<double> results)
+        {
+            var plot = new DepartureTimeHistogram()
+            {
+                DepartureIntervals = results
+            };
+            
+            string output = "";
+            output += "time,";
+            foreach (var time in GenerateLinspace(0, plot.DepartureIntervals.Max(), 10))
+            {
+                output += $"{time},";
+            }
+
+            output += "\nresults,";
+
+            foreach (var result in plot.DepartureIntervals)
+            {
+                output += $"{result},";
+            }
+
+            output += "\n";
+            
+            WriteToFile("DepartureTimeHistogram", output);
         }
 
+        private List<double> GenerateLinspace(double start, double stop, int num)
+        {
+            if (num == 1)
+            {
+                return new List<double> {stop};
+            }
+
+            var step = (stop - start) / (num - 1);
+
+            List<double> steps = new List<double>();
+
+            foreach (var i in Enumerable.Range(0, num))
+            {
+                steps.Add(start + step + i);
+            }
+
+            return steps;
+        }
         public void WriteToFile(String p, String log)
         {
             string path = $"./logs/{p}.txt";
@@ -66,5 +154,28 @@ namespace OAST.Tools
                 }
             }
         }
+    }
+
+    public class AvgWaitingTimePlot
+    {
+        public List<double> OldTime { get; set; }
+        public List<double> WaitingAverageTime { get; set; }
+    }
+    
+    public class WaitingTimeVariancePlot
+    {
+        public List<double> OldTime { get; set; }
+        public List<double> WaitingTimeVar { get; set; }
+    }
+    
+    public class AvgBlockedPartPlot
+    {
+        public List<double> OldTime { get; set; }
+        public List<double> BlockedPartAvg { get; set; }
+    }
+    
+    public class DepartureTimeHistogram
+    {
+        public List<double> DepartureIntervals { get; set; }
     }
 }

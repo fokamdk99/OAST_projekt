@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using OAST.Events;
 
 namespace OAST.Tools
 {
     public interface ILogs
     {
-        void SaveEventList(List<Event> list);
         void WriteToFile(String p, String log);
-        void SaveVariances(List<double> variances);
+        void SaveAvgWaitingTimePlot(List<double> oldTime, List<double> results);
+        void SaveWaitingTimeVariancePlot(List<double> oldTime, List<double> results);
+        void SaveAvgBlockedPartPlot(List<double> oldTime, List<double> results);
+        void SaveDepartureTimeHistogram(List<double> results);
     }
 }
