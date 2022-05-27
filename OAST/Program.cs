@@ -31,7 +31,7 @@ namespace OAST
             {
                 Console.WriteLine("Invalid number of input parameters!\n" +
                                   "Params: queueSize, numberOfRepetitions, " +
-                                  "lambda, mi, numberOfPackages, blockSize");
+                                  "lambda, mi, simulationTime, blockSize");
                 
                 return;
             }
