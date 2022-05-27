@@ -2,7 +2,7 @@
 {
     public interface INumberGenerator
     {
-        double GetInterval(SourceType sourceType, int lambda);
+        double GetInterval(SourceType sourceType, double lambda);
         void SetSeed(int seed);
     }
 }

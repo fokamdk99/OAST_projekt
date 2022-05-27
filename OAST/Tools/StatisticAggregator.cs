@@ -177,12 +177,12 @@ namespace OAST.Tools
 
             var waitingTimeVarPlot = waitingTimeVar;
             waitingTimeVarPlot.Add(waitingTimeVarPlot.Last());
-            waitingTimeVar = waitingTimeAvg.GetRange(index, waitingTimeVar.Count - index);
+            waitingTimeVar = waitingTimeAvg.GetRange(index, waitingTimeAvg.Count - index);
 
             var oldTime = time;
 
             var blockedPartAvgPlot = blockedPartAvg.GetRange(0, time.Count);
-            blockedPartAvg = blockedPartAvg.GetRange(index, blockedPartAvg.Count - index);
+            blockedPartAvg = blockedPartAvg.GetRange(index, blockedPartAvg.Count - index - 1);
 
             var departureIntervals = departuresInterval.SelectMany(x => x).ToList();
             var nonEmptyDepartureIntervals = departureIntervals.Select(x => x).OfType<double>().ToList();

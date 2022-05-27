@@ -5,7 +5,7 @@ namespace OAST.Server
 {
    public class CustomServer : ICustomServer
     {
-        public int Mi { get; set; }
+        public double Mi { get; set; }
         public List<int> Queue { get; set; }
         public int QueueSize { get; set; }
 
@@ -33,7 +33,7 @@ namespace OAST.Server
             Queue.Clear();
         }
 
-        public void SetMi(int mi)
+        public void SetMi(double mi)
         {
             Mi = mi;
         }

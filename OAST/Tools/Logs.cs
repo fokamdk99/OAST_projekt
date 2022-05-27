@@ -138,7 +138,7 @@ namespace OAST.Tools
         }
         public void WriteToFile(String p, String log)
         {
-            string path = $"./logs/{p}.txt";
+            string path = $"./logs/{p}.csv";
             if (!File.Exists(path))
             {
                 using (StreamWriter sw = File.CreateText(path))

@@ -37,8 +37,8 @@ namespace OAST
 
             parameters.QueueSize = Int32.Parse(args.ElementAt(0));
             parameters.NumberOfSimulations = Int32.Parse(args.ElementAt(1));
-            parameters.Lambda = Int32.Parse(args.ElementAt(2));
-            parameters.Mi = Int32.Parse(args.ElementAt(3));
+            parameters.Lambda = Double.Parse(args.ElementAt(2));
+            parameters.Mi = Double.Parse(args.ElementAt(3));
             parameters.SimulationTime = Int32.Parse(args.ElementAt(4));
             parameters.BlockSize = Int32.Parse(args.ElementAt(5));
 

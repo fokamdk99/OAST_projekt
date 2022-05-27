@@ -16,7 +16,7 @@ namespace OAST.Tools.Generators
             _rnd = new Random(seed);
         }
 
-        public double GetInterval(SourceType sourceType, int lambda)
+        public double GetInterval(SourceType sourceType, double lambda)
         {
             return sourceType == SourceType.Poisson ? -Math.Log(_rnd.NextDouble()) / lambda :
                 sourceType == SourceType.Uniform ? lambda : 0;

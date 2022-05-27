@@ -4,8 +4,8 @@ namespace OAST
 {
     public interface IParameters
     {
-        public int Lambda { get; set; }
-        public int Mi { get; set; }
+        public double Lambda { get; set; }
+        public double Mi { get; set; }
         public int QueueSize { get; set; }
         public int SimulationTime { get; set; }
         public int BlockSize { get; set; }
@@ -15,8 +15,8 @@ namespace OAST
     
     public class Parameters : IParameters
     {
-        public int Lambda { get; set; } = 0;
-        public int Mi { get; set; } = 0;
+        public double Lambda { get; set; } = 0;
+        public double Mi { get; set; } = 0;
         public int QueueSize { get; set; } = 0;
         public int SimulationTime { get; set; } = 0;
         public int BlockSize { get; set; } = 0;
