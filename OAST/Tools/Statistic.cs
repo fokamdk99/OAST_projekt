@@ -12,16 +12,14 @@ namespace OAST.Tools
         public List<double?> DepartureTime { get; set; }
         public List<int?> FillOnArrival { get; set; }
 
-        /*
-        public void AddEventStatistic(EventStatistic eventStatistic)
+        public Statistic()
         {
-            Blocked.Add(eventStatistic.Blocked);
-            ArrivalTime.Add(eventStatistic.ArrivalTime);
-            ServiceStartTime.Add(eventStatistic.ServiceStartTime);
-            DepartureTime.Add(eventStatistic.DepartureTime);
-            FillOnArrival.Add(eventStatistic.FillOnArrival);
+            Blocked = new List<bool>();
+            ArrivalTime = new List<double?>();
+            ServiceStartTime = new List<double?>();
+            DepartureTime = new List<double?>();
+            FillOnArrival = new List<int?>();
         }
-        */
 
         public int NewEntry()
         {
@@ -95,7 +93,7 @@ namespace OAST.Tools
             List<double> waitingTimeAll = new List<double>();
             double avgTime = 0;
             double avgTimeN = 0;
-            double avgTimeLimit = 0;
+            double avgTimeLimit = period;
             foreach (var arrivalTime in ArrivalTime.Select((value, index) => new {value, index}))
             {
                 if (Blocked.ElementAt(arrivalTime.index) || arrivalTime.value == null || ServiceStartTime.ElementAt(arrivalTime.index) == null) //TODO: co zrobic z reszta warunkow?
@@ -114,6 +112,7 @@ namespace OAST.Tools
                 if (avgTimeN == 0)
                 {
                     avgTime = (double) (ServiceStartTime.ElementAt(arrivalTime.index) - arrivalTime.value);
+                    avgTimeN = 1;
                 }
                 else
                 {

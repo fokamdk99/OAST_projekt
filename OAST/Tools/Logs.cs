@@ -11,16 +11,10 @@ namespace OAST.Tools
     public class Logs : ILogs
     {
         private readonly IStatistic _statistic;
-        private readonly IQueueMeasurements _queueMeasurements;
-        private readonly IServerMeasurements _serverMeasurements;
 
-        public Logs(IStatistic statistic, 
-            IQueueMeasurements queueMeasurements, 
-            IServerMeasurements serverMeasurements)
+        public Logs(IStatistic statistic)
         {
             _statistic = statistic;
-            _queueMeasurements = queueMeasurements;
-            _serverMeasurements = serverMeasurements;
         }
 
         public void SaveEventList(List<Event> list)

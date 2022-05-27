@@ -1,23 +1,24 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using OAST.Tools;
-using OAST.Tools.Generators;
 
 namespace OAST.Server
 {
    public class CustomServer : ICustomServer
     {
-        public bool Busy { get; set; }
-        public double BusyStart { set; get; }
-        public double BusyStop { set; get; }
         public int Mi { get; set; }
         public List<int> Queue { get; set; }
+        public int QueueSize { get; set; }
 
 
         public CustomServer()
         {
-            Busy = false;
             Queue = new List<int>();
+            QueueSize = 0;
+        }
+
+        public void SetQueueSize(int queueSize)
+        {
+            QueueSize = queueSize;
         }
 
         public int Get()
@@ -29,9 +30,7 @@ namespace OAST.Server
 
         public void Reset()
         {
-            Busy = false;
-            BusyStart = 0;
-            BusyStop = 0;
+            Queue.Clear();
         }
 
         public void SetMi(int mi)

@@ -2,6 +2,7 @@
 using OAST.Queue;
 using OAST.Server;
 using OAST.Tools;
+using OAST.Tools.Generators;
 
 namespace OAST.Simulator
 {
@@ -10,39 +11,40 @@ namespace OAST.Simulator
         private readonly ICustomQueue _customQueue;
         private readonly ICustomServer _customServer;
         private readonly IEventHandler _eventHandler;
-        private readonly IServerMeasurements _serverMeasurements;
-        private readonly IQueueMeasurements _queueMeasurements;
         private readonly IParameters _parameters;
         private readonly IStatisticAggregator _statisticAggregator;
+        private readonly INumberGenerator _numberGenerator;
 
 
         public Simulator(ICustomQueue customQueue,
             ICustomServer customServer,
-            IEventHandler eventHandler, 
-            IServerMeasurements serverMeasurements, 
-            IQueueMeasurements queueMeasurements,
+            IEventHandler eventHandler,
             IParameters parameters, 
-            IStatisticAggregator statisticAggregator)
+            IStatisticAggregator statisticAggregator, 
+            INumberGenerator numberGenerator)
         {
             _customQueue = customQueue;
             _customServer = customServer;
             _eventHandler = eventHandler;
-            _serverMeasurements = serverMeasurements;
-            _queueMeasurements = queueMeasurements;
             _parameters = parameters;
             _statisticAggregator = statisticAggregator;
+            _numberGenerator = numberGenerator;
         }
 
         public void Run()
         {
             _customQueue.SetQueueSize(_parameters.QueueSize);
             _customServer.SetMi(_parameters.Mi);
+            _customServer.SetQueueSize(_parameters.QueueSize);
 
             for (int n = 0; n < _parameters.NumberOfSimulations; n++)
             {
+                _numberGenerator.SetSeed(98647 + (n+1) * 34);
                 var statistic = Simulate();
                 _statisticAggregator.AddStatistic(statistic);
             }
+            
+            _statisticAggregator.Calculate();
         }
 
         public IStatistic Simulate()
@@ -69,8 +71,6 @@ namespace OAST.Simulator
         private void ResetParams()
         {
             _customServer.Reset();
-            _queueMeasurements.Reset();
-            _serverMeasurements.Reset();
             _customQueue.Reset();
         }
     }

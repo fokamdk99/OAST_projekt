@@ -40,23 +40,26 @@ namespace OAST.Events
         
         public void HandleComingEvent(Event @event, ref Statistic statistic)
         {
-            NewEvent(EventType.Coming);
+            NewEvent(EventType.Coming, @event.Time);
 
             int newRequest = statistic.NewEntry();
             statistic.ArrivalTime[newRequest] = @event.Time;
-            statistic.FillOnArrival[newRequest] = _customQueue.Queue.Count;
+            statistic.FillOnArrival[newRequest] = _customServer.Queue.Count;
 
-            if (_customQueue.Queue.Count < _customQueue.QueueSize) // jest miejsce w kolejce
+            if (_customServer.Queue.Count < _customServer.QueueSize) // jest miejsce w kolejce
             {
                 statistic.Blocked[newRequest] = false;
-                if (_customQueue.Queue.Count == 0)
+                if (_customServer.Queue.Count == 0)
                 {
                     statistic.ServiceStartTime[newRequest] = @event.Time;
-                    var newFinishEvent = new Event(EventType.Finish, _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Lambda));
-                    _customQueue.Put(newFinishEvent);
+                    NewEvent(EventType.Finish, @event.Time);
                 }
                 
                 _customServer.Queue.Add(newRequest);
+            }
+            else
+            {
+                statistic.Blocked[newRequest] = true;
             }
         }
         
@@ -68,24 +71,23 @@ namespace OAST.Events
             var request = _customServer.Get();
             statistic.DepartureTime[request] = @event.Time;
             
-            if (_customQueue.Queue.Count > 0)
+            if (_customServer.Queue.Count > 0)
             {
                 statistic.ServiceStartTime[_customServer.Queue.ElementAt(0)] = @event.Time;
-                NewEvent(EventType.Finish);
+                NewEvent(EventType.Finish, @event.Time);
             }
         }
 
-        private void NewEvent(EventType eventType)
+        private void NewEvent(EventType eventType, double time)
         {
-            
             Event newEvent;
             if (eventType == EventType.Coming)
             {
-                newEvent = new Event(eventType, _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Lambda));
+                newEvent = new Event(eventType, time + _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Lambda));
             }
             else
             {
-                newEvent = new Event(eventType, _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Mi));
+                newEvent = new Event(eventType, time + _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Mi));
             }
             
             _customQueue.Put(newEvent);

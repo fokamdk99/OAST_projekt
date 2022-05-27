@@ -26,11 +26,11 @@ namespace OAST
             var simulator = serviceProvider.GetRequiredService<ISimulator>();
             var parameters = serviceProvider.GetRequiredService<IParameters>();
 
-            if (args.Length != 5)
+            if (args.Length != 6)
             {
                 Console.WriteLine("Invalid number of input parameters!\n" +
                                   "Params: queueSize, numberOfRepetitions, " +
-                                  "lambda, mi, numberOfPackages");
+                                  "lambda, mi, numberOfPackages, blockSize");
                 
                 return;
             }

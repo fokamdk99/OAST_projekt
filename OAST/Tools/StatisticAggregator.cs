@@ -14,6 +14,17 @@ namespace OAST.Tools
             Statistics = new List<IStatistic>();
         }
 
+        public void Calculate()
+        {
+            var departuresInterval = SelectDeparturesInterval();
+            var timeSamples = SelectTimeSamples();
+            var waitingTimeAll = GetWaitingTimeAll();
+            var blockedPartAll = GetBlockedPartAll();
+            var waitingTimeAvg =  GetWaitingTimeAvg(waitingTimeAll);
+            var blockedPartAvg = GetBlockedPartAvg(blockedPartAll);
+            var waitingTimeVarAll = GetWaitingTimeVarAll(waitingTimeAvg);
+        }
+
         public void AddStatistic(IStatistic statistic)
         {
             Statistics.Add(statistic);
@@ -47,7 +58,7 @@ namespace OAST.Tools
                 {
                     if (statistic.ServiceStartTime[i] != null)
                     {
-                        waitingTimeSamplesAll.Add((double)(statistic.ArrivalTime[i]! - statistic.ServiceStartTime[i]));
+                        waitingTimeSamplesAll.Add((double)(statistic.ServiceStartTime[i] - statistic.ArrivalTime[i]));
                     }
                 }
             }
@@ -84,6 +95,11 @@ namespace OAST.Tools
         public List<double> GetWaitingTimeAvg(List<List<double>> waitingTimeAll)
         {
             return GetAvgFromBatchedVar(waitingTimeAll);
+        }
+        
+        public List<double> GetBlockedPartAvg(List<List<double>> blockedPartAll)
+        {
+            return GetAvgFromBatchedVar(blockedPartAll);
         }
 
         public List<double> GetAvgFromBatchedVar(List<List<double>> batchedVar)

@@ -36,7 +36,7 @@ namespace OAST.Queue
 
         public void Reset()
         {
-            Queue = new List<Event>();
+            Queue.Clear();
             NumberOfProcessedEvents = 0;
         }
 
