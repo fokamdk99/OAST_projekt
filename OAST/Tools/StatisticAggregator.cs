@@ -23,6 +23,7 @@ namespace OAST.Tools
             var waitingTimeAvg =  GetWaitingTimeAvg(waitingTimeAll);
             var blockedPartAvg = GetBlockedPartAvg(blockedPartAll);
             var waitingTimeVarAll = GetWaitingTimeVarAll(waitingTimeAvg);
+            SomeShittyStuff(waitingTimeAvg, waitingTimeVarAll, blockedPartAvg);
         }
 
         public void AddStatistic(IStatistic statistic)
@@ -94,16 +95,26 @@ namespace OAST.Tools
 
         public List<double> GetWaitingTimeAvg(List<List<double>> waitingTimeAll)
         {
-            return GetAvgFromBatchedVar(waitingTimeAll);
+            return GetAvgFromBatchedVar(waitingTimeAll, waitingTimeAll.ElementAt(0), 0);
         }
         
         public List<double> GetBlockedPartAvg(List<List<double>> blockedPartAll)
         {
-            return GetAvgFromBatchedVar(blockedPartAll);
+            return GetAvgFromBatchedVar(blockedPartAll, blockedPartAll.ElementAt(0), 0);
         }
 
-        public List<double> GetAvgFromBatchedVar(List<List<double>> batchedVar)
+        public List<double> GetAvgFromBatchedVar(List<List<double>> batchedVar, List<double> zippedList, int depth)
         {
+            if (depth == batchedVar.Count-1)
+            {
+                return zippedList.Select(x => x/batchedVar.Count).ToList();
+            }
+            
+            zippedList = zippedList
+                .Zip(batchedVar.ElementAt(depth + 1), (a, b) => a + b).ToList();
+            
+            return GetAvgFromBatchedVar(batchedVar, zippedList, depth+1);
+            /*
             List<double> avgFromBatches = new List<double>();
             foreach (var batch in batchedVar)
             {
@@ -111,6 +122,7 @@ namespace OAST.Tools
             }
 
             return avgFromBatches;
+            */
         }
 
         public double GetWaitingTimeGlobalAvg(List<double> waitingTimeAvg)
@@ -129,7 +141,9 @@ namespace OAST.Tools
             return waitingTimeVarAll;
         }
 
-        public void SomeShittyStuff(List<double> waitingTimeAvg)
+        public void SomeShittyStuff(List<double> waitingTimeAvg, 
+            List<List<double>> waitingTimeVarAll,
+            List<double> blockedPartAvg)
         {
             double temp = 0;
             List<double> time = new List<double>();
@@ -147,17 +161,32 @@ namespace OAST.Tools
             });
 
             List<int> indices = new List<int>();
-            var tmp = diffs.Select((x, index) =>
-            {
-                if (x < _parameters.CutOffWaitingTimeDiff)
-                {
-                    indices.Add(index);
-                }
 
-                return x;
-            });
+            foreach (var diff in diffs.Select((item, index) => new {item, index}))
+            {
+                if (diff.item < _parameters.CutOffWaitingTimeDiff)
+                {
+                    indices.Add(diff.index);
+                }
+            }
+
+            var index = indices.First();
 
             int oldLen = waitingTimeAvg.Count;
+
+            var waitingTimeAveragePlot = waitingTimeAvg;
+            var waitingTimeVar = GetAvgFromBatchedVar(waitingTimeVarAll, waitingTimeVarAll.ElementAt(0), 0);
+
+            waitingTimeAvg = waitingTimeAvg.GetRange(index, waitingTimeAvg.Count - index);
+
+            var waitingTimeVarPlot = waitingTimeVar;
+            waitingTimeVarPlot.Add(waitingTimeVarPlot.Last());
+            waitingTimeVar = waitingTimeAvg.GetRange(index, waitingTimeVar.Count - index);
+
+            var oldTime = time;
+
+            var blockedPartAvgPlot = blockedPartAvg.GetRange(0, time.Count);
+            blockedPartAvg = blockedPartAvg.GetRange(index, blockedPartAvg.Count - index);
         }
     }
 }
