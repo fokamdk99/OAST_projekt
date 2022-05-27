@@ -7,10 +7,6 @@ namespace OAST.Server
 {
    public class CustomServer : ICustomServer
     {
-        private readonly INumberGenerator _numberGenerator;
-        private readonly IServerMeasurements _serverMeasurements;
-        private readonly IStatistic _statistic;
-        
         public bool Busy { get; set; }
         public double BusyStart { set; get; }
         public double BusyStop { set; get; }
@@ -18,13 +14,8 @@ namespace OAST.Server
         public List<int> Queue { get; set; }
 
 
-        public CustomServer(INumberGenerator numberGenerator, 
-            IServerMeasurements serverMeasurements, 
-            IStatistic statistic)
+        public CustomServer()
         {
-            _numberGenerator = numberGenerator;
-            _serverMeasurements = serverMeasurements;
-            _statistic = statistic;
             Busy = false;
             Queue = new List<int>();
         }

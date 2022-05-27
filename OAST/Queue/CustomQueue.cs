@@ -10,9 +10,9 @@ namespace OAST.Queue
         public int QueueSize { get; set; }
         private int NumberOfProcessedEvents { get; set; }
 
-        public CustomQueue(int queueSize)
+        public CustomQueue()
         {
-            QueueSize = queueSize;
+            QueueSize = 0;
             Queue = new List<Event>();
         }
         

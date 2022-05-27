@@ -21,7 +21,7 @@ namespace OAST
         public int SimulationTime { get; set; } = 0;
         public int BlockSize { get; set; } = 0;
         public int NumberOfSimulations { get; set; } = 0;
-        public double CutOffWaitingTimeDiff { get; set; } = 0;
+        public double CutOffWaitingTimeDiff { get; set; } = 0.3;
 
         public Parameters()
         {
