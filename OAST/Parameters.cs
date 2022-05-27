@@ -1,4 +1,5 @@
 ﻿using System;
+using OAST.Tools.Generators;
 
 namespace OAST
 {
@@ -11,6 +12,9 @@ namespace OAST
         public int BlockSize { get; set; }
         public int NumberOfSimulations { get; set; }
         public double CutOffWaitingTimeDiff { get; set; }
+        public SourceType SourceType { get; set; }
+        void SetSourceType(SourceType sourceType);
+
     }
     
     public class Parameters : IParameters
@@ -22,10 +26,16 @@ namespace OAST
         public int BlockSize { get; set; } = 0;
         public int NumberOfSimulations { get; set; } = 0;
         public double CutOffWaitingTimeDiff { get; set; } = 0.3;
+        public SourceType SourceType { get; set; } = SourceType.Poisson;
 
         public Parameters()
         {
             
+        }
+
+        public void SetSourceType(SourceType sourceType)
+        {
+            SourceType = sourceType;
         }
 
         public void PrintMainParameters()

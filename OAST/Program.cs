@@ -6,6 +6,7 @@ using OAST.Events;
 using OAST.Queue;
 using OAST.Server;
 using OAST.Simulator;
+using OAST.Tools.Generators;
 
 namespace OAST
 {
@@ -41,7 +42,7 @@ namespace OAST
             parameters.Mi = Double.Parse(args.ElementAt(3));
             parameters.SimulationTime = Int32.Parse(args.ElementAt(4));
             parameters.BlockSize = Int32.Parse(args.ElementAt(5));
-
+            parameters.SetSourceType(SourceType.Uniform);
             simulator.Run();
         }
     }

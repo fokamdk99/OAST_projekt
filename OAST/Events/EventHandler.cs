@@ -83,11 +83,11 @@ namespace OAST.Events
             Event newEvent;
             if (eventType == EventType.Coming)
             {
-                newEvent = new Event(eventType, time + _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Lambda));
+                newEvent = new Event(eventType, time + _numberGenerator.GetInterval(_parameters.SourceType, _parameters.Lambda));
             }
             else
             {
-                newEvent = new Event(eventType, time + _numberGenerator.GetInterval(SourceType.Poisson, _parameters.Mi));
+                newEvent = new Event(eventType, time + _numberGenerator.GetInterval(_parameters.SourceType, _parameters.Mi));
             }
             
             _customQueue.Put(newEvent);

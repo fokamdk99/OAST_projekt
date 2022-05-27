@@ -61,7 +61,9 @@ namespace OAST.Tools
             }
 
             output += "\n";
-            
+            var avg = plot.WaitingTimeVar.Average();
+            output += $"{avg}\n";
+            Console.WriteLine($"average: {avg}");
             WriteToFile("WaitingTimeVariancePlot", output);
         }
         
